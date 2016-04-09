@@ -1,19 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class House : MonoBehaviour {
+public class Plot : MonoBehaviour {
 
     private int type; // type of plot (0=empty, 1=building, 2=other)
     private float size; // size of plot in unity units
     private float speed; // rate a which it passes the player
     private PlotModel model; // model containing all sprites
-    public LevelManager manager; // easy reference
-
-    /*
-    Note: Eventually I think it might be best to have the Plot class have several quads.
-    One would be for the building if there is one, some for scenery perhpas, and then also
-    one for targets such as mailboxes. For now I just have a quad for a building.
-    */
+    public LevelManager manager; // easy reference?
 
     public void init(int type, LevelManager manager)
     {
@@ -25,19 +19,15 @@ public class House : MonoBehaviour {
         //speed = LevelManager.getSpeed()     probably should be set by the level manager
         speed = 4;
 
-        var buildingObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        MeshCollider colid = buildingObject.GetComponent<MeshCollider>();
-        DestroyImmediate(colid);
-        BoxCollider2D box = buildingObject.AddComponent<BoxCollider2D>();
-        Rigidbody2D rig = buildingObject.AddComponent<Rigidbody2D>(); //needed?
-        buildingObject.SetActive(true);
-
-        rig.isKinematic = true;
-        box.isTrigger = true;
-        box.size = new Vector2(6,6);
-
-        model = buildingObject.AddComponent<PlotModel>();
-        //model.init(x, y, direction, m.speed, this);
+        if (type == 1) // plot with a house
+        {
+            GameObject house = makeQuad(0, true);
+            GameObject mailbox = makeQuad(1, true);
+        }
+        else if (type == 2) // plot without a house
+        {
+            GameObject scenery = makeQuad(2, false);
+        }
 
     }
 
@@ -57,4 +47,26 @@ public class House : MonoBehaviour {
         x = speed * Time.deltaTime;
         transform.position = new Vector3(x, y, z);
 	}
+
+    private GameObject makeQuad(int type, bool hasCollider) // type here refers to which quad
+    {
+        //quad for scenery (e.g. fences, fields, corn on lvl 1)
+        var sceneryObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+
+        if (hasCollider)
+        {
+            MeshCollider colid2 = sceneryObject.GetComponent<MeshCollider>();
+            DestroyImmediate(colid2);
+            BoxCollider2D box2 = sceneryObject.AddComponent<BoxCollider2D>();
+            Rigidbody2D rig2 = sceneryObject.AddComponent<Rigidbody2D>(); //needed?
+            sceneryObject.SetActive(true);
+
+            rig2.isKinematic = true;
+            box2.isTrigger = true;
+            box2.size = new Vector2(6, 6);
+        }
+        model = sceneryObject.AddComponent<PlotModel>();
+        model.init(type, this);
+        return sceneryObject;
+    }
 }
