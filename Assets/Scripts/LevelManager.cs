@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour {
 
 		music = (new GameObject ()).AddComponent<MusicManager> ();
 		music.gameObject.name = "Music";
-		music.init(whichLevel, manager);
+		music.init(whichLevel, this, manager);
 	}
 	
 	// Update is called once per frame
