@@ -4,7 +4,6 @@ using System.Collections;
 public class LevelManager : MonoBehaviour {
 
     public Player player;
-	public MusicManager music;
 	public GameManager manager;
 	// I need our main GameManager to be passed along into MusicManager to access the audio
 	// that is attached to it
@@ -21,14 +20,8 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
-	public void init(int whichLevel, GameManager manager)
-    {
-		this.manager = manager;
-
-		music = (new GameObject ()).AddComponent<MusicManager> ();
-		music.gameObject.name = "Music";
-		music.init(whichLevel, this, manager);
-	}
+	public void init(int whichLevel)
+    {}
 	
 	// Update is called once per frame
 	void Update () {
