@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour {
 	// Need these for accessing music objects
 	public AudioSource music;
 	public AudioSource sfx;
-	private AudioClip gametrack;
+
+	private AudioClip intense;
+	private AudioClip nonintense;
 
 	private int lastaggro;
 
