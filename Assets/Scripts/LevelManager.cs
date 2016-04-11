@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour {
 
-    public const float rdWidth = 20f;
+    public const float rdWidth = 16f;
     public const float rdHeight = 4f;
     public const float rdMargin = 0.5f;
     public const float rdPadTop = 0.3f;
