@@ -18,12 +18,13 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         currentLvl = (new GameObject()).AddComponent<LevelManager>();
         currentLvl.gameObject.name = "Level 1 Manager";
-		currentLvl.init(1); // Passing in for accessing some music objects in the scene
+		currentLvl.init(1, this); // Passing in for accessing some music objects in the scene
 		lastaggro = currentLvl.aggro;
 
 		// Music
-		//gametrack = Resources.Load<AudioClip>("Music/03 King for a Day.m4a");
-		//PlayMusic (gametrack);
+		intense = Resources.Load<AudioClip>("Music/Intense Loop");
+		nonintense = Resources.Load<AudioClip>("Music/Non-Intense Loop");
+		PlayMusic (nonintense);
 
 	}
 	
@@ -49,8 +50,8 @@ public class GameManager : MonoBehaviour {
 		sfx.Play();
 	}
 
-	void drop() {
-		
+	public void drop() {
+		PlayMusic (intense);
 	}
 
 }

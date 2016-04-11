@@ -53,8 +53,9 @@ public class LevelManager : MonoBehaviour {
         We may want to redo the bounding box with our own code later, but
         it's a decent strategy for now.
     */
-    public void init(int whichLevel)
+	public void init (int whichLevel, GameManager manager)
     {
+		this.manager = manager;
         // setup bounding box
         // setup spawners
         // setup camera?
@@ -62,7 +63,11 @@ public class LevelManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			print ("space");
+			manager.drop ();
+		}
+
 	}
 
 

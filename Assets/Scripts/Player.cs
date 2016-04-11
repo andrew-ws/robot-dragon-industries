@@ -62,7 +62,7 @@ public class Player : MonoBehaviour {
         if (y > lm.boundUp)
             transform.position = new Vector2(x, lm.boundUp);
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+		if (Input.GetKeyDown(KeyCode.LeftArrow))
             shoot(Vector2.left);
         if (Input.GetKeyDown(KeyCode.RightArrow))
             shoot(Vector2.right);
@@ -70,6 +70,7 @@ public class Player : MonoBehaviour {
             shoot(Vector2.up);
         if (Input.GetKeyDown(KeyCode.DownArrow))
             shoot(Vector2.down);
+
     }
 
     void shoot(Vector2 dir) {
