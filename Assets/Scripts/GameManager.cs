@@ -36,9 +36,7 @@ public class GameManager : MonoBehaviour {
 
 	public void PlayMusic(AudioClip clip)
 	{
-		print ("playing");
 		music.loop = true;
-		print (clip);
 		music.clip = clip;
 		music.Play();
 	}
@@ -50,7 +48,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void drop() {
-
+		
 	}
 
 }
