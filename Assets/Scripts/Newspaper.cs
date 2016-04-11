@@ -5,6 +5,10 @@ public class Newspaper : Projectile
 {
 
     void Start() {
+        initComponents();
+        transform.localScale = new Vector3(0.05f, 0.05f, 1);
+        sr.sprite = Resources.Load<Sprite>("Sprites/paper");
+        coll.radius = 0.18f;
     }
 
     void Update()
