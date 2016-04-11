@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
     public float throwSpeed = 5f;
     private Vector3 deltaPos;
     public int hp = 3;
+    public LevelManager lm = null;
 
     private float cooldownClock;
 
@@ -46,8 +47,20 @@ public class Player : MonoBehaviour {
             deltaPos.x += speed * Time.deltaTime;
 
         // TODO: normalized diagonal speed instead?
-
         transform.position += deltaPos;
+
+        float x = transform.position.x;
+        float y = transform.position.y;
+
+        // stay in bounding box
+        if (x < lm.boundLeft)
+            transform.position = new Vector2(lm.boundLeft, y);
+        if (x > lm.boundRight)
+            transform.position = new Vector2(lm.boundRight, y);
+        if (y < lm.boundDown)
+            transform.position = new Vector2(x, lm.boundDown);
+        if (y > lm.boundUp)
+            transform.position = new Vector2(x, lm.boundUp);
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
             shoot(Vector2.left);
@@ -55,6 +68,8 @@ public class Player : MonoBehaviour {
             shoot(Vector2.right);
         if (Input.GetKeyDown(KeyCode.UpArrow))
             shoot(Vector2.up);
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            shoot(Vector2.down);
     }
 
     void shoot(Vector2 dir) {
