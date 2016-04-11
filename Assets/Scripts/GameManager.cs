@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour {
 		lastaggro = currentLvl.aggro;
 
 		// Music
-		gametrack = Resources.Load<AudioClip>("Music/03 King for a Day.m4a");
-		PlayMusic (gametrack);
+		//gametrack = Resources.Load<AudioClip>("Music/03 King for a Day.m4a");
+		//PlayMusic (gametrack);
 
 	}
 	
