@@ -1,19 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Farmer : MonoBehaviour {
+public class Farmer : Enemy {
 
-    public Vector3 velocity = new Vector3(0, 0, 0);
-    public LevelManager lm;
+    public Vector3 velocity = Vector3.zero;
 
     public SpriteRenderer sr;
+    public BoxCollider2D coll;
+
+    protected int aggroAdd = 3;
 
     // Use this for initialization
     void Start () {
-        this.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
         lm = GameObject.Find("GameObject").GetComponent<GameManager>().lm;
+        this.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/farmer");
+        coll = gameObject.AddComponent<BoxCollider2D>();
+        coll.isTrigger = true;
     }
 	
 	// Update is called once per frame

@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lm: {fileID: 0}
-  music: {fileID: 0}
+  music: {fileID: 1297920852}
   sfx: {fileID: 0}
 --- !u!82 &1297920851
 AudioSource:

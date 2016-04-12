@@ -53,7 +53,12 @@ public class LevelManager : MonoBehaviour {
         player.gameObject.name = "Player";
         player.gameObject.transform.localPosition = Vector3.zero;
 
-	}
+        cow = Resources.Load<GameObject>("Prefabs/Cow");
+        farmer = Resources.Load<GameObject>("Prefabs/Farmer");
+        madCow = Resources.Load<GameObject>("Prefabs/MadCow");
+        angryFarmer = Resources.Load<GameObject>("Prefabs/AngryFarmer");
+
+    }
 
     /*
         About the level construction: the bounding box is a bunch
@@ -81,6 +86,11 @@ public class LevelManager : MonoBehaviour {
 		spawnFarmers();
 	}
 
+    public void hitAggro(int aggroAdd)
+    {
+        aggro += aggroAdd;
+    }
+
     private void spawnCows() {
         float place = Random.value * rdHeight - rdHeight / 2;
         Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
@@ -107,8 +117,8 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
-    private GameObject farmer = Resources.Load<GameObject>("Prefabs/Farmer");
-    private GameObject madCow = Resources.Load<GameObject>("Prefabs/MadCow");
-    private GameObject angryFarmer = Resources.Load<GameObject>("Prefabs/AngryFarmer");
+    private GameObject cow;
+    private GameObject farmer;
+    private GameObject madCow;
+    private GameObject angryFarmer;
 }

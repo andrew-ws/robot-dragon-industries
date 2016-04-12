@@ -16,8 +16,9 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        lm = (new GameObject()).AddComponent<LevelManager>();
-        lm.gameObject.name = "Level 1 Manager";
+        GameObject go = new GameObject();
+        lm = go.AddComponent<LevelManager>();
+        go.name = "Level 1 Manager";
 		lm.init(1, this); // Passing in for accessing some music objects in the scene
 		lastaggro = lm.aggro;
 
