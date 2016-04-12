@@ -26,7 +26,6 @@ public class Player : MonoBehaviour {
         gameObject.AddComponent<SpriteRenderer>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/bike");
-        sr.flipX = true;
 
         coll = gameObject.AddComponent<BoxCollider2D>();
         rb = gameObject.AddComponent<Rigidbody2D>();

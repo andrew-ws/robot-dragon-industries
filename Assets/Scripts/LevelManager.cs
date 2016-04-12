@@ -107,8 +107,8 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    private GameObject cow = Resources.Load<GameObject>("Cow");
-    private GameObject farmer = Resources.Load<GameObject>("Farmer");
-    private GameObject madCow = Resources.Load<GameObject>("MadCow");
-    private GameObject angryFarmer = Resources.Load<GameObject>("AngryFarmer");
+    private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
+    private GameObject farmer = Resources.Load<GameObject>("Prefabs/Farmer");
+    private GameObject madCow = Resources.Load<GameObject>("Prefabs/MadCow");
+    private GameObject angryFarmer = Resources.Load<GameObject>("Prefabs/AngryFarmer");
 }
