@@ -31,7 +31,7 @@ public class PlotModel : MonoBehaviour {
         else if (type == 1)
         {
             boxNum = rnd.Next(1, 4);
-            mat.mainTexture = Resources.Load<Texture2D>("Sprites/mailbox"+ boxNum);
+            mat.mainTexture = Resources.Load<Texture2D>("Sprites/mailbox"+ boxNum + "open");
             transform.localPosition = new Vector3(0, 0, 0);
             //gameObject.tag = "mailbox";
             gameObject.name = "mailbox";
