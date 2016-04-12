@@ -76,8 +76,8 @@ public class LevelManager : MonoBehaviour {
         mat2.shader = Shader.Find("Sprites/Default");
         mat2.color = new Color(1, 1, 1);
         mat2.mainTexture = Resources.Load<Texture2D>("Sprites/streetRural");
-        street.transform.position = new Vector3(0, camy+.5f, 2);
-        street.transform.localScale = new Vector3(rdWidth, rdHeight * 3, 0);
+        street.transform.position = new Vector3(0, camy+2, 2);
+        street.transform.localScale = new Vector3(rdWidth, rdHeight*3, 0);
         street.name = "Street";
     }
 
@@ -123,7 +123,7 @@ public class LevelManager : MonoBehaviour {
     private void spawnPlot(int type)
     {
         Plot plot = (new GameObject()).AddComponent<Plot>();
-        plot.transform.position = new Vector3(rdWidth, rdHeight+.5f);
+        plot.transform.position = new Vector3(rdWidth, rdHeight);
         plot.init(type, this);
     }
 
