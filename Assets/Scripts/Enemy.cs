@@ -3,13 +3,16 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    protected int aggroAdd = 1;
+
+    protected LevelManager lm;
+
+	public void OnTriggerEnter2D(Collider2D coll)
+    {
+        GameObject other = coll.gameObject;
+        if (other.CompareTag("player")) other.GetComponent<Player>().hurt();
+        else Destroy(other);
+        lm.hitAggro(aggroAdd);
+        Destroy(this.gameObject);
+    }
 }

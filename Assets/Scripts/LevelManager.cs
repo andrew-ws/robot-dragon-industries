@@ -13,12 +13,13 @@ public class LevelManager : MonoBehaviour {
 
     public float boundUp, boundDown, boundLeft, boundRight;
 
+
     private float clock;
 
-    public float cowOddsBase = 30f;
-    public float cowOddsPerAggro = 5f;
+    public float cowOddsBase = 20f;
+    public float cowOddsPerAggro = 3f;
     public float farmerOddsBase = 15f;
-    public float farmerOddsPerAggro = 5f;
+    public float farmerOddsPerAggro = 3f;
 
     public Player player;
 	public GameManager manager;
@@ -26,8 +27,17 @@ public class LevelManager : MonoBehaviour {
 	// that is attached to it
 
     public int aggro = 1;
+    public int capAggro = 30;
+    public int baseAggro = 1;
     public bool readyForDrop = false;
     public bool dropped = false;
+
+    public float aggroLossTimer = 0f;
+    public const float aggroLossTime = 3f;
+
+    public int thresholdAggro = 15;
+    public float thresholdTime = 3f;
+    public float thresholdClock = 0f;
 
     public float bgSpeed = 1f;
 
@@ -116,7 +126,8 @@ public class LevelManager : MonoBehaviour {
             clock = 0;
             spawnPlot(rnd.Next(1, 3));
         }
-
+        
+        manageAggro();
         spawnCows();
         spawnFarmers();
 
@@ -128,6 +139,29 @@ public class LevelManager : MonoBehaviour {
         Plot plot = (new GameObject()).AddComponent<Plot>();
         plot.transform.position = new Vector3(rdWidth, rdHeight);
         plot.init(type, this);
+    }
+
+    public void hitAggro(int aggroAdd)
+    {
+        aggro += aggroAdd;
+        if (aggro > capAggro) aggro = capAggro;
+    }
+
+    private void manageAggro()
+    {
+        if (aggro >= thresholdAggro)
+        {
+            thresholdClock += Time.deltaTime;
+        }
+        if (thresholdClock > thresholdTime)
+        {
+            readyForDrop = true;
+        }
+        aggroLossTimer += Time.deltaTime;
+        if (aggro < baseAggro) aggro = baseAggro;
+        if (aggro > baseAggro && aggroLossTimer > aggroLossTime)
+            aggro--;
+        aggroLossTimer %= aggroLossTime;
     }
 
     private void spawnCows() {
@@ -159,6 +193,12 @@ public class LevelManager : MonoBehaviour {
     void OnGUI()
     {
         GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Newspapers Delivered: " + deliveries);
+    }
+
+    public void drop()
+    {
+        dropped = true;
+        print("Stage 2! Stuff is weird and frantic!");
     }
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
