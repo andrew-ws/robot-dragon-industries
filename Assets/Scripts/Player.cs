@@ -21,7 +21,7 @@ public class Player : MonoBehaviour {
     */
 	void Start () {
         gameObject.tag = "player";
-        this.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+        transform.localScale = new Vector3(0.4f, 0.4f, 1f);
 
         gameObject.AddComponent<SpriteRenderer>();
         sr = gameObject.GetComponent<SpriteRenderer>();
