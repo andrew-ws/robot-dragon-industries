@@ -82,6 +82,7 @@ public class Plot : MonoBehaviour {
         }
         model = sceneryObject.AddComponent<PlotModel>();
         model.init(type, this);
+        model.tag = "mailbox";
         return sceneryObject;
     }
 }

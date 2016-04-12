@@ -18,6 +18,7 @@ public class Farmer : Enemy {
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/farmer");
         coll = gameObject.AddComponent<BoxCollider2D>();
+        coll.size = new Vector2(1.2f, 3f);
         coll.isTrigger = true;
     }
 	

@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour {
 
 	public void OnTriggerEnter2D(Collider2D coll)
     {
+        if (coll.gameObject.CompareTag("mailbox")) return;
         GameObject other = coll.gameObject;
         if (other.CompareTag("player")) other.GetComponent<Player>().hurt();
         else Destroy(other);
