@@ -30,11 +30,9 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		int delta = currentLvl.aggro - lastaggro;
-		if (delta > 5) {
-			// Add filter here?
+		if (currentLvl.aggro > 20) {
+			drop ();
 		}
-		lastaggro = currentLvl.aggro;
 	}
 
 	public void PlayMusic(AudioClip clip)
