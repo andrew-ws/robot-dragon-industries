@@ -34,6 +34,8 @@ public class LevelManager : MonoBehaviour {
     private GameObject sky; // back-most layer of the background (probably only temporary)
     private GameObject street;
 
+    public int deliveries; // # of newspapers delivered
+
 	// Use this for initialization
 	void Start () {
         this.transform.position = Vector3.zero;
@@ -54,6 +56,7 @@ public class LevelManager : MonoBehaviour {
         boundRight = (rdWidth / 2) - rdPadSide;
 
         clock = 6;
+        deliveries = 0;
 
         player = (new GameObject()).AddComponent<Player>();
         player.lm = this;
@@ -151,6 +154,11 @@ public class LevelManager : MonoBehaviour {
             else
                 Instantiate(farmer, spawnPt, Quaternion.identity);
         }
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Newspapers Delivered: " + deliveries);
     }
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");

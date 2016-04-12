@@ -21,7 +21,7 @@ public class Plot : MonoBehaviour {
 
         if (type == 1) // plot with a house
         {
-            GameObject house = makeQuad(0, true);
+            GameObject house = makeQuad(0, false);
             house.transform.localPosition = new Vector3(0, 0, 1);
             house.transform.localScale = new Vector3(5, 5, 0);
 

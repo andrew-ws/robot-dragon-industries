@@ -6,6 +6,7 @@ public class PlotModel : MonoBehaviour {
     private int type;
     private Plot owner;
     private Material mat;
+    private int boxNum; //number for mailbox texture to make changing it easier
 
     public void init(int type, Plot owner)
     {
@@ -29,7 +30,8 @@ public class PlotModel : MonoBehaviour {
         }
         else if (type == 1)
         {
-            mat.mainTexture = Resources.Load<Texture2D>("Sprites/mailbox"+ rnd.Next(1,4) + "open");
+            boxNum = rnd.Next(1, 4);
+            mat.mainTexture = Resources.Load<Texture2D>("Sprites/mailbox"+ boxNum + "open");
             transform.localPosition = new Vector3(0, 0, 0);
             //gameObject.tag = "mailbox";
             gameObject.name = "mailbox";
@@ -52,4 +54,15 @@ public class PlotModel : MonoBehaviour {
 	void Update () {
 	
 	}
+    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (type == 1)
+        {
+            Destroy(other.gameObject);
+            owner.manager.deliveries += 1;
+            mat.mainTexture = Resources.Load<Texture2D>("Sprites/mailbox" + boxNum + "closed");
+        }
+    }
+    
 }
