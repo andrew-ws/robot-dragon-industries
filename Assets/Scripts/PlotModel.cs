@@ -22,23 +22,23 @@ public class PlotModel : MonoBehaviour {
 
         if (type == 0)
         {
-            mat.mainTexture = Resources.Load<Texture2D>("Textures/house" + rnd.Next(1,3));
+            mat.mainTexture = Resources.Load<Texture2D>("Sprites/house" + rnd.Next(1,3));
             transform.localPosition = new Vector3(0, 0, 0);
-            gameObject.tag = "house";
+            //gameObject.tag = "house";
             gameObject.name = "house";
         }
         else if (type == 1)
         {
-            mat.mainTexture = Resources.Load<Texture2D>("Textures/mailbox");
+            mat.mainTexture = Resources.Load<Texture2D>("Sprites/mailbox"+ rnd.Next(1,4) + "open");
             transform.localPosition = new Vector3(0, 0, 0);
-            gameObject.tag = "mailbox";
+            //gameObject.tag = "mailbox";
             gameObject.name = "mailbox";
         }
         else if (type == 2)
         {
-            mat.mainTexture = Resources.Load<Texture2D>("Textures/fenceWood1");
+            mat.mainTexture = Resources.Load<Texture2D>("Sprites/fenceWood1");
             transform.localPosition = new Vector3(0, 0, 0);
-            gameObject.tag = "scenery";
+            //gameObject.tag = "scenery";
             gameObject.name = "scenery";
         }
     }

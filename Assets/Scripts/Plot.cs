@@ -17,19 +17,26 @@ public class Plot : MonoBehaviour {
         //defaults (not set by args)
         size = 6;
         //speed = LevelManager.getSpeed()     probably should be set by the level manager
-        speed = 4;
+        speed = 1;
 
         if (type == 1) // plot with a house
         {
             GameObject house = makeQuad(0, true);
-            house.transform.localPosition = Vector3.zero;
+            house.transform.localPosition = new Vector3(0, 0, 1);
+            house.transform.localScale = new Vector3(5, 5, 0);
+
             GameObject mailbox = makeQuad(1, true);
-            mailbox.transform.localPosition = Vector3.zero;
+            mailbox.transform.localPosition = new Vector3(-1, -2.5f, 0);
+            mailbox.GetComponent<BoxCollider2D>().offset = new Vector2(0, .25f);
+            mailbox.GetComponent<BoxCollider2D>().size = new Vector2(.5f, .5f);
+            gameObject.name = "Plot: House";
         }
         else if (type == 2) // plot without a house
         {
             GameObject scenery = makeQuad(2, false);
             scenery.transform.localPosition = Vector3.zero;
+            scenery.transform.localScale = new Vector3(6,6,0);
+            gameObject.name = "Plot: Scenery";
         }
 
     }
@@ -47,8 +54,13 @@ public class Plot : MonoBehaviour {
         float z = transform.position.z;
 
         //move game object to the left
-        x = speed * Time.deltaTime;
+        x -= speed * Time.deltaTime;
         transform.position = new Vector3(x, y, z);
+
+        if (transform.position.x < manager.boundLeft - 6)
+        {
+            Destroy(gameObject);
+        }
 	}
 
     private GameObject makeQuad(int type, bool hasCollider) // type here refers to which quad
@@ -66,7 +78,7 @@ public class Plot : MonoBehaviour {
 
             rig2.isKinematic = true;
             box2.isTrigger = true;
-            box2.size = new Vector2(6, 6);
+            box2.size = new Vector2(1, 1);
         }
         model = sceneryObject.AddComponent<PlotModel>();
         model.init(type, this);
