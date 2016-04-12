@@ -12,18 +12,16 @@ public class GameManager : MonoBehaviour {
 	private AudioClip intense;
 	private AudioClip nonintense;
 
-	private int lastaggro;
-
 	// Use this for initialization
 	void Start () {
         GameObject go = new GameObject();
         lm = go.AddComponent<LevelManager>();
         go.name = "Level 1 Manager";
-		lm.init(1, this); // Passing in for accessing some music objects in the scene
-		lastaggro = lm.aggro;
+        // Passing in for accessing some music objects in the scene
+        lm.init(1, this);
 
-		// Music
-		intense = Resources.Load<AudioClip>("Music/Intense Loop");
+        // Music
+        intense = Resources.Load<AudioClip>("Music/Intense Loop");
 		nonintense = Resources.Load<AudioClip>("Music/Non-Intense Loop");
 		PlayMusic (nonintense);
 
@@ -31,7 +29,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (lm.aggro > 20) {
+		if (lm.readyForDrop) {
 			drop ();
 		}
 	}
@@ -51,6 +49,7 @@ public class GameManager : MonoBehaviour {
 
 	public void drop() {
 		PlayMusic (intense);
+        lm.drop();
 	}
 
 }

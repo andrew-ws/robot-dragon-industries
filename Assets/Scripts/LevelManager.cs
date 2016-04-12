@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour {
 	// that is attached to it
 
     public int aggro = 1;
+    public int capAggro = 30;
     public bool readyForDrop = false;
     public bool dropped = false;
 
@@ -53,7 +54,7 @@ public class LevelManager : MonoBehaviour {
         player.gameObject.name = "Player";
         player.gameObject.transform.localPosition = Vector3.zero;
 
-        cow = Resources.Load<GameObject>("Prefabs/Cow");
+        
         farmer = Resources.Load<GameObject>("Prefabs/Farmer");
         madCow = Resources.Load<GameObject>("Prefabs/MadCow");
         angryFarmer = Resources.Load<GameObject>("Prefabs/AngryFarmer");
@@ -89,6 +90,7 @@ public class LevelManager : MonoBehaviour {
     public void hitAggro(int aggroAdd)
     {
         aggro += aggroAdd;
+        if (aggro > capAggro) aggro = capAggro;
     }
 
     private void spawnCows() {
@@ -117,7 +119,12 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    private GameObject cow;
+    public void drop()
+    {
+        print("Stage 2! Stuff is weird and frantic!");
+    }
+
+    private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
     private GameObject farmer;
     private GameObject madCow;
     private GameObject angryFarmer;
