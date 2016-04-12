@@ -16,6 +16,8 @@ public class LevelManager : MonoBehaviour {
 
     public int aggro = 1;
 
+    private GameObject sky; // back-most layer of the background (probably only temporary)
+
 	// Use this for initialization
 	void Start () {
         this.transform.position = Vector3.zero;
@@ -39,7 +41,16 @@ public class LevelManager : MonoBehaviour {
         player.lm = this;
         player.gameObject.name = "Player";
         player.gameObject.transform.localPosition = Vector3.zero;
-	}
+
+        // create sky background
+        sky = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        Material mat = sky.GetComponent<Renderer>().material;
+        mat.shader = Shader.Find("Sprites/Default");
+        mat.color = new Color(1, 1, 1);
+        mat.mainTexture = Resources.Load<Texture2D>("Sprites/skyDay1");
+        sky.transform.position = new Vector3(0, camy, 0);
+        sky.transform.localScale = new Vector3(rdWidth,rdHeight*3, 0);
+    }
 
     /*
         About the level construction: the bounding box is a bunch

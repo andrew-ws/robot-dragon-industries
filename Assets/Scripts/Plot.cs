@@ -22,11 +22,14 @@ public class Plot : MonoBehaviour {
         if (type == 1) // plot with a house
         {
             GameObject house = makeQuad(0, true);
+            house.transform.localPosition = Vector3.zero;
             GameObject mailbox = makeQuad(1, true);
+            mailbox.transform.localPosition = Vector3.zero;
         }
         else if (type == 2) // plot without a house
         {
             GameObject scenery = makeQuad(2, false);
+            scenery.transform.localPosition = Vector3.zero;
         }
 
     }
