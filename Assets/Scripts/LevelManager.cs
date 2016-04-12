@@ -13,10 +13,10 @@ public class LevelManager : MonoBehaviour {
 
     public float boundUp, boundDown, boundLeft, boundRight;
 
-    public float cowOddsBase = 30f;
-    public float cowOddsPerAggro = 5f;
+    public float cowOddsBase = 20f;
+    public float cowOddsPerAggro = 3f;
     public float farmerOddsBase = 15f;
-    public float farmerOddsPerAggro = 5f;
+    public float farmerOddsPerAggro = 3f;
 
     public Player player;
 	public GameManager manager;
@@ -25,8 +25,16 @@ public class LevelManager : MonoBehaviour {
 
     public int aggro = 1;
     public int capAggro = 30;
+    public int baseAggro = 1;
     public bool readyForDrop = false;
     public bool dropped = false;
+
+    public float aggroLossTimer = 0f;
+    public const float aggroLossTime = 3f;
+
+    public int thresholdAggro = 15;
+    public float thresholdTime = 3f;
+    public float thresholdClock = 0f;
 
     public float bgSpeed = 1f;
 
@@ -53,12 +61,6 @@ public class LevelManager : MonoBehaviour {
         player.lm = this;
         player.gameObject.name = "Player";
         player.gameObject.transform.localPosition = Vector3.zero;
-
-        
-        farmer = Resources.Load<GameObject>("Prefabs/Farmer");
-        madCow = Resources.Load<GameObject>("Prefabs/MadCow");
-        angryFarmer = Resources.Load<GameObject>("Prefabs/AngryFarmer");
-
     }
 
     /*
@@ -83,6 +85,7 @@ public class LevelManager : MonoBehaviour {
 			print ("space");
 			manager.drop ();
 		}
+        manageAggro();
 		spawnCows();
 		spawnFarmers();
 	}
@@ -91,6 +94,23 @@ public class LevelManager : MonoBehaviour {
     {
         aggro += aggroAdd;
         if (aggro > capAggro) aggro = capAggro;
+    }
+
+    private void manageAggro()
+    {
+        if (aggro >= thresholdAggro)
+        {
+            thresholdClock += Time.deltaTime;
+        }
+        if (thresholdClock > thresholdTime)
+        {
+            readyForDrop = true;
+        }
+        aggroLossTimer += Time.deltaTime;
+        if (aggro < baseAggro) aggro = baseAggro;
+        if (aggro > baseAggro && aggroLossTimer > aggroLossTime)
+            aggro--;
+        aggroLossTimer %= aggroLossTime;
     }
 
     private void spawnCows() {
@@ -121,11 +141,12 @@ public class LevelManager : MonoBehaviour {
 
     public void drop()
     {
+        dropped = true;
         print("Stage 2! Stuff is weird and frantic!");
     }
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
-    private GameObject farmer;
-    private GameObject madCow;
-    private GameObject angryFarmer;
+    private GameObject farmer = Resources.Load<GameObject>("Prefabs/Farmer");
+    private GameObject madCow = Resources.Load<GameObject>("Prefabs/MadCow");
+    private GameObject angryFarmer = Resources.Load<GameObject>("Prefabs/AngryFarmer");
 }

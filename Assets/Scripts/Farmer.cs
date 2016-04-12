@@ -8,10 +8,11 @@ public class Farmer : Enemy {
     public SpriteRenderer sr;
     public BoxCollider2D coll;
 
-    protected int aggroAdd = 3;
+    public bool isAngry = false;
 
     // Use this for initialization
     void Start () {
+        aggroAdd = 3;
         lm = GameObject.Find("GameObject").GetComponent<GameManager>().lm;
         this.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
@@ -26,5 +27,10 @@ public class Farmer : Enemy {
             *Time.deltaTime;
         transform.position += 2 * Random.value * Time.deltaTime * Vector3.up;
         transform.position += 2 * Random.value * Time.deltaTime * Vector3.down;
+        if (isAngry)
+        {
+            transform.position += 4 * Random.value * Time.deltaTime * Vector3.up;
+            transform.position += 4 * Random.value * Time.deltaTime * Vector3.down;
+        }
     }
 }

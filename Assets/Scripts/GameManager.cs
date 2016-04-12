@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
 	private AudioClip intense;
 	private AudioClip nonintense;
 
+    private bool dropped;
+
 	// Use this for initialization
 	void Start () {
         GameObject go = new GameObject();
@@ -29,7 +31,8 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (lm.readyForDrop) {
+		if (lm.readyForDrop && !dropped) {
+            dropped = true;
 			drop ();
 		}
 	}
