@@ -13,6 +13,9 @@ public class LevelManager : MonoBehaviour {
     public float boundUp, boundDown, boundLeft, boundRight;
 
     public Player player;
+	public GameManager manager;
+	// I need our main GameManager to be passed along into MusicManager to access the audio
+	// that is attached to it
 
     public int aggro = 1;
 
@@ -50,7 +53,7 @@ public class LevelManager : MonoBehaviour {
         mat.mainTexture = Resources.Load<Texture2D>("Sprites/skyDay1");
         sky.transform.position = new Vector3(0, camy, 0);
         sky.transform.localScale = new Vector3(rdWidth,rdHeight*3, 0);
-    }
+	}
 
     /*
         About the level construction: the bounding box is a bunch
@@ -60,15 +63,22 @@ public class LevelManager : MonoBehaviour {
         We may want to redo the bounding box with our own code later, but
         it's a decent strategy for now.
     */
-    public void init(int whichLevel)
+	public void init (int whichLevel, GameManager manager)
     {
+		this.manager = manager;
         // setup bounding box
         // setup spawners
         // setup camera?
     }
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			print ("space");
+			manager.drop ();
+		}
+
 	}
+
+
 }
