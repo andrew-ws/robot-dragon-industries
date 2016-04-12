@@ -209,11 +209,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297920848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c7019b2b2f444f2287a6ae44e35206e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c52ab1aaea4f244b90127d6f6cd4c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 1297920852}
-  sfx: {fileID: 1297920851}
+  lm: {fileID: 0}
+  music: {fileID: 0}
+  sfx: {fileID: 0}
 --- !u!82 &1297920851
 AudioSource:
   m_ObjectHideFlags: 0

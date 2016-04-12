@@ -78,7 +78,7 @@ public class Player : MonoBehaviour {
         Newspaper paper = (new GameObject()).AddComponent<Newspaper>();
         paper.transform.position = this.transform.position;
         paper.name = "Paper";
-        paper.init(dir, throwSpeed, deltaPos);
+        paper.init(dir, throwSpeed, deltaPos/Time.deltaTime/4);
         cooldownClock = 0.5f;
     }
 

@@ -4,15 +4,21 @@ using System.Collections;
 public class LevelManager : MonoBehaviour {
 
     public const float rdWidth = 16f;
-    public const float rdHeight = 4f;
+    public const float rdHeight = 5f;
     public const float rdMargin = 0.5f;
     public const float rdPadTop = 0.3f;
     public const float rdPadSide = 1f;
     public const float rdPadBottom = 0.3f;
+    public const float spawnPtPad = 1.5f;
 
     public float boundUp, boundDown, boundLeft, boundRight;
 
     private float clock;
+
+    public float cowOddsBase = 30f;
+    public float cowOddsPerAggro = 5f;
+    public float farmerOddsBase = 15f;
+    public float farmerOddsPerAggro = 5f;
 
     public Player player;
 	public GameManager manager;
@@ -20,6 +26,10 @@ public class LevelManager : MonoBehaviour {
 	// that is attached to it
 
     public int aggro = 1;
+    public bool readyForDrop = false;
+    public bool dropped = false;
+
+    public float bgSpeed = 1f;
 
     private GameObject sky; // back-most layer of the background (probably only temporary)
     private GameObject street;
@@ -104,7 +114,10 @@ public class LevelManager : MonoBehaviour {
             spawnPlot(rnd.Next(1, 3));
         }
 
-	}
+        spawnCows();
+        spawnFarmers();
+
+    }
 
     //used to spawn plots at regular intervals
     private void spawnPlot(int type)
@@ -114,5 +127,34 @@ public class LevelManager : MonoBehaviour {
         plot.init(type, this);
     }
 
+    private void spawnCows() {
+        float place = Random.value * rdHeight - rdHeight / 2;
+        Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
+        float chance = cowOddsBase + aggro * cowOddsPerAggro;
+        if (chance * Time.deltaTime > Random.value * 100)
+        {
+            if (dropped)
+                Instantiate(madCow, spawnPt, Quaternion.identity);
+            else
+                Instantiate(cow, spawnPt, Quaternion.identity);
+        }
+    }
 
+    private void spawnFarmers() {
+        float place = Random.value * rdHeight - rdHeight / 2;
+        Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
+        float chance = farmerOddsBase + aggro * farmerOddsPerAggro;
+        if (chance * Time.deltaTime > Random.value * 100)
+        {
+            if (dropped)
+                Instantiate(angryFarmer, spawnPt, Quaternion.identity);
+            else
+                Instantiate(farmer, spawnPt, Quaternion.identity);
+        }
+    }
+
+    private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
+    private GameObject farmer = Resources.Load<GameObject>("Prefabs/Farmer");
+    private GameObject madCow = Resources.Load<GameObject>("Prefabs/MadCow");
+    private GameObject angryFarmer = Resources.Load<GameObject>("Prefabs/AngryFarmer");
 }

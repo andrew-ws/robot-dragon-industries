@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-    LevelManager currentLvl;
+    public LevelManager lm;
 
 	// Need these for accessing music objects
 	public AudioSource music;
@@ -16,10 +16,10 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        currentLvl = (new GameObject()).AddComponent<LevelManager>();
-        currentLvl.gameObject.name = "Level 1 Manager";
-		currentLvl.init(1, this); // Passing in for accessing some music objects in the scene
-		lastaggro = currentLvl.aggro;
+        lm = (new GameObject()).AddComponent<LevelManager>();
+        lm.gameObject.name = "Level 1 Manager";
+		lm.init(1, this); // Passing in for accessing some music objects in the scene
+		lastaggro = lm.aggro;
 
 		// Music
 		intense = Resources.Load<AudioClip>("Music/Intense Loop");
@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (currentLvl.aggro > 20) {
+		if (lm.aggro > 20) {
 			drop ();
 		}
 	}
