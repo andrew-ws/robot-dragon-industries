@@ -3,13 +3,13 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-    LevelManager currentLvl;
+    public LevelManager lm;
 
 	// Use this for initialization
 	void Start () {
-        currentLvl = (new GameObject()).AddComponent<LevelManager>();
-        currentLvl.gameObject.name = "Level 1 Manager";
-        currentLvl.init(1);
+        lm = (new GameObject()).AddComponent<LevelManager>();
+        lm.gameObject.name = "Level 1 Manager";
+        lm.init(1);
 
 	}
 	
