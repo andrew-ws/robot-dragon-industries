@@ -59,6 +59,7 @@ public class PlotModel : MonoBehaviour {
     {
         if (type == 1)
         {
+            if (!other.gameObject.CompareTag("paper")) return;
             Destroy(other.gameObject);
             owner.manager.deliveries += 1;
             mat.mainTexture = Resources.Load<Texture2D>("Sprites/mailbox" + boxNum + "closed");

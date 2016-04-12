@@ -19,6 +19,8 @@ public class Cow : Enemy {
         sr.sprite = Resources.Load<Sprite>("Sprites/cow");
         if (isMad) sr.color = Color.red;
         coll = gameObject.AddComponent<BoxCollider2D>();
+        coll.size = new Vector2(7.5f, 4.2f);
+        coll.offset = new Vector2(1.67f, 0.9f);
         coll.isTrigger = true;
     }
 	

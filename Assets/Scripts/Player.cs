@@ -9,6 +9,9 @@ public class Player : MonoBehaviour {
     public int hp = 3;
     public LevelManager lm = null;
 
+    private Vector2 collOffset = new Vector2(0f, -0.8f);
+    private Vector2 collSize = new Vector2(3.5f, 0.65f);
+
     private float cooldownClock;
 
     private SpriteRenderer sr;
@@ -28,6 +31,8 @@ public class Player : MonoBehaviour {
         sr.sprite = Resources.Load<Sprite>("Sprites/bike");
 
         coll = gameObject.AddComponent<BoxCollider2D>();
+        coll.offset = collOffset;
+        coll.size = collSize;
         rb = gameObject.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0;
     }

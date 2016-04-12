@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - player
+  - paper
+  - mailbox
   layers:
   - Default
   - TransparentFX

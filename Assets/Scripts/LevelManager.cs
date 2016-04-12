@@ -17,9 +17,9 @@ public class LevelManager : MonoBehaviour {
     private float clock;
 
     public float cowOddsBase = 20f;
-    public float cowOddsPerAggro = 3f;
+    public float cowOddsPerAggro = 2f;
     public float farmerOddsBase = 15f;
-    public float farmerOddsPerAggro = 3f;
+    public float farmerOddsPerAggro = 2f;
 
     public Player player;
 	public GameManager manager;
@@ -89,7 +89,7 @@ public class LevelManager : MonoBehaviour {
         mat2.shader = Shader.Find("Sprites/Default");
         mat2.color = new Color(1, 1, 1);
         mat2.mainTexture = Resources.Load<Texture2D>("Sprites/streetRural");
-        street.transform.position = new Vector3(0, camy+2, 2);
+        street.transform.position = new Vector3(0, camy+2.5f, 2);
         street.transform.localScale = new Vector3(rdWidth, rdHeight*3, 0);
         street.name = "Street";
     }
