@@ -43,8 +43,8 @@ public class LevelManager : MonoBehaviour {
 
     private GameObject sky; // back-most layer of the background (probably only temporary)
     private GameObject street;
-
-    public int deliveries; // # of newspapers delivered
+    
+    public int totalMoney = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -66,7 +66,6 @@ public class LevelManager : MonoBehaviour {
         boundRight = (rdWidth / 2) - rdPadSide;
 
         clock = 6;
-        deliveries = 0;
 
         player = (new GameObject()).AddComponent<Player>();
         player.lm = this;
@@ -192,7 +191,8 @@ public class LevelManager : MonoBehaviour {
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Newspapers Delivered: " + deliveries);
+        GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney);
+        GUI.Label(new Rect(0, 0, 110, 50), "Money per paper: " + (aggro * 50));
     }
 
     public void drop()
