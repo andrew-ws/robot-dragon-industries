@@ -26,6 +26,7 @@ public class Player : MonoBehaviour {
         gameObject.AddComponent<SpriteRenderer>();
         sr = gameObject.GetComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/bike");
+        sr.flipX = true;
 
         coll = gameObject.AddComponent<BoxCollider2D>();
         rb = gameObject.AddComponent<Rigidbody2D>();
@@ -78,7 +79,7 @@ public class Player : MonoBehaviour {
         Newspaper paper = (new GameObject()).AddComponent<Newspaper>();
         paper.transform.position = this.transform.position;
         paper.name = "Paper";
-        paper.init(dir, throwSpeed, deltaPos);
+        paper.init(dir, throwSpeed, deltaPos/Time.deltaTime/4);
         cooldownClock = 0.5f;
     }
 

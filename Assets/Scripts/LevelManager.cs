@@ -4,13 +4,19 @@ using System.Collections;
 public class LevelManager : MonoBehaviour {
 
     public const float rdWidth = 16f;
-    public const float rdHeight = 4f;
+    public const float rdHeight = 5f;
     public const float rdMargin = 0.5f;
     public const float rdPadTop = 0.3f;
     public const float rdPadSide = 1f;
     public const float rdPadBottom = 0.3f;
+    public const float spawnPtPad = 1.5f;
 
     public float boundUp, boundDown, boundLeft, boundRight;
+
+    public float cowOddsBase = 30f;
+    public float cowOddsPerAggro = 5f;
+    public float farmerOddsBase = 15f;
+    public float farmerOddsPerAggro = 5f;
 
     public Player player;
 	public GameManager manager;
@@ -18,6 +24,10 @@ public class LevelManager : MonoBehaviour {
 	// that is attached to it
 
     public int aggro = 1;
+    public bool readyForDrop = false;
+    public bool dropped = false;
+
+    public float bgSpeed = 1f;
 
 	// Use this for initialization
 	void Start () {
@@ -67,8 +77,38 @@ public class LevelManager : MonoBehaviour {
 			print ("space");
 			manager.drop ();
 		}
-
+		spawnCows();
+		spawnFarmers();
 	}
 
+    private void spawnCows() {
+        float place = Random.value * rdHeight - rdHeight / 2;
+        Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
+        float chance = cowOddsBase + aggro * cowOddsPerAggro;
+        if (chance * Time.deltaTime > Random.value * 100)
+        {
+            if (dropped)
+                Instantiate(madCow, spawnPt, Quaternion.identity);
+            else
+                Instantiate(cow, spawnPt, Quaternion.identity);
+        }
+    }
 
+    private void spawnFarmers() {
+        float place = Random.value * rdHeight - rdHeight / 2;
+        Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
+        float chance = farmerOddsBase + aggro * farmerOddsPerAggro;
+        if (chance * Time.deltaTime > Random.value * 100)
+        {
+            if (dropped)
+                Instantiate(angryFarmer, spawnPt, Quaternion.identity);
+            else
+                Instantiate(farmer, spawnPt, Quaternion.identity);
+        }
+    }
+
+    private GameObject cow = Resources.Load<GameObject>("Cow");
+    private GameObject farmer = Resources.Load<GameObject>("Farmer");
+    private GameObject madCow = Resources.Load<GameObject>("MadCow");
+    private GameObject angryFarmer = Resources.Load<GameObject>("AngryFarmer");
 }
