@@ -13,8 +13,11 @@ public class LevelManager : MonoBehaviour {
 
     public float boundUp, boundDown, boundLeft, boundRight;
 
+    private float backgroundHt; // height of background based on width
+    private float backgroundy; // offset so background's bottom edge is the same as the camera's
 
-    private float clock;
+    private float plotClock;
+    private float sceneryClock;
 
     public float cowOddsBase = 20f;
     public float cowOddsPerAggro = 2f;
@@ -39,10 +42,13 @@ public class LevelManager : MonoBehaviour {
     public float thresholdTime = 3f;
     public float thresholdClock = 0f;
 
-    public float bgSpeed = 1f;
+    public float bgSpeed = 2f;
 
     private GameObject sky; // back-most layer of the background (probably only temporary)
     private GameObject street;
+
+    private GameObject plotFolder;
+    private GameObject sceneryFolder;
     
     public int totalMoney = 0;
 
@@ -64,33 +70,24 @@ public class LevelManager : MonoBehaviour {
         boundDown = (-rdHeight / 2) + rdPadBottom;
         boundLeft = (-rdWidth / 2) + rdPadSide;
         boundRight = (rdWidth / 2) - rdPadSide;
-
-        clock = 6;
+        plotClock = 6;
+        sceneryClock = 1;
 
         player = (new GameObject()).AddComponent<Player>();
         player.lm = this;
         player.gameObject.name = "Player";
         player.gameObject.transform.localPosition = Vector3.zero;
 
-        // create sky background (temporary)
-        sky = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        Material mat = sky.GetComponent<Renderer>().material;
-        mat.shader = Shader.Find("Sprites/Default");
-        mat.color = new Color(1, 1, 1);
-        mat.mainTexture = Resources.Load<Texture2D>("Sprites/skyDay1");
-        sky.transform.position = new Vector3(0, camy, 3);
-        sky.transform.localScale = new Vector3(rdWidth,rdHeight*3, 0);
-        sky.name = "Sky";
+        backgroundHt = rdWidth * (7f / 8f);
+        backgroundy = (backgroundHt - (cam.orthographicSize * 2)) / 2 + camy;
 
-        // create street (temporary, currently doesn't move)
-        street = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        Material mat2 = street.GetComponent<Renderer>().material;
-        mat2.shader = Shader.Find("Sprites/Default");
-        mat2.color = new Color(1, 1, 1);
-        mat2.mainTexture = Resources.Load<Texture2D>("Sprites/streetRural");
-        street.transform.position = new Vector3(0, camy+2.5f, 2);
-        street.transform.localScale = new Vector3(rdWidth, rdHeight*3, 0);
-        street.name = "Street";
+        sky = makeBackground("skyDay1", 3);
+        street = makeBackground("street", 2);
+
+        sceneryFolder = new GameObject();
+        sceneryFolder.name = "Scenery";
+        plotFolder = new GameObject();
+        plotFolder.name = "Plots";
     }
 
     /*
@@ -112,7 +109,8 @@ public class LevelManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        clock += Time.deltaTime;
+        plotClock += Time.deltaTime;
+        sceneryClock += Time.deltaTime;
         System.Random rnd = new System.Random();
 
         if (Input.GetKeyDown (KeyCode.Space)) {
@@ -120,24 +118,75 @@ public class LevelManager : MonoBehaviour {
 			manager.drop ();
 		}
 
-        if (clock >= 6) // should happen every 6 secs, we need to scale this to how fast everything is moving
+        if (plotClock >= 3) // should happen every 6 secs, we need to scale this to how fast everything is moving
         {
-            clock = 0;
+            plotClock = 0 + Time.deltaTime;
             spawnPlot(rnd.Next(1, 3));
         }
-        
+        if (sceneryClock >= (3f/4f))
+        {
+            sceneryClock = 0 + Time.deltaTime;
+            spawnLine();
+            spawnSidewalk();
+        }
         manageAggro();
         spawnCows();
         spawnFarmers();
 
     }
+    /*
+    Note: the spawners below are temporary as they are quite redundant.
+    I would like to be able to have the spawners themselves take care of
+    the frequency at which certain pieces of scenery spawn and not the
+    Update() method of the LevelManager. This requires an individual clock
+    for each one. NM
+    */
 
     //used to spawn plots at regular intervals
     private void spawnPlot(int type)
     {
         Plot plot = (new GameObject()).AddComponent<Plot>();
-        plot.transform.position = new Vector3(rdWidth, rdHeight);
+        plot.transform.position = new Vector3(rdWidth/2f+3, rdHeight);
+        plot.transform.parent = plotFolder.transform;
         plot.init(type, this);
+    }
+
+    private void spawnSidewalk()
+    {
+        var sceneryObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        Scenery tile = sceneryObject.AddComponent<Scenery>();
+        sceneryObject.transform.parent = sceneryFolder.transform;
+        sceneryObject.name = "Sidewalk";
+        tile.transform.localScale = new Vector3(rdWidth / 8f, 1, 0);
+        tile.transform.position = new Vector3(rdWidth/2f+1, 1.5f, 0);
+        tile.init("sidewalkSuburban", bgSpeed, this);
+    }
+
+    private void spawnLine()
+    {
+        var sceneryObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        Scenery line = sceneryObject.AddComponent<Scenery>();
+        sceneryObject.transform.parent = sceneryFolder.transform;
+        sceneryObject.name = "Line";
+        line.transform.localScale = new Vector3(1, 1, 0);
+        line.transform.position = new Vector3(rdWidth/2f+1, -1, 0);
+        line.init("streetLine", bgSpeed, this);
+    }
+
+    private GameObject makeBackground(string image, int layer)
+    {
+        GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        Material mat = obj.GetComponent<Renderer>().material;
+        mat.shader = Shader.Find("Sprites/Default");
+        mat.color = new Color(1, 1, 1);
+        mat.mainTexture = Resources.Load<Texture2D>("Sprites/" + image);
+        obj.transform.localScale = new Vector3(rdWidth, backgroundHt, 0);
+        obj.transform.position = new Vector3(0, backgroundy, layer);
+
+        if (layer == 2) { obj.name = "Street"; }
+        if (layer == 3) { obj.name = "Sky"; }
+
+        return obj;
     }
 
     public void hitAggro(int aggroAdd)
@@ -198,7 +247,6 @@ public class LevelManager : MonoBehaviour {
     public void drop()
     {
         dropped = true;
-        print("Stage 2! Stuff is weird and frantic!");
     }
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");

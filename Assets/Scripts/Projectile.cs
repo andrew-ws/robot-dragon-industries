@@ -5,7 +5,7 @@ public class Projectile : MonoBehaviour {
 
     public Vector3 velocity = Vector3.zero;
     public float timeAlive = 5f;
-    private float clock = 0f;
+    public float clock = 0f;
 
     protected CircleCollider2D coll;
     protected Rigidbody2D rb;

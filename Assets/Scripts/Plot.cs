@@ -17,7 +17,7 @@ public class Plot : MonoBehaviour {
         //defaults (not set by args)
         size = 6;
         //speed = LevelManager.getSpeed()     probably should be set by the level manager
-        speed = 1;
+        speed = manager.bgSpeed;
 
         if (type == 1) // plot with a house
         {
