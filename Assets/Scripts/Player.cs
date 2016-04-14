@@ -90,6 +90,7 @@ public class Player : MonoBehaviour {
     public void hurt()
     {
         hp--;
+		lm.aggro--;
         if (hp == 0) Destroy(this.gameObject);
     }
 }
