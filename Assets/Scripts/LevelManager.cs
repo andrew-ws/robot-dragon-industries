@@ -237,7 +237,7 @@ public class LevelManager : MonoBehaviour {
     void OnGUI()
     {
         GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney);
-		GUI.Label(new Rect(Screen.width - 110, Screen.height - 150, 110, 50), "Aggro: " + aggro);
+		GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro);
         GUI.Label(new Rect(0, 0, 110, 50), "Money per paper: " + (aggro * 50));
     }
 

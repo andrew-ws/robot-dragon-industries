@@ -57,20 +57,21 @@ public class Player : MonoBehaviour {
         // TODO: normalized diagonal speed instead?
         transform.position += deltaPos;
 
-        float x = transform.position.x;
-        float y = transform.position.y;
-
         // stay in bounding box
-        if (x < lm.boundLeft)
-            transform.position = new Vector2(lm.boundLeft, y);
-        if (x > lm.boundRight)
-            transform.position = new Vector2(lm.boundRight, y);
-        if (y < lm.boundDown)
-            transform.position = new Vector2(x, lm.boundDown);
-        if (y > lm.boundUp)
-            transform.position = new Vector2(x, lm.boundUp);
+        if (transform.position.x < lm.boundLeft)
+            transform.position = new Vector2(lm.boundLeft, transform.position.y);
+        if (transform.position.x > lm.boundRight)
+            transform.position = new Vector2(lm.boundRight, transform.position.y);
+        if (transform.position.y < lm.boundDown)
+            transform.position = new Vector2(transform.position.x, lm.boundDown);
+        if (transform.position.y > lm.boundUp)
+            transform.position = new Vector2(transform.position.x, lm.boundUp);
 
+<<<<<<< HEAD
 		if (Input.GetKey(KeyCode.LeftArrow))
+=======
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+>>>>>>> master
             shoot(Vector2.left);
         if (Input.GetKey(KeyCode.RightArrow))
             shoot(Vector2.right);
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour {
 
 	// TEMPORARY
 	void OnGUI() {
-		GUI.Label(new Rect(Screen.width - 110, Screen.height - 200, 110, 50), "Health: " + hp);
+		GUI.Label(new Rect(Screen.width - 110, Screen.height - 200, 150, 50), "Health: " + hp);
 	}
+
 }
