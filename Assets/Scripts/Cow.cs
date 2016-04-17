@@ -8,12 +8,15 @@ public class Cow : Enemy {
     public SpriteRenderer sr;
     public BoxCollider2D coll;
 
-    public float cowVision = 0.5f;
+    public float cowVision = 0.2f;
     public bool charging = false;
 
     public float wanderSpeed = 1f;
     public float switchDirectionOdds = 60f;
     public float angrySpeedBoost = 0.5f;
+
+    private static float chargeGate = 1f;
+    private static float chargeSpeed = 4.5f;
 
 	// Use this for initialization
 	void Start () {
@@ -30,19 +33,27 @@ public class Cow : Enemy {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Random.value * 100 < (switchDirectionOdds * Time.deltaTime))
-            velocity.x = -velocity.x;
-        if (transform.position.y >= lm.boundUp)
-            velocity = Vector2.down * wanderSpeed;
-        if (transform.position.y <= lm.boundDown)
-            velocity = Vector2.up * wanderSpeed;
-        if (isAngry) velocity += Vector3.left * angrySpeedBoost;
+        if (!charging)
+        {
+            if (Random.value * 100 < (switchDirectionOdds * Time.deltaTime))
+                velocity.y = -velocity.y;
+            if (transform.position.y >= lm.boundUp)
+            {
+                velocity = Vector2.down * wanderSpeed;
+            }
+            if (transform.position.y <= lm.boundDown)
+            {
+                velocity = Vector2.up * wanderSpeed;
+            }
+            if (isAngry) velocity.x = -angrySpeedBoost;
+        }
         if (stunned)
         {
             if (stunClock > stunTime) {
                 stunned = false;
-                if (!isAngry) makeAngry();
-                if (Random.value * 100 < 50) velocity = Vector2.up * wanderSpeed;
+                makeAngry();
+                if (Random.value * 100 < 50)
+                    velocity = Vector2.up * wanderSpeed;
                 else velocity = Vector2.down * wanderSpeed;
             }
             else velocity = Vector2.zero;
@@ -53,9 +64,10 @@ public class Cow : Enemy {
             * Time.deltaTime;
 
         if (isAngry && !charging && Mathf.Abs(transform.position.y -
-            lm.player.transform.position.x) < cowVision)
+            lm.player.transform.position.y) < cowVision &&
+            transform.position.x < (LevelManager.rdWidth/2 - chargeGate))
         {
-            velocity = new Vector3(-3, 0, 0);
+            velocity = new Vector3(-chargeSpeed, 0, 0);
             charging = true;
         }
 	}
@@ -67,7 +79,6 @@ public class Cow : Enemy {
         // set sprites to stun
         sr.color = Color.blue;
         stunned = true;
-        makeAngry();
     }
 
     protected override void makeAngry()

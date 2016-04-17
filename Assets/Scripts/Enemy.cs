@@ -14,6 +14,7 @@ public abstract class Enemy : MonoBehaviour {
 
 	public void OnTriggerEnter2D(Collider2D coll)
     {
+        if (stunned) return;
         if (coll.gameObject.CompareTag("mailbox")) return;
         GameObject other = coll.gameObject;
         if (other.CompareTag("player"))
@@ -21,10 +22,11 @@ public abstract class Enemy : MonoBehaviour {
             onHit();
             other.GetComponent<Player>().hurt();
         }
-        else Destroy(other);
+        else
+            Destroy(other);
+
         lm.hitAggro(aggroAdd);
         onHit();
-        Destroy(this.gameObject);
     }
 
     public void init(LevelManager lm, bool isAngry)

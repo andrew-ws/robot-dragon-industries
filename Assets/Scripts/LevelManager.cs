@@ -216,12 +216,13 @@ public class LevelManager : MonoBehaviour {
         float place = Random.value * rdHeight - rdHeight / 2;
         Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
         float chance = cowOddsBase + aggro * cowOddsPerAggro;
-        GameObject go = new GameObject();
-        go.transform.position = spawnPt;
-        Cow cow = go.AddComponent<Cow>();
-        cow.lm = this;
+        
         if (chance * Time.deltaTime > Random.value * 100)
         {
+            GameObject go = new GameObject();
+            go.transform.position = spawnPt;
+            Cow cow = go.AddComponent<Cow>();
+            cow.lm = this;
             if (dropped)
             {
                 cow.init(this, true);
