@@ -14,11 +14,12 @@ public class Farmer : Enemy {
     void Start () {
         aggroAdd = 3;
         lm = GameObject.Find("GameObject").GetComponent<GameManager>().lm;
-        this.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
+        this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/farmer");
         coll = gameObject.AddComponent<BoxCollider2D>();
-        coll.size = new Vector2(1.2f, 3f);
+        coll.size = new Vector2(1f, 1.5f);
+        coll.offset = new Vector2(0f, -.3f);
         coll.isTrigger = true;
     }
 	

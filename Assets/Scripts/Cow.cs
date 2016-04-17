@@ -14,13 +14,13 @@ public class Cow : Enemy {
 	void Start () {
         if (isMad) velocity *= 2;
         lm = GameObject.Find("GameObject").GetComponent<GameManager>().lm;
-        this.transform.localScale = new Vector3(0.18f, 0.18f, 1f);
+        this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/cow");
         if (isMad) sr.color = Color.red;
         coll = gameObject.AddComponent<BoxCollider2D>();
-        coll.size = new Vector2(7.5f, 4.2f);
-        coll.offset = new Vector2(1.67f, 0.9f);
+        coll.size = new Vector2(1.5f, 1f);
+        coll.offset = new Vector2(0f, -.2f);
         coll.isTrigger = true;
     }
 	

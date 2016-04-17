@@ -9,8 +9,8 @@ public class Player : MonoBehaviour {
     public int hp = 3;
     public LevelManager lm = null;
 
-    private Vector2 collOffset = new Vector2(0f, -0.8f);
-    private Vector2 collSize = new Vector2(3.5f, 0.65f);
+    private Vector2 collOffset = new Vector2(0f, -0.42f);
+    private Vector2 collSize = new Vector2(0.9f, 0.065f);
 
     private float cooldownClock;
 
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour {
     */
 	void Start () {
         gameObject.tag = "player";
-        transform.localScale = new Vector3(0.4f, 0.4f, 1f);
+        transform.localScale = new Vector3(2f, 2f, 1f);
 
         gameObject.AddComponent<SpriteRenderer>();
         sr = gameObject.GetComponent<SpriteRenderer>();
