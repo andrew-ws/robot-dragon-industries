@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
 	private AudioClip intense;
 	private AudioClip nonintense;
 
-    private bool dropped;
+	public bool dropped;
 
 	// Use this for initialization
 	void Start () {
@@ -31,9 +31,11 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (lm.readyForDrop && !dropped) {
+		if (lm.dropped && !dropped) {
             dropped = true;
 			drop ();
+		} else if (lm.dropped == false && dropped) {
+			undrop ();
 		}
 	}
 
@@ -53,6 +55,12 @@ public class GameManager : MonoBehaviour {
 	public void drop() {
 		PlayMusic (intense);
         lm.drop();
+	}
+
+	public void undrop() {
+		dropped = false;
+		PlayMusic (nonintense);
+		lm.undrop ();
 	}
 
 }

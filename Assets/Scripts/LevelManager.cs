@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour {
     public int aggro = 1;
     public int capAggro = 30;
     public int baseAggro = 1;
-    public bool readyForDrop = false;
+    //public bool readyForDrop = false;
     public bool dropped = false;
 
     public float aggroLossTimer = 0f;
@@ -112,11 +112,6 @@ public class LevelManager : MonoBehaviour {
         plotClock += Time.deltaTime;
         sceneryClock += Time.deltaTime;
         System.Random rnd = new System.Random();
-
-        if (Input.GetKeyDown (KeyCode.Space)) {
-			print ("space");
-			manager.drop ();
-		}
 
         if (plotClock >= 3) // should happen every 6 secs, we need to scale this to how fast everything is moving
         {
@@ -200,11 +195,12 @@ public class LevelManager : MonoBehaviour {
         if (aggro >= thresholdAggro)
         {
             thresholdClock += Time.deltaTime;
+			this.drop ();
         }
-        if (thresholdClock > thresholdTime)
-        {
-            readyForDrop = true;
-        }
+		if (aggro < thresholdAggro && manager.dropped == true) {
+			this.undrop ();
+		}
+        
         aggroLossTimer += Time.deltaTime;
         if (aggro < baseAggro) aggro = baseAggro;
         if (aggro > baseAggro && aggroLossTimer > aggroLossTime)
@@ -241,6 +237,7 @@ public class LevelManager : MonoBehaviour {
     void OnGUI()
     {
         GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney);
+		GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro);
         GUI.Label(new Rect(0, 0, 110, 50), "Money per paper: " + (aggro * 50));
     }
 
@@ -248,6 +245,10 @@ public class LevelManager : MonoBehaviour {
     {
         dropped = true;
     }
+
+	public void undrop() {
+		dropped = false;
+	}
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
     private GameObject farmer = Resources.Load<GameObject>("Prefabs/Farmer");
