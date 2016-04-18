@@ -39,8 +39,10 @@ public class LevelManager : MonoBehaviour {
     public const float aggroLossTime = 3f;
 
     public int thresholdAggro = 15;
-    public float thresholdTime = 3f;
+    public float thresholdTime;
     public float thresholdClock = 0f;
+	public float BPM = 189f;
+	public float measureLength;
 
     public float bgSpeed = 2f;
 
@@ -88,6 +90,10 @@ public class LevelManager : MonoBehaviour {
         sceneryFolder.name = "Scenery";
         plotFolder = new GameObject();
         plotFolder.name = "Plots";
+
+		// Music
+		measureLength = (4f * 60f) / BPM;
+		thresholdTime = measureLength;// may be redundant
     }
 
     /*
@@ -192,13 +198,16 @@ public class LevelManager : MonoBehaviour {
 
     private void manageAggro()
     {
-        if (aggro >= thresholdAggro)
+        thresholdClock += Time.deltaTime;
+        
+		// Checking to see if the measure is up, for dropping and undropping
+		if (thresholdClock > thresholdTime)
         {
-            thresholdClock += Time.deltaTime;
-        }
-        if (thresholdClock > thresholdTime)
-        {
-            readyForDrop = true;
+			if (aggro >= thresholdAggro && !dropped) 
+				readyForDrop = true;
+			if (aggro < thresholdAggro && dropped)
+				readyForDrop = false;
+			thresholdClock = 0;
         }
         aggroLossTimer += Time.deltaTime;
         if (aggro < baseAggro) aggro = baseAggro;
@@ -244,6 +253,14 @@ public class LevelManager : MonoBehaviour {
     {
         dropped = true;
     }
+
+	public void undrop() {
+		dropped = false;
+	}
+
+	public void reduceAggro(int reduce) {
+		aggro -= reduce;
+	}
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
     private GameObject farmer = Resources.Load<GameObject>("Prefabs/Farmer");

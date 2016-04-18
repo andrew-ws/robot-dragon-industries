@@ -40,10 +40,12 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (lm.readyForDrop && !dropped) {
-            dropped = true;
 			drop ();
+		} else if (!lm.readyForDrop && dropped) {
+			undrop ();
 		}
 
+		// TODO: get rid of this debugging command
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			lm.aggro++;
 		}
@@ -71,7 +73,14 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void drop() {
+		dropped = true;
 		intense.TransitionTo (0.01f);
         lm.drop();
+	}
+
+	public void undrop() {
+		dropped = false;
+		drums.TransitionTo (0.01f);
+		lm.undrop ();
 	}
 }
