@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
     public float throwSpeed = 5f;
     private Vector3 deltaPos;
     public int hp = 3;
+    public int papers = 25;
     public LevelManager lm = null;
 
     private Vector2 collOffset = new Vector2(0f, -0.42f);
@@ -76,12 +77,13 @@ public class Player : MonoBehaviour {
     }
 
     void shoot(Vector2 dir) {
-        if (cooldownClock > 0) return;
+        if ((cooldownClock > 0) || (papers < 1)) return;
         Newspaper paper = (new GameObject()).AddComponent<Newspaper>();
         paper.transform.position = this.transform.position;
         paper.name = "Paper";
         paper.init(dir, throwSpeed, deltaPos/Time.deltaTime/4);
         cooldownClock = 0.5f;
+        papers -= 1;
     }
 
     public void hurt()
