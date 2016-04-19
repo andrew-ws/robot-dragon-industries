@@ -192,6 +192,7 @@ public class LevelManager : MonoBehaviour {
 
     public void hitAggro(int aggroAdd)
     {
+        print("ahhhhh");
         aggro += aggroAdd;
         if (aggro > capAggro) aggro = capAggro;
     }

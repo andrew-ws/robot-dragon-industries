@@ -22,15 +22,15 @@ public abstract class Enemy : MonoBehaviour {
         GameObject other = coll.gameObject;
         if (other.CompareTag("player"))
         {
-            onHit();
-            other.GetComponent<Player>().hurt();
             if (!stunned) lm.hitAggro(aggroAdd);
+            onHit();
+            //other.GetComponent<Player>().hurt();
         }
         else if (other.CompareTag("paper"))
         {
             Destroy(other);
-            onHit();
             if (!stunned) lm.hitAggro(aggroAdd);
+            onHit();
         }
         // TODO: I guess aggro has to build when hitting an angry enemy?
     }

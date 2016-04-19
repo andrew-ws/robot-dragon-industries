@@ -14,13 +14,13 @@ public class Farmer : Enemy {
     public float switchDirectionOddsX = 15f;
     public float switchDirectionOddsY = 15f;
 
-    public float forkSpeed = 3f;
+    public float forkSpeed = 5f;
     private bool thrown = false;
     public float throwThreshold;
 
     // Use this for initialization
     void Start () {
-        aggroAdd = 3;
+        aggroAdd = 2;
         this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/farmer");
