@@ -7,6 +7,7 @@ public class Plot : MonoBehaviour {
     private float size; // size of plot in unity units
     private float speed; // rate a which it passes the player
     private PlotModel model; // model containing all sprites
+    public Mailbox mailbox;
     public LevelManager manager; // easy reference?
 
     public void init(int type, LevelManager manager)
@@ -21,21 +22,19 @@ public class Plot : MonoBehaviour {
 
         if (type == 1) // plot with a house
         {
-            GameObject house = makeQuad(0, false);
-            house.transform.localPosition = new Vector3(0, 0, 1);
-            house.transform.localScale = new Vector3(5, 5, 0);
+            PlotModel house = makeModel(0);
+            house.transform.localPosition = new Vector3(0, 0, 1.5f);
+            house.transform.localScale = new Vector3(1, 1, 0);
 
-            GameObject mailbox = makeQuad(1, true);
-            mailbox.transform.localPosition = new Vector3(-1, -2.5f, 0);
-            mailbox.GetComponent<BoxCollider2D>().offset = new Vector2(0, .25f);
-            mailbox.GetComponent<BoxCollider2D>().size = new Vector2(.5f, .5f);
+            Mailbox mailbox = (new GameObject()).AddComponent<Mailbox>();
+            mailbox.init(this);
             gameObject.name = "Plot: House";
         }
         else if (type == 2) // plot without a house
         {
-            GameObject scenery = makeQuad(2, false);
+            PlotModel scenery = makeModel(1);
             scenery.transform.localPosition = Vector3.zero;
-            scenery.transform.localScale = new Vector3(6,6,0);
+            scenery.transform.localScale = new Vector3(1,1,0);
             gameObject.name = "Plot: Scenery";
         }
 
@@ -63,26 +62,12 @@ public class Plot : MonoBehaviour {
         }
 	}
 
-    private GameObject makeQuad(int type, bool hasCollider) // type here refers to which quad
+    //this method formerly was much longer so it made more sense... we can probably eliminate it
+    private PlotModel makeModel(int type) // type here refers to which quad
     {
-        //quad for scenery (e.g. fences, fields, corn on lvl 1)
-        var sceneryObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
-
-        if (hasCollider)
-        {
-            MeshCollider colid2 = sceneryObject.GetComponent<MeshCollider>();
-            DestroyImmediate(colid2);
-            BoxCollider2D box2 = sceneryObject.AddComponent<BoxCollider2D>();
-            Rigidbody2D rig2 = sceneryObject.AddComponent<Rigidbody2D>(); //needed?
-            sceneryObject.SetActive(true);
-
-            rig2.isKinematic = true;
-            box2.isTrigger = true;
-            box2.size = new Vector2(1, 1);
-        }
-        model = sceneryObject.AddComponent<PlotModel>();
+        PlotModel model = (new GameObject()).AddComponent<PlotModel>();
+        SpriteRenderer sr = model.gameObject.AddComponent<SpriteRenderer>();
         model.init(type, this);
-        model.tag = "mailbox";
-        return sceneryObject;
+        return model;
     }
 }
