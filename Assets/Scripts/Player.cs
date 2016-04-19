@@ -8,10 +8,11 @@ public class Player : MonoBehaviour {
     private Vector3 deltaPos;
     public int hp = 3;
 	public int maxhp = 3;
+    public int papers = 25;
     public LevelManager lm = null;
 
-    private Vector2 collOffset = new Vector2(0f, -0.8f);
-    private Vector2 collSize = new Vector2(3.5f, 0.65f);
+    private Vector2 collOffset = new Vector2(0f, -0.42f);
+    private Vector2 collSize = new Vector2(0.9f, 0.065f);
 
     private float paperCooldownClock;
 	private float healthCooldownClock = 0f;
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour {
     */
 	void Start () {
         gameObject.tag = "player";
-        transform.localScale = new Vector3(0.4f, 0.4f, 1f);
+        transform.localScale = new Vector3(2f, 2f, 1f);
 
         gameObject.AddComponent<SpriteRenderer>();
         sr = gameObject.GetComponent<SpriteRenderer>();
@@ -67,11 +68,7 @@ public class Player : MonoBehaviour {
         if (transform.position.y > lm.boundUp)
             transform.position = new Vector2(transform.position.x, lm.boundUp);
 
-<<<<<<< HEAD
 		if (Input.GetKey(KeyCode.LeftArrow))
-=======
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
->>>>>>> master
             shoot(Vector2.left);
         if (Input.GetKey(KeyCode.RightArrow))
             shoot(Vector2.right);
@@ -85,19 +82,20 @@ public class Player : MonoBehaviour {
     }
 
     void shoot(Vector2 dir) {
-        if (paperCooldownClock > 0) return;
+		if ((paperCooldownClock > 0) || (papers < 1)) return;
         Newspaper paper = (new GameObject()).AddComponent<Newspaper>();
         paper.transform.position = this.transform.position;
         paper.name = "Paper";
         paper.init(dir, throwSpeed, deltaPos/Time.deltaTime/4);
-        paperCooldownClock = 0.5f;
+		paperCooldownClock = 0.5f;
+        papers -= 1;
     }
 
     public void hurt()
     {
         hp--;
-		lm.aggro -= 1;
 		healthCooldownClock = 2f;
+		lm.reduceAggro (3);
         if (hp == 0) Destroy(this.gameObject);
     }
 

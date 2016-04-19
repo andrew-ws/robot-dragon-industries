@@ -4,15 +4,16 @@ using System.Collections;
 public class Projectile : MonoBehaviour {
 
     public Vector3 velocity = Vector3.zero;
-    public float timeAlive = 5f;
+    public float timeAlive = 20f;
     public float clock = 0f;
 
-    protected CircleCollider2D coll;
+    protected BoxCollider2D coll;
     protected Rigidbody2D rb;
-    protected SpriteRenderer sr;
+    public SpriteRenderer sr;
 
     void Start() {
         initComponents();
+        coll.size = new Vector2(1.8f, 0.18f);
     }
 
     /*
@@ -23,13 +24,11 @@ public class Projectile : MonoBehaviour {
     */
     protected void initComponents()
     {
-        coll = gameObject.AddComponent<CircleCollider2D>();
+        coll = gameObject.AddComponent<BoxCollider2D>();
         coll.isTrigger = true;
 
         rb = gameObject.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0;
-
-        sr = gameObject.AddComponent<SpriteRenderer>();
     }
     
     // initVel is relative to the camera
@@ -53,5 +52,20 @@ public class Projectile : MonoBehaviour {
         clock += Time.deltaTime;
 
         // TODO: make air resistance a thing?
+    }
+
+    public void setSprite(string spriteName)
+    {
+        sr = gameObject.AddComponent<SpriteRenderer>();
+        sr.sprite = Resources.Load<Sprite>(spriteName);
+    }
+
+    public void OnTriggerEnter2D(Collider2D coll) {
+        if (coll.gameObject.CompareTag("player"))
+        {
+            Player p = coll.gameObject.GetComponent<Player>();
+            p.hurt();
+            Destroy(gameObject);
+        }
     }
 }

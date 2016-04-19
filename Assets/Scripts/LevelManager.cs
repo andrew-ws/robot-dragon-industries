@@ -19,10 +19,10 @@ public class LevelManager : MonoBehaviour {
     private float plotClock;
     private float sceneryClock;
 
-    public float cowOddsBase = 20f;
-    public float cowOddsPerAggro = 2f;
-    public float farmerOddsBase = 15f;
-    public float farmerOddsPerAggro = 2f;
+    public float cowOddsBase = 14f;
+    public float cowOddsPerAggro = 1.5f;
+    public float farmerOddsBase = 10f;
+    public float farmerOddsPerAggro = 1.5f;
 
     public Player player;
 	public GameManager manager;
@@ -36,11 +36,13 @@ public class LevelManager : MonoBehaviour {
     public bool dropped = false;
 
     public float aggroLossTimer = 0f;
-    public const float aggroLossTime = 3f;
+    public const float aggroLossTime = 6f;
 
-    public int thresholdAggro = 15;
-    public float thresholdTime = 3f;
+    public int thresholdAggro = 10;
+    public float thresholdTime;
     public float thresholdClock = 0f;
+	public float BPM = 189f;
+	public float measureLength;
 
     public float bgSpeed = 2f;
 
@@ -51,6 +53,10 @@ public class LevelManager : MonoBehaviour {
     private GameObject sceneryFolder;
     
     public int totalMoney = 0;
+
+    private GUIStyle style;
+
+    private float bundleClock = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -88,6 +94,14 @@ public class LevelManager : MonoBehaviour {
         sceneryFolder.name = "Scenery";
         plotFolder = new GameObject();
         plotFolder.name = "Plots";
+
+		// Music
+		measureLength = (4f * 60f) / BPM;
+		thresholdTime = measureLength;// may be redundant
+
+        style = new GUIStyle();
+        style.fontSize = 20;
+        style.normal.textColor = Color.white;
     }
 
     /*
@@ -111,6 +125,7 @@ public class LevelManager : MonoBehaviour {
 
         plotClock += Time.deltaTime;
         sceneryClock += Time.deltaTime;
+        bundleClock += Time.deltaTime;
         System.Random rnd = new System.Random();
 
         if (plotClock >= 3) // should happen every 6 secs, we need to scale this to how fast everything is moving
@@ -123,6 +138,12 @@ public class LevelManager : MonoBehaviour {
             sceneryClock = 0 + Time.deltaTime;
             spawnLine();
             spawnSidewalk();
+        }
+        if (bundleClock >= 30)
+        {
+            Bundle bundle = (new GameObject()).AddComponent<Bundle>();
+            bundle.init(this);
+            bundleClock = 0f;
         }
         manageAggro();
         spawnCows();
@@ -186,21 +207,24 @@ public class LevelManager : MonoBehaviour {
 
     public void hitAggro(int aggroAdd)
     {
+        print("ahhhhh");
         aggro += aggroAdd;
         if (aggro > capAggro) aggro = capAggro;
     }
 
     private void manageAggro()
     {
-        if (aggro >= thresholdAggro)
-        {
-            thresholdClock += Time.deltaTime;
-			this.drop ();
-        }
-		if (aggro < thresholdAggro && manager.dropped == true) {
-			this.undrop ();
-		}
+        thresholdClock += Time.deltaTime;
         
+		// Checking to see if the measure is up, for dropping and undropping
+		if (thresholdClock > thresholdTime)
+        {
+			if (aggro >= thresholdAggro && !dropped) 
+				dropped = true;
+			if (aggro < thresholdAggro && dropped)
+				dropped = false;
+			thresholdClock = 0;
+        }
         aggroLossTimer += Time.deltaTime;
         if (aggro < baseAggro) aggro = baseAggro;
         if (aggro > baseAggro && aggroLossTimer > aggroLossTime)
@@ -212,12 +236,20 @@ public class LevelManager : MonoBehaviour {
         float place = Random.value * rdHeight - rdHeight / 2;
         Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
         float chance = cowOddsBase + aggro * cowOddsPerAggro;
+        
         if (chance * Time.deltaTime > Random.value * 100)
         {
+            GameObject go = new GameObject();
+            go.transform.position = spawnPt;
+            Cow cow = go.AddComponent<Cow>();
             if (dropped)
-                Instantiate(madCow, spawnPt, Quaternion.identity);
+            {
+                cow.init(this, true);
+            }
             else
-                Instantiate(cow, spawnPt, Quaternion.identity);
+            {
+                cow.init(this, false);
+            }
         }
     }
 
@@ -227,18 +259,22 @@ public class LevelManager : MonoBehaviour {
         float chance = farmerOddsBase + aggro * farmerOddsPerAggro;
         if (chance * Time.deltaTime > Random.value * 100)
         {
+            GameObject go = new GameObject();
+            go.transform.position = spawnPt;
+            Farmer farmer = go.AddComponent<Farmer>();
             if (dropped)
-                Instantiate(angryFarmer, spawnPt, Quaternion.identity);
+                farmer.init(this, true);
             else
-                Instantiate(farmer, spawnPt, Quaternion.identity);
+                farmer.init(this, false);
         }
     }
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney);
-		GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro);
-        GUI.Label(new Rect(0, 0, 110, 50), "Money per paper: " + (aggro * 50));
+        GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro, style);
+        GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney, style);
+        GUI.Label(new Rect(25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
+        GUI.Label(new Rect(25, 25, 110, 50), "Money per paper: " + (aggro * 50), style);
     }
 
     public void drop()
@@ -248,6 +284,10 @@ public class LevelManager : MonoBehaviour {
 
 	public void undrop() {
 		dropped = false;
+	}
+
+	public void reduceAggro(int reduce) {
+		aggro -= reduce;
 	}
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
