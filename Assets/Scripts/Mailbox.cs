@@ -28,8 +28,8 @@ public class Mailbox : MonoBehaviour {
 
         transform.localScale = new Vector3(1, 1, 1);
         transform.localPosition = new Vector3(Random.Range(-2.5f, 2.5f), -2.5f, 1);
-        GetComponent<BoxCollider2D>().offset = new Vector2(0, .25f);
-        GetComponent<BoxCollider2D>().size = new Vector2(.5f, .5f);
+        coll.offset = new Vector2(0, .25f);
+        coll.size = new Vector2(.5f, .5f);
 
         boxtype = Random.Range(1, 3);
         sr.sprite = Resources.Load<Sprite>("Sprites/mailbox" + boxtype + "open");
