@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour {
 
     void Start() {
         initComponents();
+        transform.localScale = new Vector3(0.15f, 0.15f, 1);
     }
 
     /*
@@ -28,8 +29,6 @@ public class Projectile : MonoBehaviour {
 
         rb = gameObject.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0;
-
-        sr = gameObject.AddComponent<SpriteRenderer>();
     }
     
     // initVel is relative to the camera
@@ -53,5 +52,20 @@ public class Projectile : MonoBehaviour {
         clock += Time.deltaTime;
 
         // TODO: make air resistance a thing?
+    }
+
+    public void setSprite(string spriteName)
+    {
+        sr = gameObject.AddComponent<SpriteRenderer>();
+        sr.sprite = Resources.Load<Sprite>(spriteName);
+    }
+
+    public void OnTriggerEnter2D(Collider2D coll) {
+        if (coll.gameObject.CompareTag("player"))
+        {
+            Player p = coll.gameObject.GetComponent<Player>();
+            p.hurt();
+            Destroy(gameObject);
+        }
     }
 }

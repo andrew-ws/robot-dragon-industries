@@ -8,6 +8,7 @@ public class Newspaper : Projectile
         gameObject.tag = "paper";
         initComponents();
         transform.localScale = new Vector3(0.15f, 0.15f, 1);
+        sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/paper");
         coll.radius = 0.18f;
     }
@@ -17,5 +18,7 @@ public class Newspaper : Projectile
         move();
         transform.eulerAngles = new Vector3(0, 0, 360 * clock * 2);
     }
+
+    public new void OnTriggerEnter2D(Collider2D coll) { }
 
 }

@@ -51,6 +51,7 @@ public class Cow : Enemy {
         {
             if (stunClock > stunTime) {
                 stunned = false;
+                stunClock = 0f;
                 makeAngry();
                 if (Random.value * 100 < 50)
                     velocity = Vector2.up * wanderSpeed;
@@ -65,11 +66,12 @@ public class Cow : Enemy {
 
         if (isAngry && !charging && Mathf.Abs(transform.position.y -
             lm.player.transform.position.y) < cowVision &&
-            transform.position.x < (LevelManager.rdWidth/2 - chargeGate))
+            transform.position.x < (LevelManager.rdWidth/2 - chargeGate) &&
+            transform.position.x >= lm.player.transform.position.x)
         {
-            velocity = new Vector3(-chargeSpeed, 0, 0);
             charging = true;
         }
+        if (charging) velocity = new Vector3(-chargeSpeed, 0, 0);
 	}
 
     protected override void onHit()

@@ -8,11 +8,15 @@ public class Farmer : Enemy {
     public SpriteRenderer sr;
     public BoxCollider2D coll;
 
-    public float chaseSpeed = 2f;
+    public float chaseSpeed = 1.5f;
     public float wanderSpeed = 0.5f;
 
     public float switchDirectionOddsX = 15f;
-    public float switchDirectionOddsY = 15f ;
+    public float switchDirectionOddsY = 15f;
+
+    public float forkSpeed = 3f;
+    private bool thrown = false;
+    public float throwThreshold;
 
     // Use this for initialization
     void Start () {
@@ -32,6 +36,8 @@ public class Farmer : Enemy {
             velocity = (Vector2.down + Vector2.left).normalized * wanderSpeed;
         else
             velocity = (Vector2.down + Vector2.right).normalized * wanderSpeed;
+
+        throwThreshold = lm.boundLeft * 2 / 3;
     }
 	
 	// Update is called once per frame
@@ -50,12 +56,19 @@ public class Farmer : Enemy {
 
         Vector2 diff = lm.player.transform.position - this.transform.position;
         if (isAngry) velocity = diff.normalized * chaseSpeed;
+        if (isAngry && !stunned && !thrown && transform.position.x < 
+            throwThreshold)
+        {
+            thrown = true;
+            throwFork();
+        } 
         if (stunned)
         {
             if (stunClock > stunTime)
             {
                 stunned = false;
-                if (!isAngry) makeAngry();
+                makeAngry();
+                stunClock = 0f;
             }
             else velocity = Vector2.zero;
             stunClock += Time.deltaTime;
@@ -65,18 +78,30 @@ public class Farmer : Enemy {
             *Time.deltaTime;
     }
 
+    private void throwFork()
+    {
+        GameObject go = new GameObject();
+        Projectile fork = go.AddComponent<Projectile>();
+        fork.velocity = Vector3.right * forkSpeed;
+        fork.transform.position = this.transform.position;
+        fork.init(Vector3.right, forkSpeed, lm.bgSpeed * Vector3.left);
+        fork.name = "Pitchfork";
+        fork.setSprite("Sprites/pitchfork");
+    }
+
     protected override void onHit()
     {
         // stun code
         velocity = Vector2.zero;
         // set sprites to stun
+        sr.color = Color.blue;
         stunned = true;
-        makeAngry();
     }
 
     protected override void makeAngry()
     {
         isAngry = true;
+        sr.color = Color.red;
         // change sprite
     }
 }
