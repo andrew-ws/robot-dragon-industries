@@ -14,7 +14,7 @@ public class Farmer : Enemy {
     public float switchDirectionOddsX = 15f;
     public float switchDirectionOddsY = 15f;
 
-    public float forkSpeed = 5f;
+    public float forkSpeed = 6f;
     private bool thrown = false;
     public float throwThreshold;
 

@@ -19,10 +19,10 @@ public class LevelManager : MonoBehaviour {
     private float plotClock;
     private float sceneryClock;
 
-    public float cowOddsBase = 20f;
-    public float cowOddsPerAggro = 2f;
-    public float farmerOddsBase = 15f;
-    public float farmerOddsPerAggro = 2f;
+    public float cowOddsBase = 14f;
+    public float cowOddsPerAggro = 1.5f;
+    public float farmerOddsBase = 10f;
+    public float farmerOddsPerAggro = 1.5f;
 
     public Player player;
 	public GameManager manager;
@@ -36,9 +36,9 @@ public class LevelManager : MonoBehaviour {
     public bool dropped = false;
 
     public float aggroLossTimer = 0f;
-    public const float aggroLossTime = 3f;
+    public const float aggroLossTime = 6f;
 
-    public int thresholdAggro = 15;
+    public int thresholdAggro = 10;
     public float thresholdTime;
     public float thresholdClock = 0f;
 	public float BPM = 189f;
