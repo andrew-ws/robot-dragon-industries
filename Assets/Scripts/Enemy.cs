@@ -10,6 +10,9 @@ public abstract class Enemy : MonoBehaviour {
     protected float stunClock = 0f;
     protected float stunTime = 2f;
 
+    protected float timeAlive = 40f;
+    protected float clock = 0f;
+
     public LevelManager lm;
 
 	public void OnTriggerEnter2D(Collider2D coll)
@@ -21,14 +24,15 @@ public abstract class Enemy : MonoBehaviour {
         {
             onHit();
             other.GetComponent<Player>().hurt();
+            if (!stunned) lm.hitAggro(aggroAdd);
         }
         else if (other.CompareTag("paper"))
         {
             Destroy(other);
             onHit();
+            if (!stunned) lm.hitAggro(aggroAdd);
         }
         // TODO: I guess aggro has to build when hitting an angry enemy?
-        if (!stunned) lm.hitAggro(aggroAdd);
     }
 
     public void init(LevelManager lm, bool isAngry)

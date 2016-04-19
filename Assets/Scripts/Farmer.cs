@@ -76,6 +76,9 @@ public class Farmer : Enemy {
 
         this.transform.position += (velocity + lm.bgSpeed * Vector3.left)
             *Time.deltaTime;
+
+        clock += Time.deltaTime;
+        if (clock > timeAlive) Destroy(gameObject);
     }
 
     private void throwFork()
@@ -87,6 +90,7 @@ public class Farmer : Enemy {
         fork.init(Vector3.right, forkSpeed, lm.bgSpeed * Vector3.left);
         fork.name = "Pitchfork";
         fork.setSprite("Sprites/pitchfork");
+        fork.sr.flipX = true;
     }
 
     protected override void onHit()

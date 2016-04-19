@@ -10,7 +10,7 @@ public class Newspaper : Projectile
         transform.localScale = new Vector3(0.15f, 0.15f, 1);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/paper");
-        coll.radius = 0.18f;
+        coll.size = new Vector2(3.6f, 1.4f);
     }
 
     void Update()

@@ -4,16 +4,16 @@ using System.Collections;
 public class Projectile : MonoBehaviour {
 
     public Vector3 velocity = Vector3.zero;
-    public float timeAlive = 5f;
+    public float timeAlive = 20f;
     public float clock = 0f;
 
-    protected CircleCollider2D coll;
+    protected BoxCollider2D coll;
     protected Rigidbody2D rb;
-    protected SpriteRenderer sr;
+    public SpriteRenderer sr;
 
     void Start() {
         initComponents();
-        transform.localScale = new Vector3(0.15f, 0.15f, 1);
+        coll.size = new Vector2(1.8f, 0.18f);
     }
 
     /*
@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour {
     */
     protected void initComponents()
     {
-        coll = gameObject.AddComponent<CircleCollider2D>();
+        coll = gameObject.AddComponent<BoxCollider2D>();
         coll.isTrigger = true;
 
         rb = gameObject.AddComponent<Rigidbody2D>();

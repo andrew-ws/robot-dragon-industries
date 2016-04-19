@@ -72,7 +72,10 @@ public class Cow : Enemy {
             charging = true;
         }
         if (charging) velocity = new Vector3(-chargeSpeed, 0, 0);
-	}
+
+        clock += Time.deltaTime;
+        if (clock > timeAlive) Destroy(gameObject);
+    }
 
     protected override void onHit()
     {
