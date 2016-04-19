@@ -19,10 +19,10 @@ public class LevelManager : MonoBehaviour {
     private float plotClock;
     private float sceneryClock;
 
-    public float cowOddsBase = 20f;
-    public float cowOddsPerAggro = 2f;
-    public float farmerOddsBase = 15f;
-    public float farmerOddsPerAggro = 2f;
+    public float cowOddsBase = 14f;
+    public float cowOddsPerAggro = 1.5f;
+    public float farmerOddsBase = 10f;
+    public float farmerOddsPerAggro = 1.5f;
 
     public Player player;
 	public GameManager manager;
