@@ -36,9 +36,9 @@ public class LevelManager : MonoBehaviour {
     public bool dropped = false;
 
     public float aggroLossTimer = 0f;
-    public const float aggroLossTime = 3f;
+    public const float aggroLossTime = 6f;
 
-    public int thresholdAggro = 15;
+    public int thresholdAggro = 10;
     public float thresholdTime;
     public float thresholdClock = 0f;
 	public float BPM = 189f;
