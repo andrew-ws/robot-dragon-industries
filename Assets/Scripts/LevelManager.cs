@@ -56,6 +56,8 @@ public class LevelManager : MonoBehaviour {
 
     private GUIStyle style;
 
+    private float bundleClock = 0f;
+
 	// Use this for initialization
 	void Start () {
         this.transform.position = Vector3.zero;
@@ -123,6 +125,7 @@ public class LevelManager : MonoBehaviour {
 
         plotClock += Time.deltaTime;
         sceneryClock += Time.deltaTime;
+        bundleClock += Time.deltaTime;
         System.Random rnd = new System.Random();
 
         if (plotClock >= 3) // should happen every 6 secs, we need to scale this to how fast everything is moving
@@ -135,6 +138,12 @@ public class LevelManager : MonoBehaviour {
             sceneryClock = 0 + Time.deltaTime;
             spawnLine();
             spawnSidewalk();
+        }
+        if (bundleClock >= 30)
+        {
+            Bundle bundle = (new GameObject()).AddComponent<Bundle>();
+            bundle.init(this);
+            bundleClock = 0f;
         }
         manageAggro();
         spawnCows();
