@@ -82,7 +82,6 @@ public class GameManager : MonoBehaviour {
 	public void undrop() {
 		dropped = false;
 		drums.TransitionTo (0.01f);
-		lm. ();
+		lm.undrop ();
 	}
->>>>>>> master
 }

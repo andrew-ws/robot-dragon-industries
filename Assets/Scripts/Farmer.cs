@@ -20,7 +20,7 @@ public class Farmer : Enemy {
 
     // Use this for initialization
     void Start () {
-        aggroAdd = 2;
+        aggroAdd = 3;
         this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/farmer");

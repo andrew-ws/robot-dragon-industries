@@ -30,13 +30,13 @@ public class LevelManager : MonoBehaviour {
 	// that is attached to it
 
     public int aggro = 1;
-    public int capAggro = 30;
+    public int capAggro = 20;
     public int baseAggro = 1;
     //public bool readyForDrop = false;
     public bool dropped = false;
 
     public float aggroLossTimer = 0f;
-    public const float aggroLossTime = 6f;
+    public const float aggroLossTime = 15f;
 
     public int thresholdAggro = 10;
     public float thresholdTime;
@@ -273,6 +273,7 @@ public class LevelManager : MonoBehaviour {
     {
         GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro, style);
         GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney, style);
+		GUI.Label(new Rect(Screen.width - 110, Screen.height - 150, 150, 50), "Health: " + player.hp, style);
         GUI.Label(new Rect(25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
         GUI.Label(new Rect(25, 25, 110, 50), "Money per paper: " + (aggro * 50), style);
     }

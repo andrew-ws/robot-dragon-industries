@@ -95,7 +95,9 @@ public class Player : MonoBehaviour {
     {
         hp--;
 		healthCooldownClock = 2f;
-		lm.reduceAggro (3);
+		if (lm.aggro > lm.thresholdAggro) {
+			lm.reduceAggro (3);
+		}
         if (hp == 0) Destroy(this.gameObject);
     }
 
@@ -106,10 +108,5 @@ public class Player : MonoBehaviour {
 			healthCooldownClock = 2f;
 		}
 	}
-
-	// TEMPORARY
-	void OnGUI() {
-		GUI.Label(new Rect(Screen.width - 110, Screen.height - 200, 150, 50), "Health: " + hp);
-	}
-
+		
 }
