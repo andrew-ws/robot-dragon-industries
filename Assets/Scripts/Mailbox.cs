@@ -1,0 +1,55 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class Mailbox : MonoBehaviour {
+
+    public float clock = 0f;
+    public int boxtype; // which sprite to use
+    public bool open = true; // whether the mailbox is open
+    public Plot plot;
+    protected BoxCollider2D coll;
+    protected Rigidbody2D rb;
+    protected SpriteRenderer sr;
+
+    // initVel is relative to the camera
+    public void init(Plot plot)
+    {
+        this.plot = plot;
+
+        transform.parent = plot.transform;
+
+        coll = gameObject.AddComponent<BoxCollider2D>();
+        coll.isTrigger = true;
+
+        rb = gameObject.AddComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
+
+        sr = gameObject.AddComponent<SpriteRenderer>();
+
+        transform.localScale = new Vector3(1, 1, 1);
+
+        boxtype = Random.Range(1, 3);
+        sr.sprite = Resources.Load<Sprite>("Sprites/mailbox" + boxtype + "open");
+
+        gameObject.name = "Mailbox";
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (open)
+        {
+            if (!other.gameObject.CompareTag("paper")) return;
+            Destroy(other.gameObject);
+            plot.manager.totalMoney += plot.manager.aggro * 50;
+            plot.manager.reduceAggro(1); // TODO: test aggro reduction levels
+            sr.sprite = Resources.Load<Sprite>("Sprites/mailbox" + boxtype + "closed");
+            open = false;
+        }
+    }
+}

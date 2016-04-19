@@ -54,6 +54,8 @@ public class LevelManager : MonoBehaviour {
     
     public int totalMoney = 0;
 
+    private GUIStyle style;
+
 	// Use this for initialization
 	void Start () {
         this.transform.position = Vector3.zero;
@@ -94,6 +96,10 @@ public class LevelManager : MonoBehaviour {
 		// Music
 		measureLength = (4f * 60f) / BPM;
 		thresholdTime = measureLength;// may be redundant
+
+        style = new GUIStyle();
+        style.fontSize = 20;
+        style.normal.textColor = Color.white;
     }
 
     /*
@@ -244,9 +250,10 @@ public class LevelManager : MonoBehaviour {
 
     void OnGUI()
     {
-		GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro);
-        GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney);
-        GUI.Label(new Rect(0, 0, 110, 50), "Money per paper: " + (aggro * 50));
+        GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro, style);
+        GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney, style);
+        GUI.Label(new Rect(25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
+        GUI.Label(new Rect(25, 25, 110, 50), "Money per paper: " + (aggro * 50), style);
     }
 
     public void drop()

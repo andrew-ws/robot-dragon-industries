@@ -15,28 +15,18 @@ public class PlotModel : MonoBehaviour {
 
         transform.parent = owner.transform;
 
-        System.Random rnd = new System.Random();
-
         mat = GetComponent<Renderer>().material;
         mat.shader = Shader.Find("Sprites/Default");
         mat.color = new Color(1, 1, 1);
 
         if (type == 0)
         {
-            mat.mainTexture = Resources.Load<Texture2D>("Sprites/house" + rnd.Next(1,3));
+            mat.mainTexture = Resources.Load<Texture2D>("Sprites/house" + Random.Range(1,2));
             transform.localPosition = new Vector3(0, 0, 0);
             //gameObject.tag = "house";
             gameObject.name = "house";
         }
         else if (type == 1)
-        {
-            boxNum = rnd.Next(1, 4);
-            mat.mainTexture = Resources.Load<Texture2D>("Sprites/mailbox"+ boxNum + "open");
-            transform.localPosition = new Vector3(0, 0, 0);
-            //gameObject.tag = "mailbox";
-            gameObject.name = "mailbox";
-        }
-        else if (type == 2)
         {
             mat.mainTexture = Resources.Load<Texture2D>("Sprites/fenceWood1");
             transform.localPosition = new Vector3(0, 0, 0);

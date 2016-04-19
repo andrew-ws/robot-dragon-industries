@@ -7,6 +7,7 @@ public class Plot : MonoBehaviour {
     private float size; // size of plot in unity units
     private float speed; // rate a which it passes the player
     private PlotModel model; // model containing all sprites
+    public Mailbox mailbox;
     public LevelManager manager; // easy reference?
 
     public void init(int type, LevelManager manager)
@@ -21,19 +22,21 @@ public class Plot : MonoBehaviour {
 
         if (type == 1) // plot with a house
         {
-            GameObject house = makeQuad(0, false);
+            GameObject house = makeQuad(0);
             house.transform.localPosition = new Vector3(0, 0, 1);
             house.transform.localScale = new Vector3(5, 5, 0);
 
-            GameObject mailbox = makeQuad(1, true);
-            mailbox.transform.localPosition = new Vector3(-1, -2.5f, 0);
+
+            Mailbox mailbox = (new GameObject()).AddComponent<Mailbox>();
+            mailbox.init(this);
+            mailbox.transform.localPosition = new Vector3(Random.Range(-2.5f, 2.5f), -2.5f, 1);
             mailbox.GetComponent<BoxCollider2D>().offset = new Vector2(0, .25f);
             mailbox.GetComponent<BoxCollider2D>().size = new Vector2(.5f, .5f);
             gameObject.name = "Plot: House";
         }
         else if (type == 2) // plot without a house
         {
-            GameObject scenery = makeQuad(2, false);
+            GameObject scenery = makeQuad(1);
             scenery.transform.localPosition = Vector3.zero;
             scenery.transform.localScale = new Vector3(6,6,0);
             gameObject.name = "Plot: Scenery";
@@ -63,23 +66,11 @@ public class Plot : MonoBehaviour {
         }
 	}
 
-    private GameObject makeQuad(int type, bool hasCollider) // type here refers to which quad
+    private GameObject makeQuad(int type) // type here refers to which quad
     {
         //quad for scenery (e.g. fences, fields, corn on lvl 1)
         var sceneryObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 
-        if (hasCollider)
-        {
-            MeshCollider colid2 = sceneryObject.GetComponent<MeshCollider>();
-            DestroyImmediate(colid2);
-            BoxCollider2D box2 = sceneryObject.AddComponent<BoxCollider2D>();
-            Rigidbody2D rig2 = sceneryObject.AddComponent<Rigidbody2D>(); //needed?
-            sceneryObject.SetActive(true);
-
-            rig2.isKinematic = true;
-            box2.isTrigger = true;
-            box2.size = new Vector2(1, 1);
-        }
         model = sceneryObject.AddComponent<PlotModel>();
         model.init(type, this);
         model.tag = "mailbox";
