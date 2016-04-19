@@ -22,23 +22,19 @@ public class Plot : MonoBehaviour {
 
         if (type == 1) // plot with a house
         {
-            GameObject house = makeQuad(0);
-            house.transform.localPosition = new Vector3(0, 0, 1);
-            house.transform.localScale = new Vector3(5, 5, 0);
-
+            PlotModel house = makeModel(0);
+            house.transform.localPosition = new Vector3(0, 0, 1.5f);
+            house.transform.localScale = new Vector3(1, 1, 0);
 
             Mailbox mailbox = (new GameObject()).AddComponent<Mailbox>();
             mailbox.init(this);
-            mailbox.transform.localPosition = new Vector3(Random.Range(-2.5f, 2.5f), -2.5f, 1);
-            mailbox.GetComponent<BoxCollider2D>().offset = new Vector2(0, .25f);
-            mailbox.GetComponent<BoxCollider2D>().size = new Vector2(.5f, .5f);
             gameObject.name = "Plot: House";
         }
         else if (type == 2) // plot without a house
         {
-            GameObject scenery = makeQuad(1);
+            PlotModel scenery = makeModel(1);
             scenery.transform.localPosition = Vector3.zero;
-            scenery.transform.localScale = new Vector3(6,6,0);
+            scenery.transform.localScale = new Vector3(1,1,0);
             gameObject.name = "Plot: Scenery";
         }
 
@@ -66,14 +62,12 @@ public class Plot : MonoBehaviour {
         }
 	}
 
-    private GameObject makeQuad(int type) // type here refers to which quad
+    //this method formerly was much longer so it made more sense... we can probably eliminate it
+    private PlotModel makeModel(int type) // type here refers to which quad
     {
-        //quad for scenery (e.g. fences, fields, corn on lvl 1)
-        var sceneryObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
-
-        model = sceneryObject.AddComponent<PlotModel>();
+        PlotModel model = (new GameObject()).AddComponent<PlotModel>();
+        SpriteRenderer sr = model.gameObject.AddComponent<SpriteRenderer>();
         model.init(type, this);
-        model.tag = "mailbox";
-        return sceneryObject;
+        return model;
     }
 }
