@@ -220,12 +220,20 @@ public class LevelManager : MonoBehaviour {
         float place = Random.value * rdHeight - rdHeight / 2;
         Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
         float chance = cowOddsBase + aggro * cowOddsPerAggro;
+        
         if (chance * Time.deltaTime > Random.value * 100)
         {
+            GameObject go = new GameObject();
+            go.transform.position = spawnPt;
+            Cow cow = go.AddComponent<Cow>();
             if (dropped)
-                Instantiate(madCow, spawnPt, Quaternion.identity);
+            {
+                cow.init(this, true);
+            }
             else
-                Instantiate(cow, spawnPt, Quaternion.identity);
+            {
+                cow.init(this, false);
+            }
         }
     }
 
@@ -235,10 +243,13 @@ public class LevelManager : MonoBehaviour {
         float chance = farmerOddsBase + aggro * farmerOddsPerAggro;
         if (chance * Time.deltaTime > Random.value * 100)
         {
+            GameObject go = new GameObject();
+            go.transform.position = spawnPt;
+            Farmer farmer = go.AddComponent<Farmer>();
             if (dropped)
-                Instantiate(angryFarmer, spawnPt, Quaternion.identity);
+                farmer.init(this, true);
             else
-                Instantiate(farmer, spawnPt, Quaternion.identity);
+                farmer.init(this, false);
         }
     }
 
