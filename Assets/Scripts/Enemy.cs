@@ -24,7 +24,7 @@ public abstract class Enemy : MonoBehaviour {
         {
             if (!stunned) lm.hitAggro(aggroAdd);
             onHit();
-            //other.GetComponent<Player>().hurt();
+            other.GetComponent<Player>().hurt();
         }
         else if (other.CompareTag("paper"))
         {
