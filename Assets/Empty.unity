@@ -215,11 +215,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lm: {fileID: 0}
-  music: {fileID: 1297920854}
-  sfx: {fileID: 1297920851}
-  nonintense: {fileID: 24500003, guid: 36c30c3f547997541a11bee3b064b520, type: 2}
-  drums: {fileID: 24518616, guid: 36c30c3f547997541a11bee3b064b520, type: 2}
-  intense: {fileID: 24511500, guid: 36c30c3f547997541a11bee3b064b520, type: 2}
+  sources: []
+  master: {fileID: 0}
+  nonintense_mixer: {fileID: 0}
+  nonintense: {fileID: 0}
+  drums: {fileID: 0}
+  intense: {fileID: 0}
+  dropped: 0
 --- !u!82 &1297920851
 AudioSource:
   m_ObjectHideFlags: 0
