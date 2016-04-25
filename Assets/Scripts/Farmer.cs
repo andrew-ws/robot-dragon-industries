@@ -55,7 +55,10 @@ public class Farmer : Enemy {
                 velocity = Vector2.up * wanderSpeed;
         }
 
-        Vector2 diff = lm.player.transform.position - this.transform.position;
+		Vector2 diff = new Vector2();
+		if (lm.player.hp > 0) {
+			diff = lm.player.transform.position - this.transform.position;
+		}
         if (isAngry) velocity = diff.normalized * chaseSpeed;
         if (isAngry && !stunned && !thrown && transform.position.x < 
             throwThreshold)
