@@ -280,8 +280,9 @@ public class LevelManager : MonoBehaviour {
 			GUI.Label (new Rect (25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
 			GUI.Label (new Rect (25, 25, 110, 50), "Money per paper: " + (aggro * 50), style);
 		} else {
-			if (GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) - 25, 200, 50), "Press R to restart")) {
-				print ("reset here"); // TODO Add actual reset
+			if ((GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) - 25, 200, 50), "Press R to restart"))
+				|| Input.GetKeyDown(KeyCode.R)) {
+				manager.resetLevel (manager.level);
 			}
 		}
     }

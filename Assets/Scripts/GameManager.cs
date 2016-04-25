@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 public class GameManager : MonoBehaviour {
 
     public LevelManager lm;
+	public int level = 1;
 
 	// Need these for accessing music objects
 	public AudioSource[] sources;
@@ -32,9 +33,9 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         GameObject go = new GameObject();
         lm = go.AddComponent<LevelManager>();
-        go.name = "Level 1 Manager";
+		go.name = "Level " + level + " Manager";
         // Passing in for accessing some music objects in the scene
-        lm.init(1, this);
+		lm.init(level, this);
 
 		manageAudio ();
 
@@ -114,5 +115,15 @@ public class GameManager : MonoBehaviour {
 		source.clip = clip;
 		source.playOnAwake = true;
 		source.loop = loop;
+	}
+
+	public void resetLevel(int level) {
+		print ("reset here"); // TODO Add actual reset
+		this.level = level;
+		// Call annihilate here
+		lm = this.gameObject.AddComponent<LevelManager>();
+		this.gameObject.name = "Level " + this.level + " Manager";
+		lm.init (level, this);
+	
 	}
 }
