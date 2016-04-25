@@ -58,6 +58,8 @@ public class LevelManager : MonoBehaviour {
 
     private float bundleClock = 0f;
 
+	public bool playerDead = false;
+
 	// Use this for initialization
 	void Start () {
         this.transform.position = Vector3.zero;
@@ -271,11 +273,15 @@ public class LevelManager : MonoBehaviour {
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro, style);
-        GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney, style);
-		GUI.Label(new Rect(Screen.width - 110, Screen.height - 150, 150, 50), "Health: " + player.hp, style);
-        GUI.Label(new Rect(25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
-        GUI.Label(new Rect(25, 25, 110, 50), "Money per paper: " + (aggro * 50), style);
+		if (!playerDead) {
+			GUI.Label (new Rect (Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro, style);
+			GUI.Label (new Rect (Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney, style);
+			GUI.Label (new Rect (Screen.width - 110, Screen.height - 150, 150, 50), "Health: " + player.hp, style);
+			GUI.Label (new Rect (25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
+			GUI.Label (new Rect (25, 25, 110, 50), "Money per paper: " + (aggro * 50), style);
+		} else {
+			GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) - 25, 200, 50), "Press R to restart");
+		}
     }
 
     public void drop()

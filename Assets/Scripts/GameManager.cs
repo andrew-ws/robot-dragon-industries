@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour {
 		if (lm.aggro > 10 && areDrums == false) {
 			drums.TransitionTo (5f);
 			areDrums = !areDrums;
-		} else if (lm.aggro <= 10 && areDrums == true) {
+		} else if (lm.aggro <= 5 && areDrums == true) {
 			areDrums = !areDrums;
 			nonintense.TransitionTo (5f);
 		}

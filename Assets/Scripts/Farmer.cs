@@ -101,7 +101,7 @@ public class Farmer : Enemy {
     {
         // stun code
         velocity = Vector2.zero;
-        // set sprites to stun
+        // set sprites to stunt
         sr.color = Color.blue;
         stunned = true;
     }

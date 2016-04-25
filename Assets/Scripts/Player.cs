@@ -94,18 +94,21 @@ public class Player : MonoBehaviour {
     public void hurt()
     {
         hp--;
-		healthCooldownClock = 2f;
+		healthCooldownClock = 4f;
 		if (lm.aggro > lm.thresholdAggro) {
 			lm.reduceAggro (3);
 		}
-        if (hp == 0) Destroy(this.gameObject);
+		if (hp == 0) {
+			lm.playerDead = true;
+			Destroy (this.gameObject);
+		}
     }
 
 	void heal() {
 		if (lm.dropped == false && hp < maxhp) {
 			if (healthCooldownClock > 0) return;
 			hp++;
-			healthCooldownClock = 2f;
+			healthCooldownClock = 4f;
 		}
 	}
 		
