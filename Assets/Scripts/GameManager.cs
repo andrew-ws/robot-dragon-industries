@@ -24,11 +24,11 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GameObject go = new GameObject();
-        lm = go.AddComponent<LevelManager>();
-        go.name = "Level 1 Manager";
+        GameObject obj = new GameObject();
+        lm = obj.AddComponent<LevelManager>();
+        obj.name = "Level 1 Manager";
         // Passing in for accessing some music objects in the scene
-        lm.init(1, this);
+        lm.init(2, this);
 
         // Music
         /*intense_music = Resources.Load<AudioClip>("Music/Intense Loop");
@@ -83,4 +83,18 @@ public class GameManager : MonoBehaviour {
 		drums.TransitionTo (0.01f);
 		lm.undrop ();
 	}
+
+    private void startLevel(int level)
+    {
+        GameObject obj = new GameObject();
+        lm = obj.AddComponent<LevelManager>();
+        obj.name = "Level" + level + "Manager";
+        lm.init(1, this);
+    }
+
+    private void destroyLevel()
+    {
+        Destroy(lm.gameObject);
+        //probably need to do more than this
+    }
 }

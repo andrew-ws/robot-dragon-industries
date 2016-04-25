@@ -14,10 +14,8 @@ public class Scenery : MonoBehaviour {
         this.speed = speed;
         this.manager = manager;
 
-        mat = gameObject.GetComponent<Renderer>().material;
-        mat.shader = Shader.Find("Sprites/Default");
-        mat.color = new Color(1, 1, 1);
-        mat.mainTexture = Resources.Load<Texture2D>("Sprites/" + image);
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.sprite = Resources.Load<Sprite>("Sprites/" + image);
     }
 	
 	// Update is called once per frame
