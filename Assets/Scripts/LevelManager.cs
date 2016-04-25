@@ -90,7 +90,7 @@ public class LevelManager : MonoBehaviour {
         backgroundHt = rdWidth * (7f / 8f);
         backgroundy = (backgroundHt - (cam.orthographicSize * 2)) / 2 + camy;
 
-        sky = makeBackground("skyDay" + level, 3);
+        sky = makeBackground("skyDay1", 3);
         street = makeBackground("street" + level, 2);
 
         sceneryFolder = new GameObject();
