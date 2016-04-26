@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour {
         lm = obj.AddComponent<LevelManager>();
         obj.name = "Level 1 Manager";
         // Passing in for accessing some music objects in the scene
-        lm.init(1, this);
+        lm.init(2, this);
 
         // Music
         /*intense_music = Resources.Load<AudioClip>("Music/Intense Loop");
