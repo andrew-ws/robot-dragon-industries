@@ -287,7 +287,6 @@ public class LevelManager : MonoBehaviour {
         
         if (Cow.spawnClock > Cow.spawnNext)
         {
-            print(Cow.spawnNext);
             Cow.spawnClock -= Cow.spawnNext;
             GameObject go = new GameObject();
             go.transform.parent = enemyFolder.transform;
