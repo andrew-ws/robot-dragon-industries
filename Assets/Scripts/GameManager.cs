@@ -57,6 +57,9 @@ public class GameManager : MonoBehaviour {
 			areDrums = !areDrums;
 			nonintense.TransitionTo (5f);
 		}
+
+        if (Input.GetKeyDown(KeyCode.J))
+            lm.annhilate();
 	}
 
 	public void PlayMusic(AudioClip clip)
