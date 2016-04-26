@@ -63,14 +63,14 @@ public class Cow : Enemy {
 
         this.transform.position += (velocity + lm.bgSpeed * Vector3.left)
             * Time.deltaTime;
-
-        if (isAngry && !charging && Mathf.Abs(transform.position.y -
-            lm.player.transform.position.y) < cowVision &&
-            transform.position.x < (LevelManager.rdWidth/2 - chargeGate) &&
-            transform.position.x >= lm.player.transform.position.x)
-        {
-            charging = true;
-        }
+		if (lm.player.hp > 0) {
+			if (isAngry && !charging && Mathf.Abs (transform.position.y -
+			         lm.player.transform.position.y) < cowVision &&
+			         transform.position.x < (LevelManager.rdWidth / 2 - chargeGate) &&
+			         transform.position.x >= lm.player.transform.position.x) {
+				charging = true;
+			}
+		}
         if (charging) velocity = new Vector3(-chargeSpeed, 0, 0);
 
         clock += Time.deltaTime;

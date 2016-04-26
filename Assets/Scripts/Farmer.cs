@@ -20,7 +20,7 @@ public class Farmer : Enemy {
 
     // Use this for initialization
     void Start () {
-        aggroAdd = 2;
+        aggroAdd = 3;
         this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/farmer");
@@ -55,7 +55,10 @@ public class Farmer : Enemy {
                 velocity = Vector2.up * wanderSpeed;
         }
 
-        Vector2 diff = lm.player.transform.position - this.transform.position;
+		Vector2 diff = new Vector2();
+		if (lm.player.hp > 0) {
+			diff = lm.player.transform.position - this.transform.position;
+		}
         if (isAngry) velocity = diff.normalized * chaseSpeed;
         if (isAngry && !stunned && !thrown && transform.position.x < 
             throwThreshold)
@@ -85,6 +88,7 @@ public class Farmer : Enemy {
     private void throwFork()
     {
         GameObject go = new GameObject();
+        go.transform.parent = lm.projectileFolder.transform;
         Projectile fork = go.AddComponent<Projectile>();
         fork.velocity = Vector3.right * forkSpeed;
         fork.transform.position = this.transform.position;
@@ -98,7 +102,7 @@ public class Farmer : Enemy {
     {
         // stun code
         velocity = Vector2.zero;
-        // set sprites to stun
+        // set sprites to stunt
         sr.color = Color.blue;
         stunned = true;
     }
