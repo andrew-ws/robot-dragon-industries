@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour {
 		lm.init(level, this);
 
 		manageAudio ();
-
 	}
 	
 	// Update is called once per frame

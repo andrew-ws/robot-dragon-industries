@@ -3,6 +3,9 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour {
 
+    public int level;
+    public string levelName;
+
     public const float rdWidth = 16f;
     public const float rdHeight = 5f;
     public const float rdMargin = 0.5f;
@@ -44,7 +47,7 @@ public class LevelManager : MonoBehaviour {
 	public float BPM = 189f;
 	public float measureLength;
 
-    public float bgSpeed = 2f;
+    public float bgSpeed = 4f;
 
     private GameObject sky; // back-most layer of the background (probably only temporary)
     private GameObject street;
@@ -96,7 +99,7 @@ public class LevelManager : MonoBehaviour {
         backgroundy = (backgroundHt - (cam.orthographicSize * 2)) / 2 + camy;
 
         sky = makeBackground("skyDay1", 3);
-        street = makeBackground("street", 2);
+        street = makeBackground("street" + level, 2);
 
         sceneryFolder = new GameObject();
         sceneryFolder.name = "Scenery";
@@ -123,6 +126,10 @@ public class LevelManager : MonoBehaviour {
 	public void init (int whichLevel, GameManager manager)
     {
 		this.manager = manager;
+        level = whichLevel;
+        if (level == 1) { levelName = "Rural"; }
+        if (level == 2) { levelName = "Suburban"; }
+        if (level == 3) { levelName = "Urban"; }
         // setup bounding box
         // setup spawners
         // setup camera?
@@ -134,14 +141,13 @@ public class LevelManager : MonoBehaviour {
         plotClock += Time.deltaTime;
         sceneryClock += Time.deltaTime;
         bundleClock += Time.deltaTime;
-        System.Random rnd = new System.Random();
 
-        if (plotClock >= 3) // should happen every 6 secs, we need to scale this to how fast everything is moving
+        if (plotClock >= 6/bgSpeed)
         {
             plotClock = 0 + Time.deltaTime;
-            spawnPlot(rnd.Next(1, 3));
+            spawnPlot(Random.Range(1,3));
         }
-        if (sceneryClock >= (3f/4f))
+        if (sceneryClock >= (6/bgSpeed/4))
         {
             sceneryClock = 0 + Time.deltaTime;
             spawnLine();
@@ -177,34 +183,34 @@ public class LevelManager : MonoBehaviour {
 
     private void spawnSidewalk()
     {
-        var sceneryObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        Scenery tile = sceneryObject.AddComponent<Scenery>();
-        sceneryObject.transform.parent = sceneryFolder.transform;
-        sceneryObject.name = "Sidewalk";
-        tile.transform.localScale = new Vector3(rdWidth / 8f, 1, 0);
-        tile.transform.position = new Vector3(rdWidth/2f+1, 1.5f, 0);
-        tile.init("sidewalkSuburban", bgSpeed, this);
+        GameObject obj = new GameObject();
+        SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+        Scenery tile = obj.AddComponent<Scenery>();
+        obj.transform.parent = sceneryFolder.transform;
+        obj.name = "Sidewalk";
+        tile.transform.localScale = new Vector3(1, 1, 0);
+        tile.transform.position = new Vector3(rdWidth/2f+1, 1.5f, 1);
+        tile.init("sidewalk" + levelName, bgSpeed, this);
     }
 
     private void spawnLine()
     {
-        var sceneryObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        Scenery line = sceneryObject.AddComponent<Scenery>();
-        sceneryObject.transform.parent = sceneryFolder.transform;
-        sceneryObject.name = "Line";
+        GameObject obj = new GameObject();
+        SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+        Scenery line = obj.AddComponent<Scenery>();
+        obj.transform.parent = sceneryFolder.transform;
+        obj.name = "Line";
         line.transform.localScale = new Vector3(1, 1, 0);
-        line.transform.position = new Vector3(rdWidth/2f+1, -1, 0);
+        line.transform.position = new Vector3(rdWidth/2f+1, -1, 1);
         line.init("streetLine", bgSpeed, this);
     }
 
     private GameObject makeBackground(string image, int layer)
     {
-        GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        Material mat = obj.GetComponent<Renderer>().material;
-        mat.shader = Shader.Find("Sprites/Default");
-        mat.color = new Color(1, 1, 1);
-        mat.mainTexture = Resources.Load<Texture2D>("Sprites/" + image);
-        obj.transform.localScale = new Vector3(rdWidth, backgroundHt, 0);
+        GameObject obj = new GameObject();
+        SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+        sr.sprite = Resources.Load<Sprite>("Sprites/" + image);
+        obj.transform.localScale = new Vector3(1, 1, 1);
         obj.transform.position = new Vector3(0, backgroundy, layer);
 
         if (layer == 2) { obj.name = "Street"; }
@@ -215,7 +221,6 @@ public class LevelManager : MonoBehaviour {
 
     public void hitAggro(int aggroAdd)
     {
-        print("ahhhhh");
         aggro += aggroAdd;
         if (aggro > capAggro) aggro = capAggro;
     }

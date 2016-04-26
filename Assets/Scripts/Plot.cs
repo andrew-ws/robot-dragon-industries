@@ -17,7 +17,6 @@ public class Plot : MonoBehaviour {
 
         //defaults (not set by args)
         size = 6;
-        //speed = LevelManager.getSpeed()     probably should be set by the level manager
         speed = manager.bgSpeed;
 
         if (type == 1) // plot with a house
@@ -33,7 +32,7 @@ public class Plot : MonoBehaviour {
         else if (type == 2) // plot without a house
         {
             PlotModel scenery = makeModel(1);
-            scenery.transform.localPosition = Vector3.zero;
+            scenery.transform.localPosition = new Vector3(0, 0, 1);
             scenery.transform.localScale = new Vector3(1,1,0);
             gameObject.name = "Plot: Scenery";
         }
