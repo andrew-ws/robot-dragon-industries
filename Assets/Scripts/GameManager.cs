@@ -123,9 +123,9 @@ public class GameManager : MonoBehaviour {
 	public void resetLevel(int level) {
 		this.level = level;
 		lm.annihilate ();
-		lm = this.gameObject.AddComponent<LevelManager>();
-		this.gameObject.name = "Level " + this.level + " Manager";
-		print (level);
+        GameObject go = new GameObject();
+		lm = go.AddComponent<LevelManager>();
+		go.name = "Level " + this.level + " Manager";
 		lm.init (level, this);
 	
 	}
