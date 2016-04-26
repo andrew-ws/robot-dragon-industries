@@ -79,6 +79,9 @@ public class Player : MonoBehaviour {
 
 		heal ();
 
+        // sorting order hack
+        sr.sortingOrder = 10000 - (int)
+            ((transform.position.y - (sr.bounds.size.y)) * 100);
     }
 
     void shoot(Vector2 dir) {

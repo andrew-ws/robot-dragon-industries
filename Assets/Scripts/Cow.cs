@@ -76,6 +76,10 @@ public class Cow : Enemy {
 
         clock += Time.deltaTime;
         if (clock > timeAlive) Destroy(gameObject);
+
+        // sorting order hack
+        sr.sortingOrder = 10000 - (int)
+            ((transform.position.y - (sr.bounds.size.y)) * 100);
     }
 
     protected override void onHit()
