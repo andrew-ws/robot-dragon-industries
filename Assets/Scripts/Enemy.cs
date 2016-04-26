@@ -13,6 +13,15 @@ public abstract class Enemy : MonoBehaviour {
     protected float timeAlive = 40f;
     protected float clock = 0f;
 
+    // for spawning
+    public static float minTimeBase;
+    public static float minTimeAggro;
+    public static float spreadTimeBase;
+    public static float spreadTimeAggro;
+
+    public static float spawnClock = 0;
+    public static float spawnNext = minTimeBase;
+
     public LevelManager lm;
 
 	public void OnTriggerEnter2D(Collider2D coll)

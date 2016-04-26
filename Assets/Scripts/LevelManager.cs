@@ -273,10 +273,11 @@ public class LevelManager : MonoBehaviour {
     private void spawnCows() {
         float place = Random.value * rdHeight - rdHeight / 2;
         Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
-        float chance = cowOddsBase + aggro * cowOddsPerAggro;
         
-        if (chance * Time.deltaTime > Random.value * 100)
+        if (Cow.spawnClock > Cow.spawnNext)
         {
+            print(Cow.spawnNext);
+            Cow.spawnClock -= Cow.spawnNext;
             GameObject go = new GameObject();
             go.transform.parent = enemyFolder.transform;
             go.transform.position = spawnPt;
@@ -289,15 +290,20 @@ public class LevelManager : MonoBehaviour {
             {
                 cow.init(this, false);
             }
+            Cow.spawnNext = (Cow.minTimeBase + Cow.minTimeAggro * aggro) +
+                (Cow.spreadTimeBase + Cow.spreadTimeAggro * aggro) *
+                Random.value;
         }
+        Cow.spawnClock += Time.deltaTime;
     }
 
     private void spawnFarmers() {
         float place = Random.value * rdHeight - rdHeight / 2;
         Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
-        float chance = farmerOddsBase + aggro * farmerOddsPerAggro;
-        if (chance * Time.deltaTime > Random.value * 100)
+
+        if (Farmer.spawnClock > Farmer.spawnNext)
         {
+            Farmer.spawnClock -= Farmer.spawnNext;
             GameObject go = new GameObject();
             go.transform.parent = enemyFolder.transform;
             go.transform.position = spawnPt;
@@ -306,7 +312,11 @@ public class LevelManager : MonoBehaviour {
                 farmer.init(this, true);
             else
                 farmer.init(this, false);
+            Farmer.spawnNext = (Farmer.minTimeBase + Farmer.minTimeAggro * aggro) +
+                (Farmer.spreadTimeBase + Farmer.spreadTimeAggro * aggro) *
+                Random.value;
         }
+        Farmer.spawnClock += Time.deltaTime;
     }
 
     void OnGUI()
