@@ -47,7 +47,7 @@ public class LevelManager : MonoBehaviour {
 	public float BPM = 189f;
 	public float measureLength;
 
-    public float bgSpeed = 4f;
+    public float bgSpeed = 3f;
 
     private GameObject sky; // back-most layer of the background (probably only temporary)
     private GameObject street;
