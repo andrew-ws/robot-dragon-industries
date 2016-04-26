@@ -38,7 +38,7 @@ public abstract class Enemy : MonoBehaviour {
     public void init(LevelManager lm, bool isAngry)
     {
         this.lm = lm;
-        if (isAngry) makeAngry();
+        this.isAngry = isAngry;
     }
 
     protected abstract void onHit();

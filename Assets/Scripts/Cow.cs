@@ -29,6 +29,7 @@ public class Cow : Enemy {
         coll.isTrigger = true;
         if (Random.value * 100 < 50) velocity = Vector2.up * wanderSpeed;
         else velocity = Vector2.down * wanderSpeed;
+        if (isAngry) makeAngry();
     }
 	
 	// Update is called once per frame

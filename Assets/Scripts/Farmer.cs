@@ -39,6 +39,7 @@ public class Farmer : Enemy {
             velocity = (Vector2.down + Vector2.right).normalized * wanderSpeed;
 
         throwThreshold = lm.boundLeft * 2 / 3;
+        if (isAngry) makeAngry();
     }
 	
 	// Update is called once per frame
