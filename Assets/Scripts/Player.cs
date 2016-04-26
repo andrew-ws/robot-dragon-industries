@@ -85,6 +85,7 @@ public class Player : MonoBehaviour {
 		if ((paperCooldownClock > 0) || (papers < 1)) return;
         Newspaper paper = (new GameObject()).AddComponent<Newspaper>();
         paper.transform.position = this.transform.position;
+        paper.transform.parent = lm.projectileFolder.transform;
         paper.name = "Paper";
         paper.init(dir, throwSpeed, deltaPos/Time.deltaTime/4);
 		paperCooldownClock = 0.5f;

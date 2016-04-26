@@ -51,6 +51,8 @@ public class LevelManager : MonoBehaviour {
 
     private GameObject plotFolder;
     private GameObject sceneryFolder;
+    private GameObject enemyFolder;
+    public GameObject projectileFolder;
     
     public int totalMoney = 0;
 
@@ -62,6 +64,10 @@ public class LevelManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        enemyFolder = new GameObject();
+        enemyFolder.name = "Enemy Folder";
+        projectileFolder = new GameObject();
+        projectileFolder.name = "Projectile Folder";
         this.transform.position = Vector3.zero;
 
         // set up camera
@@ -242,6 +248,7 @@ public class LevelManager : MonoBehaviour {
         if (chance * Time.deltaTime > Random.value * 100)
         {
             GameObject go = new GameObject();
+            go.transform.parent = enemyFolder.transform;
             go.transform.position = spawnPt;
             Cow cow = go.AddComponent<Cow>();
             if (dropped)
@@ -262,6 +269,7 @@ public class LevelManager : MonoBehaviour {
         if (chance * Time.deltaTime > Random.value * 100)
         {
             GameObject go = new GameObject();
+            go.transform.parent = enemyFolder.transform;
             go.transform.position = spawnPt;
             Farmer farmer = go.AddComponent<Farmer>();
             if (dropped)
@@ -299,6 +307,18 @@ public class LevelManager : MonoBehaviour {
 	public void reduceAggro(int reduce) {
 		aggro -= reduce;
 	}
+
+    public void annhilate()
+    {
+        Destroy(sky);
+        Destroy(street);
+        Destroy(enemyFolder);
+        Destroy(projectileFolder);
+        Destroy(plotFolder);
+        Destroy(sceneryFolder);
+        if (player != null) Destroy(player.gameObject);
+        Destroy(this.gameObject);
+    }
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
     private GameObject farmer = Resources.Load<GameObject>("Prefabs/Farmer");

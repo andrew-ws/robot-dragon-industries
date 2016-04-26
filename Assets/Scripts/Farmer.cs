@@ -88,6 +88,7 @@ public class Farmer : Enemy {
     private void throwFork()
     {
         GameObject go = new GameObject();
+        go.transform.parent = lm.projectileFolder.transform;
         Projectile fork = go.AddComponent<Projectile>();
         fork.velocity = Vector3.right * forkSpeed;
         fork.transform.position = this.transform.position;
