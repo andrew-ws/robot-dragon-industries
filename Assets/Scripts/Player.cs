@@ -8,7 +8,8 @@ public class Player : MonoBehaviour {
     private Vector3 deltaPos;
     public int hp = 3;
 	public int maxhp = 3;
-    public int papers = 25;
+    public int papers;
+	public int maxpapers = 20;
     public LevelManager lm = null;
 
     private Vector2 collOffset = new Vector2(0f, -0.42f);
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour {
 	void Start () {
         gameObject.tag = "player";
         transform.localScale = new Vector3(2f, 2f, 1f);
+		papers = maxpapers;
 
         gameObject.AddComponent<SpriteRenderer>();
         sr = gameObject.GetComponent<SpriteRenderer>();
@@ -96,7 +98,7 @@ public class Player : MonoBehaviour {
     {
         hp--;
 		healthCooldownClock = 4f;
-		if (lm.aggro > lm.thresholdAggro) {
+		if (lm.aggro >= lm.thresholdAggro) {
 			lm.reduceAggro (3);
 		}
 		if (hp == 0) {

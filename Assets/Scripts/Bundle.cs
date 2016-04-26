@@ -4,6 +4,7 @@ using System.Collections;
 public class Bundle : Pickup {
 
     LevelManager m;
+	private int paperAdd = 5;
 
 	// Use this for initialization
 	public void init(LevelManager m) {
@@ -44,7 +45,11 @@ public class Bundle : Pickup {
         {
             if (!other.gameObject.CompareTag("player")) return;
             Destroy(gameObject);
-            m.player.papers += 10;
+			if (m.player.papers + paperAdd <= m.player.maxpapers) {
+				m.player.papers += paperAdd;
+			} else {
+				m.player.papers = m.player.maxpapers;
+			}
         }
     }
 }
