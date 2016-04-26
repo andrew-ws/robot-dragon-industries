@@ -57,6 +57,8 @@ public class LevelManager : MonoBehaviour {
     private GameObject sceneryFolder;
     private GameObject enemyFolder;
     public GameObject projectileFolder;
+
+    private int consecutiveEmptyPlots = 0;
     
     public int totalMoney = 0;
 
@@ -166,10 +168,19 @@ public class LevelManager : MonoBehaviour {
         sceneryClock += Time.deltaTime;
         bundleClock += Time.deltaTime;
 
-        if (plotClock >= 6/bgSpeed)
+        if (plotClock >= 6 / bgSpeed)
         {
             plotClock = 0 + Time.deltaTime;
-            spawnPlot(Random.Range(1,3));
+            if (consecutiveEmptyPlots >= 2 || Random.value > 0.5)
+            {
+                spawnPlot(1);
+                consecutiveEmptyPlots = 0;
+            }
+            else
+            {
+                spawnPlot(2);
+                consecutiveEmptyPlots++;
+            }
         }
         if (sceneryClock >= (6/bgSpeed/4))
         {
