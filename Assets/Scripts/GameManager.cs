@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour {
 		}
 
         if (Input.GetKeyDown(KeyCode.J))
-            lm.annhilate();
+            lm.annihilate();
 	}
 
 	/*public void PlayMusic(AudioClip clip)
@@ -121,11 +121,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void resetLevel(int level) {
-		print ("reset here"); // TODO Add actual reset
 		this.level = level;
-		// Call annihilate here
+		lm.annihilate ();
 		lm = this.gameObject.AddComponent<LevelManager>();
 		this.gameObject.name = "Level " + this.level + " Manager";
+		print (level);
 		lm.init (level, this);
 	
 	}
