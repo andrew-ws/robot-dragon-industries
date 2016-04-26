@@ -42,8 +42,8 @@ public class Projectile : MonoBehaviour {
     {
         move();
         // sorting order hack
-        sr.sortingOrder = 10000 + (int)
-            ((transform.position.y - ( sr.bounds.size.y / 2 )) * 100);
+        sr.sortingOrder = 10000 - (int)
+            ((transform.position.y - (sr.bounds.size.y)) * 100);
     }
 
     protected void move()

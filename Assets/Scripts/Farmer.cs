@@ -18,6 +18,14 @@ public class Farmer : Enemy {
     private bool thrown = false;
     public float throwThreshold;
 
+    public new static float minTimeBase = 4f;
+    public new static float minTimeAggro = -0.12f;
+    public new static float spreadTimeBase = 1f;
+    public new static float spreadTimeAggro = -0.05f;
+
+    public new static float spawnClock = 0;
+    public new static float spawnNext = minTimeBase;
+
     // Use this for initialization
     void Start () {
         aggroAdd = 3;

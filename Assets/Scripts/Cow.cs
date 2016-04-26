@@ -18,8 +18,16 @@ public class Cow : Enemy {
     private static float chargeGate = 1f;
     private static float chargeSpeed = 4.5f;
 
-	// Use this for initialization
-	void Start () {
+    public new static float minTimeBase = 3f;
+    public new static float minTimeAggro = -0.1f;
+    public new static float spreadTimeBase = 1f;
+    public new static float spreadTimeAggro = -0.05f;
+
+    public new static float spawnClock = 0;
+    public new static float spawnNext = minTimeBase;
+
+    // Use this for initialization
+    void Start () {
         this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/cow");

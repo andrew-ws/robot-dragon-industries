@@ -57,6 +57,8 @@ public class LevelManager : MonoBehaviour {
     private GameObject sceneryFolder;
     private GameObject enemyFolder;
     public GameObject projectileFolder;
+
+    private int consecutiveEmptyPlots = 0;
     
     public int totalMoney = 0;
 
@@ -166,10 +168,19 @@ public class LevelManager : MonoBehaviour {
         sceneryClock += Time.deltaTime;
         bundleClock += Time.deltaTime;
 
-        if (plotClock >= 6/bgSpeed)
+        if (plotClock >= 6 / bgSpeed)
         {
             plotClock = 0 + Time.deltaTime;
-            spawnPlot(Random.Range(1,3));
+            if (consecutiveEmptyPlots >= 2 || Random.value > 0.5)
+            {
+                spawnPlot(1);
+                consecutiveEmptyPlots = 0;
+            }
+            else
+            {
+                spawnPlot(2);
+                consecutiveEmptyPlots++;
+            }
         }
         if (sceneryClock >= (6/bgSpeed/4))
         {
@@ -273,10 +284,10 @@ public class LevelManager : MonoBehaviour {
     private void spawnCows() {
         float place = Random.value * rdHeight - rdHeight / 2;
         Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
-        float chance = cowOddsBase + aggro * cowOddsPerAggro;
         
-        if (chance * Time.deltaTime > Random.value * 100)
+        if (Cow.spawnClock > Cow.spawnNext)
         {
+            Cow.spawnClock -= Cow.spawnNext;
             GameObject go = new GameObject();
             go.transform.parent = enemyFolder.transform;
             go.transform.position = spawnPt;
@@ -289,15 +300,20 @@ public class LevelManager : MonoBehaviour {
             {
                 cow.init(this, false);
             }
+            Cow.spawnNext = (Cow.minTimeBase + Cow.minTimeAggro * aggro) +
+                (Cow.spreadTimeBase + Cow.spreadTimeAggro * aggro) *
+                Random.value;
         }
+        Cow.spawnClock += Time.deltaTime;
     }
 
     private void spawnFarmers() {
         float place = Random.value * rdHeight - rdHeight / 2;
         Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
-        float chance = farmerOddsBase + aggro * farmerOddsPerAggro;
-        if (chance * Time.deltaTime > Random.value * 100)
+
+        if (Farmer.spawnClock > Farmer.spawnNext)
         {
+            Farmer.spawnClock -= Farmer.spawnNext;
             GameObject go = new GameObject();
             go.transform.parent = enemyFolder.transform;
             go.transform.position = spawnPt;
@@ -306,7 +322,11 @@ public class LevelManager : MonoBehaviour {
                 farmer.init(this, true);
             else
                 farmer.init(this, false);
+            Farmer.spawnNext = (Farmer.minTimeBase + Farmer.minTimeAggro * aggro) +
+                (Farmer.spreadTimeBase + Farmer.spreadTimeAggro * aggro) *
+                Random.value;
         }
+        Farmer.spawnClock += Time.deltaTime;
     }
 
     void OnGUI()
