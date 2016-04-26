@@ -153,7 +153,7 @@ public class LevelManager : MonoBehaviour {
             spawnLine();
             spawnSidewalk();
         }
-        if (bundleClock >= 30)
+        if (bundleClock >= 10)
         {
             Bundle bundle = (new GameObject()).AddComponent<Bundle>();
             bundle.init(this);

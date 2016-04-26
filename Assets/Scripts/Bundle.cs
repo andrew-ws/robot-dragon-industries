@@ -44,7 +44,7 @@ public class Bundle : Pickup {
         {
             if (!other.gameObject.CompareTag("player")) return;
             Destroy(gameObject);
-            m.player.papers += 25;
+            m.player.papers += 10;
         }
     }
 }
