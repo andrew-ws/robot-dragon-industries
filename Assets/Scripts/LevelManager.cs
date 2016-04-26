@@ -30,13 +30,13 @@ public class LevelManager : MonoBehaviour {
 	// that is attached to it
 
     public int aggro = 1;
-    public int capAggro = 30;
+    public int capAggro = 20;
     public int baseAggro = 1;
-    public bool readyForDrop = false;
+    //public bool readyForDrop = false;
     public bool dropped = false;
 
     public float aggroLossTimer = 0f;
-    public const float aggroLossTime = 6f;
+    public const float aggroLossTime = 15f;
 
     public int thresholdAggro = 10;
     public float thresholdTime;
@@ -59,6 +59,8 @@ public class LevelManager : MonoBehaviour {
     private GUIStyle style;
 
     private float bundleClock = 0f;
+
+	public bool playerDead = false;
 
 	// Use this for initialization
 	void Start () {
@@ -226,9 +228,9 @@ public class LevelManager : MonoBehaviour {
 		if (thresholdClock > thresholdTime)
         {
 			if (aggro >= thresholdAggro && !dropped) 
-				readyForDrop = true;
+				dropped = true;
 			if (aggro < thresholdAggro && dropped)
-				readyForDrop = false;
+				dropped = false;
 			thresholdClock = 0;
         }
         aggroLossTimer += Time.deltaTime;
@@ -279,10 +281,21 @@ public class LevelManager : MonoBehaviour {
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro, style);
-        GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney, style);
-        GUI.Label(new Rect(25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
-        GUI.Label(new Rect(25, 25, 110, 50), "Money per paper: " + (aggro * 50), style);
+		if (!playerDead) {
+			GUI.Label (new Rect (Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro, style);
+			GUI.Label (new Rect (Screen.width - 110, Screen.height - 50, 110, 50), "Money: " + totalMoney, style);
+			GUI.Label (new Rect (Screen.width - 110, Screen.height - 150, 150, 50), "Health: " + player.hp, style);
+			GUI.Label (new Rect (25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
+			GUI.Label (new Rect (25, 25, 110, 50), "Money per paper: " + (aggro * 50), style);
+		} else {
+			if ((GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) - 25, 200, 50), "Press R to restart"))
+				|| Input.GetKeyDown(KeyCode.R)) {
+				manager.resetLevel (manager.level);
+			}
+			if (GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) + 25, 200, 50), "Continue")) {
+				manager.resetLevel (manager.level + 1);
+			}
+		}
     }
 
     public void drop()
@@ -298,7 +311,7 @@ public class LevelManager : MonoBehaviour {
 		aggro -= reduce;
 	}
 
-    public void annhilate()
+    public void annihilate()
     {
         Destroy(sky);
         Destroy(street);

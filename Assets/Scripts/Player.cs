@@ -7,13 +7,15 @@ public class Player : MonoBehaviour {
     public float throwSpeed = 5f;
     private Vector3 deltaPos;
     public int hp = 3;
+	public int maxhp = 3;
     public int papers = 25;
     public LevelManager lm = null;
 
     private Vector2 collOffset = new Vector2(0f, -0.42f);
     private Vector2 collSize = new Vector2(0.9f, 0.065f);
 
-    private float cooldownClock;
+    private float paperCooldownClock;
+	private float healthCooldownClock = 0f;
 
     private SpriteRenderer sr;
     private BoxCollider2D coll;
@@ -40,7 +42,8 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        cooldownClock -= Time.deltaTime;
+        paperCooldownClock -= Time.deltaTime;
+		healthCooldownClock -= Time.deltaTime;
 
         deltaPos = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
@@ -65,32 +68,49 @@ public class Player : MonoBehaviour {
         if (transform.position.y > lm.boundUp)
             transform.position = new Vector2(transform.position.x, lm.boundUp);
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+		if (Input.GetKey(KeyCode.LeftArrow))
             shoot(Vector2.left);
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
             shoot(Vector2.right);
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
             shoot(Vector2.up);
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
             shoot(Vector2.down);
+
+		heal ();
 
     }
 
     void shoot(Vector2 dir) {
-        if ((cooldownClock > 0) || (papers < 1)) return;
+		if ((paperCooldownClock > 0) || (papers < 1)) return;
         Newspaper paper = (new GameObject()).AddComponent<Newspaper>();
         paper.transform.position = this.transform.position;
         paper.transform.parent = lm.projectileFolder.transform;
         paper.name = "Paper";
         paper.init(dir, throwSpeed, deltaPos/Time.deltaTime/4);
-        cooldownClock = 0.5f;
+		paperCooldownClock = 0.5f;
         papers -= 1;
     }
 
     public void hurt()
     {
         hp--;
-		lm.reduceAggro (3);
-        if (hp == 0) Destroy(this.gameObject);
+		healthCooldownClock = 4f;
+		if (lm.aggro > lm.thresholdAggro) {
+			lm.reduceAggro (3);
+		}
+		if (hp == 0) {
+			lm.playerDead = true;
+			Destroy (this.gameObject);
+		}
     }
+
+	void heal() {
+		if (lm.dropped == false && hp < maxhp) {
+			if (healthCooldownClock > 0) return;
+			hp++;
+			healthCooldownClock = 4f;
+		}
+	}
+		
 }
