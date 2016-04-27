@@ -25,6 +25,10 @@ public class Plot : MonoBehaviour {
             house.transform.localPosition = new Vector3(0, 0, 1.5f);
             house.transform.localScale = new Vector3(1, 1, 0);
 
+            PlotModel scenery2 = makeModel(2);
+            scenery2.transform.localPosition = new Vector3(Random.Range(-2f, 2f), -1.5f, 1);
+            scenery2.transform.localScale = new Vector3(1, 1, 0);
+
             Mailbox mailbox = (new GameObject()).AddComponent<Mailbox>();
             mailbox.init(this);
             gameObject.name = "Plot: House";

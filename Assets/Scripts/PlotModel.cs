@@ -28,7 +28,13 @@ public class PlotModel : MonoBehaviour {
         {
             sr.sprite = Resources.Load<Sprite>("Sprites/fence"+ levelName);
             transform.localPosition = new Vector3(0, 0, 0);
-            gameObject.name = "scenery";
+            gameObject.name = "fence";
+        }
+        else if (type == 2)
+        {
+            sr.sprite = Resources.Load<Sprite>("Sprites/bush" + owner.manager.level);
+            transform.localPosition = new Vector3(0, 0, 0);
+            gameObject.name = "bush";
         }
     }
 
