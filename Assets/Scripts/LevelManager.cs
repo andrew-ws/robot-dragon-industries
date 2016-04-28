@@ -51,7 +51,7 @@ public class LevelManager : MonoBehaviour {
 	public float BPM = 189f;
 	public float measureLength;
 
-    public float bgSpeed = 4f;
+    public float bgSpeed = 3f;
 
     private GameObject sky; // back-most layer of the background (probably only temporary)
     private GameObject street;
@@ -71,6 +71,11 @@ public class LevelManager : MonoBehaviour {
     private Sprite fullHeart;
     private Sprite emptyHeart;
     private Text score;
+    private Text perPaperText, weatherText, temperatureText;
+    private Text howManyText;
+    private Image frontPaper;
+    private Image paper2, paper3;
+    private Image morePaper;
 
     private float bundleClock = 0f;
 
@@ -93,7 +98,7 @@ public class LevelManager : MonoBehaviour {
         for (int i = 0; i < 3; i++)
         {
             hearts[i] = Instantiate(heartprefab);
-            hearts[i].transform.parent = canvas.transform;
+            hearts[i].transform.SetParent(canvas.transform, false);
             hearts[i].rectTransform.anchoredPosition = new Vector2(40, -40);
             hearts[i].rectTransform.anchoredPosition += Vector2.right * 50 * i;
         }
@@ -101,6 +106,30 @@ public class LevelManager : MonoBehaviour {
         Image pig = Instantiate(pigPrefab);
         pig.rectTransform.SetParent(canvas.transform, false);
         score = pig.GetComponentInChildren<Text>();
+        Image frontPaperPrefab = Resources.Load<Image>("Prefabs/Paper");
+        frontPaper = Instantiate(frontPaperPrefab);
+        frontPaper.rectTransform.SetParent(canvas.transform, false);
+        perPaperText = frontPaper.transform.Find("issueprice")
+            .gameObject.GetComponent<Text>();
+        weatherText = frontPaper.transform.Find("weatherdescrip")
+            .gameObject.GetComponent<Text>();
+        temperatureText = frontPaper.transform.Find("Temperature")
+            .gameObject.GetComponent<Text>();
+        Image behindPaper = Resources.Load<Image>("Prefabs/BehindPaper");
+        paper2 = Instantiate(behindPaper);
+        paper2.rectTransform.SetParent(canvas.transform, false);
+        paper2.rectTransform.SetAsFirstSibling();
+        paper3 = Instantiate(behindPaper);
+        paper3.rectTransform.SetParent(canvas.transform, false);
+        paper3.rectTransform.SetAsFirstSibling();
+        paper3.rectTransform.anchoredPosition +=
+            (Vector2.right + Vector2.down) * 10;
+        Image morePaperPrefab = Resources.Load<Image>("Prefabs/MorePaper");
+        morePaper = Instantiate(morePaperPrefab);
+        morePaper.rectTransform.SetParent(canvas.transform, false);
+        morePaper.rectTransform.SetAsFirstSibling();
+        howManyText = morePaper.transform.Find("HowMany").gameObject
+            .GetComponent<Text>();
 
         // set up camera
         Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -353,9 +382,9 @@ public class LevelManager : MonoBehaviour {
     void OnGUI()
     {
 		if (!playerDead) {
-            GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro, style);
-            GUI.Label(new Rect(25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
-            GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "$/paper: " + (aggro * 50), style);
+            //GUI.Label(new Rect(Screen.width - 110, Screen.height - 100, 110, 50), "Aggro: " + aggro, style);
+            //GUI.Label(new Rect(25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
+            //GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "$/paper: " + (aggro * 50), style);
         } else {
 			if ((GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) - 25, 200, 50), "Press R to restart"))
 				|| Input.GetKeyDown(KeyCode.R)) {
@@ -377,6 +406,17 @@ public class LevelManager : MonoBehaviour {
                 hearts[i].GetComponent<Image>().sprite = fullHeart;
         }
         score.text = "$" + string.Format("{0:#.00}", totalMoney /100f);
+        perPaperText.text = "$" + string.Format(
+            "{0:#.00}", aggro * 50 / 100f);
+        temperatureText.text = (67 + aggro * 3) + "\u00B0F";
+        if (dropped) weatherText.text = "Chaotic and\nStormy";
+        else weatherText.text = "Clear and\nCheerful";
+        howManyText.text = "" + player.papers;
+        frontPaper.gameObject.SetActive(player.papers >= 1);
+        paper2.gameObject.SetActive(player.papers >= 2);
+        paper3.gameObject.SetActive(player.papers >= 3);
+        morePaper.gameObject.SetActive(player.papers >= 4);
+
     }
 
     public void drop()
