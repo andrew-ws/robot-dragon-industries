@@ -379,10 +379,19 @@ public class LevelManager : MonoBehaviour {
     {
         for (int i = 0; i < hearts.Length; i++)
         {
+            Image im = hearts[i].GetComponent<Image>();
             if (i + 1 > player.hp)
-                hearts[i].GetComponent<Image>().sprite = emptyHeart;
+                im.sprite = emptyHeart;
             else
-                hearts[i].GetComponent<Image>().sprite = fullHeart;
+                im.sprite = fullHeart;
+            if (!dropped)
+            {
+                im.color = new Color(1, 1, 1,
+                    1 - (Mathf.Sin(2 * Mathf.PI *
+                    (Time.timeSinceLevelLoad % 2) / 2))/2);
+            }
+            else
+                im.color = Color.white;
         }
         score.text = "$" + string.Format("{0:#.00}", totalMoney /100f);
         perPaperText.text = "$" + string.Format(
