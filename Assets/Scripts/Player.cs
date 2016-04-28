@@ -20,6 +20,10 @@ public class Player : MonoBehaviour {
     private float paperCooldownClock;
 	private float healthCooldownClock = 0f;
 
+    private float invulnClock = 0f;
+    private const float invulnTime = 0.8f;
+    private bool invuln = false;
+
     private SpriteRenderer sr;
     private BoxCollider2D coll;
     private Rigidbody2D rb;
@@ -83,6 +87,17 @@ public class Player : MonoBehaviour {
 
 		heal ();
 
+        invulnClock += Time.deltaTime;
+        if (invuln && invulnClock > invulnTime)
+        {
+            invuln = false;
+            coll.enabled = true;
+            sr.color = Color.white;
+        }
+        if (invuln && (Time.timeSinceLevelLoad * 10) % 2 >= 1)
+            sr.color = Color.clear;
+        else sr.color = Color.white;
+
         // sorting order hack
         sr.sortingOrder = 10000 - (int)
             ((transform.position.y - (sr.bounds.size.y)) * 100);
@@ -101,6 +116,9 @@ public class Player : MonoBehaviour {
 
     public void hurt()
     {
+        coll.enabled = false;
+        invulnClock = 0f;
+        invuln = true;
         hp--;
 		healthCooldownClock = 4f;
 		if (lm.aggro >= lm.thresholdAggro) {
