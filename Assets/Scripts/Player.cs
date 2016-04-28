@@ -3,13 +3,15 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
     
-    public float speed = 3f;
+    public float speed = 3.5f;
     public float throwSpeed = 5f;
     private Vector3 deltaPos;
     public int hp = 3;
 	public int maxhp = 3;
+
     public int papers;
 	public int maxpapers = 20;
+
     public LevelManager lm = null;
 
     private Vector2 collOffset = new Vector2(0f, -0.42f);
