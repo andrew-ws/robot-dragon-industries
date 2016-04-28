@@ -69,8 +69,10 @@ public class LevelManager : MonoBehaviour {
     private Sprite emptyHeart;
     private Text score;
     private Text perPaperText, weatherText, temperatureText;
+    private Text howManyText;
     private Image frontPaper;
     private Image paper2, paper3;
+    private Image morePaper;
 
     private float bundleClock = 0f;
 
@@ -119,6 +121,12 @@ public class LevelManager : MonoBehaviour {
         paper3.rectTransform.SetAsFirstSibling();
         paper3.rectTransform.anchoredPosition +=
             (Vector2.right + Vector2.down) * 10;
+        Image morePaperPrefab = Resources.Load<Image>("Prefabs/MorePaper");
+        morePaper = Instantiate(morePaperPrefab);
+        morePaper.rectTransform.SetParent(canvas.transform, false);
+        morePaper.rectTransform.SetAsFirstSibling();
+        howManyText = morePaper.transform.Find("HowMany").gameObject
+            .GetComponent<Text>();
 
         // set up camera
         Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -382,10 +390,12 @@ public class LevelManager : MonoBehaviour {
         temperatureText.text = (67 + aggro * 3) + "\u00B0F";
         if (dropped) weatherText.text = "Chaotic and\nStormy";
         else weatherText.text = "Clear and\nCheerful";
+        howManyText.text = "" + player.papers;
         frontPaper.gameObject.SetActive(player.papers >= 1);
         paper2.gameObject.SetActive(player.papers >= 2);
         paper3.gameObject.SetActive(player.papers >= 3);
-        // TODO: add in the thing with the rolled papers
+        morePaper.gameObject.SetActive(player.papers >= 4);
+
     }
 
     public void drop()
