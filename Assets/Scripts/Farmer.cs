@@ -123,7 +123,7 @@ public class Farmer : Enemy {
     protected override void makeAngry()
     {
         isAngry = true;
-        sr.color = Color.red;
-        // change sprite
+        sr.color = Color.white;
+        sr.sprite = Resources.Load<Sprite>("Sprites/farmerMad");
     }
 }

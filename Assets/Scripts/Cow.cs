@@ -102,7 +102,8 @@ public class Cow : Enemy {
     protected override void makeAngry()
     {
         isAngry = true;
-        sr.color = Color.red;
+        sr.color = Color.white;
+        sr.sprite = Resources.Load<Sprite>("Sprites/cowMad");
         // change sprite
     }
 
