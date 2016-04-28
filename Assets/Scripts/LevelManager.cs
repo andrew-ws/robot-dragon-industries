@@ -211,7 +211,9 @@ public class LevelManager : MonoBehaviour {
 				}
 			}
 		}
-        manageAggro();
+		if (player.hp > 0) {
+			manageAggro ();
+		}
         
         updateGUI();
     }
