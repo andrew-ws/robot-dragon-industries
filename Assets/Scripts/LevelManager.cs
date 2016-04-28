@@ -27,6 +27,9 @@ public class LevelManager : MonoBehaviour {
     public float cowOddsPerAggro = 1.5f;
     public float farmerOddsBase = 10f;
     public float farmerOddsPerAggro = 1.5f;
+	public int plotCap = 20;
+	public int numPlots = 0;
+	public int numSide = 0;
 
     public Player player;
 	public GameManager manager;
@@ -136,6 +139,10 @@ public class LevelManager : MonoBehaviour {
 		measureLength = (4f * 60f) / BPM;
 		thresholdTime = measureLength;// may be redundant
 
+		// Level ending stuff
+		numSide = 0;
+		numPlots = 0;
+
         style = new GUIStyle();
         style.fontSize = 20;
         style.normal.textColor = Color.white;
@@ -167,37 +174,45 @@ public class LevelManager : MonoBehaviour {
         plotClock += Time.deltaTime;
         sceneryClock += Time.deltaTime;
         bundleClock += Time.deltaTime;
+		if (numPlots < plotCap) {
+			// All spawning behavior
+			if (plotClock >= 6 / bgSpeed) {
+				plotClock = 0 + Time.deltaTime;
+				if (consecutiveEmptyPlots >= 2 || Random.value > 0.5) {
+					spawnPlot (1);
+					consecutiveEmptyPlots = 0;
+					numPlots++;
+				} else {
+					spawnPlot (2);
+					consecutiveEmptyPlots++;
+				}
+			}
+			if (sceneryClock >= (6 / bgSpeed / 4)) {
+				sceneryClock = 0 + Time.deltaTime;
+				spawnLine ();
+				spawnSidewalk ();
+			}
+			if (bundleClock >= 10) {
+				Bundle bundle = (new GameObject ()).AddComponent<Bundle> ();
+				bundle.init (this);
+				bundleClock = 0f;
+			}
 
-        if (plotClock >= 6 / bgSpeed)
-        {
-            plotClock = 0 + Time.deltaTime;
-            if (consecutiveEmptyPlots >= 2 || Random.value > 0.5)
-            {
-                spawnPlot(1);
-                consecutiveEmptyPlots = 0;
-            }
-            else
-            {
-                spawnPlot(2);
-                consecutiveEmptyPlots++;
-            }
-        }
-        if (sceneryClock >= (6/bgSpeed/4))
-        {
-            sceneryClock = 0 + Time.deltaTime;
-            spawnLine();
-            spawnSidewalk();
-        }
-        if (bundleClock >= 10)
-        {
-            Bundle bundle = (new GameObject()).AddComponent<Bundle>();
-            bundle.init(this);
-            bundleClock = 0f;
-        }
+			spawnCows();
+			spawnFarmers();
+
+		} else { 
+			if (numSide < 5) {
+				if (sceneryClock >= (6 / bgSpeed / 4)) {
+					sceneryClock = 0 + Time.deltaTime;
+					spawnLine ();
+					spawnSidewalk ();
+					numSide++;
+				}
+			}
+		}
         manageAggro();
-        spawnCows();
-        spawnFarmers();
-
+        
         updateGUI();
     }
     /*
@@ -241,6 +256,8 @@ public class LevelManager : MonoBehaviour {
         line.init("streetLine", bgSpeed, this);
     }
 
+
+
     private GameObject makeBackground(string image, int layer)
     {
         GameObject obj = new GameObject();
@@ -254,6 +271,8 @@ public class LevelManager : MonoBehaviour {
 
         return obj;
     }
+
+
 
     public void hitAggro(int aggroAdd)
     {
