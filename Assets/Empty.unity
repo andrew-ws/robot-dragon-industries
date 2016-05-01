@@ -226,6 +226,7 @@ MonoBehaviour:
   lm: {fileID: 0}
   level: 1
   sources: []
+  sfx: {fileID: 1297920854}
   master_1: {fileID: 0}
   master_2: {fileID: 0}
   master_3: {fileID: 0}
@@ -467,7 +468,7 @@ AudioSource:
   m_GameObject: {fileID: 1297920848}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24314258, guid: 36c30c3f547997541a11bee3b064b520,
+  OutputAudioMixerGroup: {fileID: 24300001, guid: 888f0bdaa629a4cd48dde2fdf8ade7c9,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
 	private AudioSource source1;
 	private AudioSource source2;
 	private AudioSource source3;
+	public AudioSource sfx;
 
 	// Level One clips
 	private AudioClip nonintense_track;
@@ -33,13 +34,24 @@ public class GameManager : MonoBehaviour {
 	private AudioClip drums_clip_3;
 	private AudioClip drop_clip_3;
 
-	public AudioMixer master_1;
-	public AudioMixer master_2;
-	public AudioMixer master_3;
-	public AudioMixerSnapshot nonintense;
-	public AudioMixerSnapshot drums;
-	public AudioMixerSnapshot intense;
-	public AudioMixerSnapshot arpeggios;
+	// Mixers
+	private AudioMixer master_1;
+	private AudioMixer master_2;
+	private AudioMixer master_3;
+	private AudioMixerSnapshot nonintense;
+	private AudioMixerSnapshot drums;
+	private AudioMixerSnapshot intense;
+	private AudioMixerSnapshot arpeggios;
+
+	// Sounds
+	public AudioClip enemyHit;
+	public AudioClip enemyHitVoice;
+	public AudioClip enemyHitCow;
+	public AudioClip playerHit;
+	public AudioClip menu;
+	public AudioClip money;
+	public AudioClip pickup;
+	public AudioClip throwPaper;
 
 	bool areDrums = false;
 	bool areArps = false;
@@ -54,7 +66,8 @@ public class GameManager : MonoBehaviour {
         // Passing in for accessing some music objects in the scene
 		lm.init(level, this);
 
-		manageAudio ();
+		manageMusic ();
+		manageSounds ();
 	}
 	
 	// Update is called once per frame
@@ -103,13 +116,14 @@ public class GameManager : MonoBehaviour {
 		music.loop = true;
 		music.clip = clip;
 		music.Play();
-	}
+	}*/
 
 	public void PlayEffect(AudioClip clip)
 	{
 		sfx.clip = clip;
+		sfx.loop = false;
 		sfx.Play();
-	}*/
+	}
 
 	public void drop() {
 		dropped = true;
@@ -127,7 +141,7 @@ public class GameManager : MonoBehaviour {
 		lm.undrop ();
 	}
 
-	public void manageAudio() {
+	public void manageMusic() {
 
 		sources = gameObject.GetComponents<AudioSource> ();
 		master_1 = Resources.Load<AudioMixer> ("Music/Level 1/Level 1");
@@ -209,6 +223,22 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+	private void manageSounds() {
+		// Enemy sounds
+		enemyHit = Resources.Load<AudioClip> ("Music/Sounds/Enemy Hit");
+		enemyHitCow = Resources.Load<AudioClip> ("Music/Sounds/Enemy Hit - Cow");
+		enemyHitVoice= Resources.Load<AudioClip> ("Music/Sounds/Enemy Hit - Voice");
+
+		// Player Sounds
+		pickup = Resources.Load<AudioClip> ("Music/Sounds/Paper Pick Up - 1");
+		throwPaper = Resources.Load<AudioClip> ("Music/Sounds/Paper Throw - 1");
+		playerHit = Resources.Load<AudioClip> ("Music/Sounds/Player Hit");
+
+		// UI Sounds
+		menu = Resources.Load<AudioClip> ("Music/Sounds/Menu Navigation - 1");
+		money = Resources.Load<AudioClip> ("Music/Sounds/Money Sound - 1");
+ 	}
+
 	private void setAudioSource(AudioSource source, AudioClip clip, bool loop) {
 		source.clip = clip;
 		source.Play ();
@@ -221,7 +251,7 @@ public class GameManager : MonoBehaviour {
         GameObject go = new GameObject();
 		lm = go.AddComponent<LevelManager>();
 		go.name = "Level " + this.level + " Manager";
-		manageAudio ();
+		manageMusic ();
 		nonintense.TransitionTo (0.01f);
 		lm.init (level, this);
 	
