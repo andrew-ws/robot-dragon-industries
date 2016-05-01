@@ -151,6 +151,10 @@ public class GameManager : MonoBehaviour {
 			source2 = sources [2];
 			setAudioSource (source2, intense_track, true);
 
+			for (int i = 4; i < 13; i++) {
+				sources [i].Stop ();
+			}
+
 			nonintense.TransitionTo (0.01f);
 
 		} else if (level == 2) {
@@ -171,13 +175,18 @@ public class GameManager : MonoBehaviour {
 			setAudioSource (sources [6], drums_clip_2, true);
 			setAudioSource (sources [7], arpeggios_clip_2, true);
 			setAudioSource (sources [8], drop_clip_2, true);
+			for (int i = 0; i < 3; i++) {
+				sources [i].Stop ();
+			}
+			for (int i = 9; i < 13; i++) {
+				sources [i].Stop ();
+			}
 
 			nonintense.TransitionTo (0.01f);
 		} else if (level == 3) {
 			nonintense = master_3.FindSnapshot ("Base");
 			intense = master_3.FindSnapshot ("Drop");
 			drums = master_3.FindSnapshot ("Drums");
-			print ("loading 3");
 
 			// Music
 			melody_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Melody");
@@ -190,7 +199,12 @@ public class GameManager : MonoBehaviour {
 			setAudioSource (sources [11], drums_clip_3, true);
 			setAudioSource (sources [12], drop_clip_3, true);
 
+			for (int i = 0; i < 9; i++) {
+				sources [i].Stop ();
+			}
+
 			nonintense.TransitionTo (0.01f);
+
 		}
 
 	}
@@ -208,6 +222,7 @@ public class GameManager : MonoBehaviour {
 		lm = go.AddComponent<LevelManager>();
 		go.name = "Level " + this.level + " Manager";
 		manageAudio ();
+		nonintense.TransitionTo (0.01f);
 		lm.init (level, this);
 	
 	}

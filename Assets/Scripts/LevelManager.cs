@@ -397,8 +397,10 @@ public class LevelManager : MonoBehaviour {
 				|| Input.GetKeyDown(KeyCode.R)) {
 				manager.resetLevel (manager.level);
 			}
-			if (GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) + 25, 200, 50), "Continue")) {
-				manager.resetLevel (manager.level + 1);
+			if (level < 3) {
+				if (GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) + 25, 200, 50), "Continue")) {
+					manager.resetLevel (manager.level + 1);
+				}
 			}
 		}
     }
