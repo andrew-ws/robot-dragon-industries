@@ -27,9 +27,15 @@ public class GameManager : MonoBehaviour {
 	private AudioClip arpeggios_clip_2;
 	private AudioClip drop_clip_2;
 
+	// Level 3 clips
+	private AudioClip melody_clip_3;
+	private AudioClip chords_clip_3;
+	private AudioClip drums_clip_3;
+	private AudioClip drop_clip_3;
+
 	public AudioMixer master_1;
 	public AudioMixer master_2;
-	public AudioMixer nonintense_mixer;
+	public AudioMixer master_3;
 	public AudioMixerSnapshot nonintense;
 	public AudioMixerSnapshot drums;
 	public AudioMixerSnapshot intense;
@@ -126,6 +132,7 @@ public class GameManager : MonoBehaviour {
 		sources = gameObject.GetComponents<AudioSource> ();
 		master_1 = Resources.Load<AudioMixer> ("Music/Level 1/Level 1");
 		master_2 = Resources.Load<AudioMixer> ("Music/Level 2/Level 2");
+		master_3 = Resources.Load<AudioMixer> ("Music/Level 3/Level 3");
 
 		if (level == 1) {
 			nonintense = master_1.FindSnapshot ("Nonintense_1");
@@ -164,6 +171,23 @@ public class GameManager : MonoBehaviour {
 			setAudioSource (sources [6], drums_clip_2, true);
 			setAudioSource (sources [7], arpeggios_clip_2, true);
 			setAudioSource (sources [8], drop_clip_2, true);
+
+			nonintense.TransitionTo (0.01f);
+		} else if (level == 3) {
+			nonintense = master_1.FindSnapshot ("Base");
+			intense = master_1.FindSnapshot ("Drop");
+			drums = master_1.FindSnapshot ("Drums");
+
+			// Music
+			melody_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Melody");
+			drums_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Drums");
+			chords_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Chords");
+			drop_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Drop");
+
+			setAudioSource (sources [9], melody_clip_3, true);
+			setAudioSource (sources [10], chords_clip_3, true);
+			setAudioSource (sources [11], drums_clip_3, true);
+			setAudioSource (sources [12], drop_clip_3, true);
 
 			nonintense.TransitionTo (0.01f);
 		}
