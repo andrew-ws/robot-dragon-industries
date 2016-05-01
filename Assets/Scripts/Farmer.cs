@@ -109,6 +109,9 @@ public class Farmer : Enemy {
         fork.name = "Pitchfork";
         fork.setSprite("Sprites/pitchfork");
         fork.sr.flipX = true;
+
+		// sound
+		lm.manager.PlayEffect(lm.manager.throwPaper);
     }
 
     protected override void onHit()
@@ -118,6 +121,10 @@ public class Farmer : Enemy {
         // set sprites to stunt
         sr.color = Color.blue;
         stunned = true;
+
+		// sound
+		lm.manager.PlayEffect(lm.manager.enemyHitVoice);
+
     }
 
     protected override void makeAngry()

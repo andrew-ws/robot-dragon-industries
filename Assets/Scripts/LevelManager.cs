@@ -396,10 +396,16 @@ public class LevelManager : MonoBehaviour {
 			if ((GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) - 25, 200, 50), "Press R to restart"))
 				|| Input.GetKeyDown(KeyCode.R)) {
 				manager.resetLevel (manager.level);
+
+				// sound 
+				manager.PlayEffect(manager.menu);
 			}
 			if (level < 3) {
 				if (GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) + 25, 200, 50), "Continue")) {
 					manager.resetLevel (manager.level + 1);
+
+					// sound
+					manager.PlayEffect(manager.menu);
 				}
 			}
 		}

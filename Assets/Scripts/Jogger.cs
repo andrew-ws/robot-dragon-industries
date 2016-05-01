@@ -104,6 +104,10 @@ public class Jogger : Enemy {
         // set sprites to stun
         sr.color = Color.blue;
         stunned = true;
+
+		// sound
+		lm.manager.PlayEffect(lm.manager.enemyHitVoice);
+
     }
 
     protected override void makeAngry()
