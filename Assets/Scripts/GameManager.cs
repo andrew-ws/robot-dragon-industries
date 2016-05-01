@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour {
 			lm.aggro++;
 		}
 
-		if (level == 1) {
+		if (level == 1 || level == 3) {
 			if (lm.aggro > 5 && areDrums == false) {
 				drums.TransitionTo (2f);
 				areDrums = true;
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour {
 
 	public void undrop() {
 		dropped = false;
-		if (level == 1) {
+		if (level == 1 || level == 3) {
 			drums.TransitionTo (0.01f);
 		} else if (level == 2) {
 			arpeggios.TransitionTo (0.01f);
@@ -174,15 +174,16 @@ public class GameManager : MonoBehaviour {
 
 			nonintense.TransitionTo (0.01f);
 		} else if (level == 3) {
-			nonintense = master_1.FindSnapshot ("Base");
-			intense = master_1.FindSnapshot ("Drop");
-			drums = master_1.FindSnapshot ("Drums");
+			nonintense = master_3.FindSnapshot ("Base");
+			intense = master_3.FindSnapshot ("Drop");
+			drums = master_3.FindSnapshot ("Drums");
+			print ("loading 3");
 
 			// Music
 			melody_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Melody");
 			drums_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Drums");
 			chords_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Chords");
-			drop_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Drop");
+			drop_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Drop 1");
 
 			setAudioSource (sources [9], melody_clip_3, true);
 			setAudioSource (sources [10], chords_clip_3, true);
