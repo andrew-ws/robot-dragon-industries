@@ -5,7 +5,7 @@ AudioMixerController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Master
+  m_Name: Level 1
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300001}
   m_Snapshots:
@@ -26,7 +26,7 @@ AudioMixerController:
     - 84b611817d68c4007b6386e54c8ba776
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 24511500}
+  m_TargetSnapshot: {fileID: 24500003}
 --- !u!243 &24300001
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -68,7 +68,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Music
+  m_Name: Music_1
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 3212aec4782744065a2ee9bdc3814f1b
   m_Children:
@@ -88,7 +88,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Non-Intense
+  m_Name: Non-Intense_1
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: a756b7c881e8d4c2fbeed12a66913a7d
   m_Children: []
@@ -105,7 +105,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Intense
+  m_Name: Intense_1
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 84b611817d68c4007b6386e54c8ba776
   m_Children: []
@@ -122,7 +122,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Drums
+  m_Name: Drums_1
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: d7e218f4c53c84078bfa761fa1c28506
   m_Children: []
@@ -217,34 +217,34 @@ AudioMixerSnapshotController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Nonintense
+  m_Name: Nonintense_1
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: d8c2f23ab72914aeca803674bee0c8c6
   m_FloatValues:
     83891715f7d774056a81075854106e8e: -80
     9ee05ca7b3354434697d8565bc87a89b: -80
-    f4067869a51b24d57ae3be0ede4a86b3: -0.08374829
+    f4067869a51b24d57ae3be0ede4a86b3: -0.002441872
   m_TransitionOverrides: {}
 --- !u!245 &24511500
 AudioMixerSnapshotController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Intense
+  m_Name: Intense_1
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 1e5a6fc25a62f421c8ffb9f6563c9789
   m_FloatValues:
     bb39eb60881f54960a0307dc8eeda9b8: -80
     83891715f7d774056a81075854106e8e: -80
     9ee05ca7b3354434697d8565bc87a89b: 0
-    f4067869a51b24d57ae3be0ede4a86b3: -0.08374829
+    f4067869a51b24d57ae3be0ede4a86b3: 0
   m_TransitionOverrides: {}
 --- !u!245 &24518616
 AudioMixerSnapshotController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Drums
+  m_Name: Drums_1
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 0d84244a87e7042b093c07e83d623db6
   m_FloatValues:

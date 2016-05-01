@@ -165,6 +165,13 @@ public class LevelManager : MonoBehaviour {
         plotFolder.name = "Plots";
 
 		// Music
+		if (level == 1) {
+			BPM = 189;
+		} else if (level == 2) {
+			BPM = 122;
+		} else if (level == 3) {
+			BPM = 174;
+		}
 		measureLength = (4f * 60f) / BPM;
 		thresholdTime = measureLength;// may be redundant
 
