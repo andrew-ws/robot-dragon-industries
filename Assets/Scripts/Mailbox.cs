@@ -53,6 +53,9 @@ public class Mailbox : MonoBehaviour {
             plot.manager.reduceAggro(1); // TODO: test aggro reduction levels
             sr.sprite = Resources.Load<Sprite>("Sprites/mailbox" + boxtype + "closed");
             open = false;
+
+			// sound
+			plot.manager.manager.PlayEffect (plot.manager.manager.money);
         }
     }
 }

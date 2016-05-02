@@ -102,6 +102,9 @@ public class Car : Enemy {
         // set sprites to stun
         sr.color = Color.blue;
         stunned = true;
+
+		// sound
+		lm.manager.PlayEffect(lm.manager.enemyHit);
     }
 
     protected override void makeAngry()

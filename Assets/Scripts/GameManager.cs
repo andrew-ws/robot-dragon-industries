@@ -14,18 +14,47 @@ public class GameManager : MonoBehaviour {
 	private AudioSource source1;
 	private AudioSource source2;
 	private AudioSource source3;
+	public AudioSource sfx;
 
+	// Level One clips
 	private AudioClip nonintense_track;
 	private AudioClip drum_track;
 	private AudioClip intense_track;
 
-	public AudioMixer master;
-	public AudioMixer nonintense_mixer;
-	public AudioMixerSnapshot nonintense;
-	public AudioMixerSnapshot drums;
-	public AudioMixerSnapshot intense;
+	// Level 2 clips
+	private AudioClip melody_clip_2;
+	private AudioClip chords_clip_2;
+	private AudioClip drums_clip_2;
+	private AudioClip arpeggios_clip_2;
+	private AudioClip drop_clip_2;
+
+	// Level 3 clips
+	private AudioClip melody_clip_3;
+	private AudioClip chords_clip_3;
+	private AudioClip drums_clip_3;
+	private AudioClip drop_clip_3;
+
+	// Mixers
+	private AudioMixer master_1;
+	private AudioMixer master_2;
+	private AudioMixer master_3;
+	private AudioMixerSnapshot nonintense;
+	private AudioMixerSnapshot drums;
+	private AudioMixerSnapshot intense;
+	private AudioMixerSnapshot arpeggios;
+
+	// Sounds
+	public AudioClip enemyHit;
+	public AudioClip enemyHitVoice;
+	public AudioClip enemyHitCow;
+	public AudioClip playerHit;
+	public AudioClip menu;
+	public AudioClip money;
+	public AudioClip pickup;
+	public AudioClip throwPaper;
 
 	bool areDrums = false;
+	bool areArps = false;
 
 	public bool dropped;
 
@@ -37,7 +66,8 @@ public class GameManager : MonoBehaviour {
         // Passing in for accessing some music objects in the scene
 		lm.init(level, this);
 
-		manageAudio ();
+		manageMusic ();
+		manageSounds ();
 	}
 	
 	// Update is called once per frame
@@ -54,12 +84,27 @@ public class GameManager : MonoBehaviour {
 			lm.aggro++;
 		}
 
-		if (lm.aggro > 10 && areDrums == false) {
-			drums.TransitionTo (5f);
-			areDrums = !areDrums;
-		} else if (lm.aggro <= 5 && areDrums == true) {
-			areDrums = !areDrums;
-			nonintense.TransitionTo (5f);
+		if (level == 1 || level == 3) {
+			if (lm.aggro > 5 && areDrums == false) {
+				drums.TransitionTo (2f);
+				areDrums = true;
+			} else if (lm.aggro <= 5 && areDrums == true) {
+				areDrums = false;
+				nonintense.TransitionTo (2f);
+			}
+		} else if (level == 2) {
+			if (lm.aggro <= 3 && areDrums == true) {
+				areDrums = false;
+				areArps = false;
+				nonintense.TransitionTo (2f);
+			} else if (lm.aggro > 3 && lm.aggro <= 6 && areDrums == false) {
+				areDrums = true;
+				areArps = false;
+				drums.TransitionTo (2f);
+			} else if (lm.aggro > 6 && areArps == false) {
+				areArps = true;
+				arpeggios.TransitionTo (2f);
+			}
 		}
 
         if (Input.GetKeyDown(KeyCode.J))
@@ -71,13 +116,14 @@ public class GameManager : MonoBehaviour {
 		music.loop = true;
 		music.clip = clip;
 		music.Play();
-	}
+	}*/
 
 	public void PlayEffect(AudioClip clip)
 	{
 		sfx.clip = clip;
+		sfx.loop = false;
 		sfx.Play();
-	}*/
+	}
 
 	public void drop() {
 		dropped = true;
@@ -87,35 +133,115 @@ public class GameManager : MonoBehaviour {
 
 	public void undrop() {
 		dropped = false;
-		drums.TransitionTo (0.01f);
+		if (level == 1 || level == 3) {
+			drums.TransitionTo (0.01f);
+		} else if (level == 2) {
+			arpeggios.TransitionTo (0.01f);
+		}
 		lm.undrop ();
 	}
 
-	public void manageAudio() {
-		// Music
-		intense_track = Resources.Load<AudioClip>("Music/Intense Loop");
-		nonintense_track = Resources.Load<AudioClip>("Music/Non-Intense Loop");
-		drum_track = Resources.Load<AudioClip>("Music/Drums");
-
-		master = Resources.Load<AudioMixer> ("Music/Master");
-		nonintense_mixer = Resources.Load<AudioMixer> ("Music/Non-Intense");
-		nonintense = master.FindSnapshot ("Nonintense");
-		intense = master.FindSnapshot ("Intense");
-		drums = master.FindSnapshot ("Drums");
+	public void manageMusic() {
 
 		sources = gameObject.GetComponents<AudioSource> ();
-		source0 = sources [0];
-		setAudioSource (source0, nonintense_track, true);
-		source1 = sources [1];
-		setAudioSource (source1, drum_track, true);
-		source2 = sources [2];
-		setAudioSource (source2, intense_track, true);
+		master_1 = Resources.Load<AudioMixer> ("Music/Level 1/Level 1");
+		master_2 = Resources.Load<AudioMixer> ("Music/Level 2/Level 2");
+		master_3 = Resources.Load<AudioMixer> ("Music/Level 3/Level 3");
+
+		if (level == 1) {
+			nonintense = master_1.FindSnapshot ("Nonintense_1");
+			intense = master_1.FindSnapshot ("Intense_1");
+			drums = master_1.FindSnapshot ("Drums_1");
+
+			// Music
+			intense_track = Resources.Load<AudioClip> ("Music/Level 1/Intense Loop 1");
+			nonintense_track = Resources.Load<AudioClip> ("Music/Level 1/Non-Intense Loop 1");
+			drum_track = Resources.Load<AudioClip> ("Music/Level 1/Drums 1");
+
+			source0 = sources [0];
+			setAudioSource (source0, nonintense_track, true);
+			source1 = sources [1];
+			setAudioSource (source1, drum_track, true);
+			source2 = sources [2];
+			setAudioSource (source2, intense_track, true);
+
+			for (int i = 4; i < 13; i++) {
+				sources [i].Stop ();
+			}
+
+			nonintense.TransitionTo (0.01f);
+
+		} else if (level == 2) {
+			nonintense = master_2.FindSnapshot ("Base");
+			intense = master_2.FindSnapshot ("Drop");
+			drums = master_2.FindSnapshot ("Drums");
+			arpeggios = master_2.FindSnapshot ("Arpeggio");
+
+			// Music
+			melody_clip_2 = Resources.Load<AudioClip> ("Music/Level 2/Level 2 - Melody");
+			drums_clip_2 = Resources.Load<AudioClip> ("Music/Level 2/Level 2 - Drums");
+			arpeggios_clip_2 = Resources.Load<AudioClip> ("Music/Level 2/Level 2 - Arpeggio");
+			chords_clip_2 = Resources.Load<AudioClip> ("Music/Level 2/Level 2 - Chords");
+			drop_clip_2 = Resources.Load<AudioClip> ("Music/Level 2/Level 2 - Drop 2");
+
+			setAudioSource (sources [4], melody_clip_2, true);
+			setAudioSource (sources [5], chords_clip_2, true);
+			setAudioSource (sources [6], drums_clip_2, true);
+			setAudioSource (sources [7], arpeggios_clip_2, true);
+			setAudioSource (sources [8], drop_clip_2, true);
+			for (int i = 0; i < 3; i++) {
+				sources [i].Stop ();
+			}
+			for (int i = 9; i < 13; i++) {
+				sources [i].Stop ();
+			}
+
+			nonintense.TransitionTo (0.01f);
+		} else if (level == 3) {
+			nonintense = master_3.FindSnapshot ("Base");
+			intense = master_3.FindSnapshot ("Drop");
+			drums = master_3.FindSnapshot ("Drums");
+
+			// Music
+			melody_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Melody");
+			drums_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Drums");
+			chords_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Chords");
+			drop_clip_3 = Resources.Load<AudioClip> ("Music/Level 3/Level 3 - Drop 1");
+
+			setAudioSource (sources [9], melody_clip_3, true);
+			setAudioSource (sources [10], chords_clip_3, true);
+			setAudioSource (sources [11], drums_clip_3, true);
+			setAudioSource (sources [12], drop_clip_3, true);
+
+			for (int i = 0; i < 9; i++) {
+				sources [i].Stop ();
+			}
+
+			nonintense.TransitionTo (0.01f);
+
+		}
 
 	}
 
+	private void manageSounds() {
+		// Enemy sounds
+		enemyHit = Resources.Load<AudioClip> ("Music/Sounds/Enemy Hit");
+		enemyHitCow = Resources.Load<AudioClip> ("Music/Sounds/Enemy Hit - Cow");
+		enemyHitVoice= Resources.Load<AudioClip> ("Music/Sounds/Enemy Hit - Voice");
+
+		// Player Sounds
+		pickup = Resources.Load<AudioClip> ("Music/Sounds/Paper Pick Up - 1");
+		throwPaper = Resources.Load<AudioClip> ("Music/Sounds/Paper Throw - 1");
+		playerHit = Resources.Load<AudioClip> ("Music/Sounds/Player Hit");
+
+		// UI Sounds
+		menu = Resources.Load<AudioClip> ("Music/Sounds/Menu Navigation - 1");
+		money = Resources.Load<AudioClip> ("Music/Sounds/Money Sound - 1");
+ 	}
+
 	private void setAudioSource(AudioSource source, AudioClip clip, bool loop) {
 		source.clip = clip;
-		source.playOnAwake = true;
+		source.Play ();
 		source.loop = loop;
 	}
 
@@ -125,6 +251,8 @@ public class GameManager : MonoBehaviour {
         GameObject go = new GameObject();
 		lm = go.AddComponent<LevelManager>();
 		go.name = "Level " + this.level + " Manager";
+		manageMusic ();
+		nonintense.TransitionTo (0.01f);
 		lm.init (level, this);
 	
 	}

@@ -112,10 +112,18 @@ public class Player : MonoBehaviour {
         paper.init(dir, throwSpeed, deltaPos/Time.deltaTime/4);
 		paperCooldownClock = 0.5f;
         papers -= 1;
+
+		// sound
+		lm.manager.PlayEffect(lm.manager.throwPaper);
+
     }
 
     public void hurt()
     {
+		// sound
+		lm.manager.PlayEffect(lm.manager.playerHit);
+
+		// logic
         coll.enabled = false;
         invulnClock = 0f;
         invuln = true;

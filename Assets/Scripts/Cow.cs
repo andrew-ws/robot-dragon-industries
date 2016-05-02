@@ -97,6 +97,10 @@ public class Cow : Enemy {
         // set sprites to stun
         sr.color = Color.blue;
         stunned = true;
+
+		// sound
+		lm.manager.PlayEffect (lm.manager.enemyHitCow);
+		print ("cow");
     }
 
     protected override void makeAngry()

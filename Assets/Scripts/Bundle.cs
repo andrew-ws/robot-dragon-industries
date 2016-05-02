@@ -44,6 +44,9 @@ public class Bundle : Pickup {
         if (open)
         {
             if (!other.gameObject.CompareTag("player")) return;
+			// sound
+			m.manager.PlayEffect (m.manager.pickup);
+			// logic
             Destroy(gameObject);
 			if (m.player.papers + paperAdd <= m.player.maxpapers) {
 				m.player.papers += paperAdd;
