@@ -31,14 +31,20 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
         GameObject go = new GameObject();
         lm = go.AddComponent<LevelManager>();
 		go.name = "Level " + level + " Manager";
         // Passing in for accessing some music objects in the scene
 		lm.init(level, this);
 
-		manageAudio ();
-	}
+        GameObject obj = new GameObject();
+        Menu menu = obj.AddComponent<Menu>();
+        menu.init(this);
+
+        manageAudio ();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

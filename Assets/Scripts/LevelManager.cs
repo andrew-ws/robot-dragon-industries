@@ -17,8 +17,8 @@ public class LevelManager : MonoBehaviour {
 
     public float boundUp, boundDown, boundLeft, boundRight;
 
-    private float backgroundHt; // height of background based on width
-    private float backgroundy; // offset so background's bottom edge is the same as the camera's
+    public float backgroundHt; // height of background based on width
+    public float backgroundy; // offset so background's bottom edge is the same as the camera's
 
     private float plotClock;
     private float sceneryClock;
