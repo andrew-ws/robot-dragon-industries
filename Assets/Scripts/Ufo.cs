@@ -19,7 +19,6 @@ public class Ufo : Enemy {
         aggroAdd = 0;
         this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
-        // TODO: change the sprite out
         sr.sprite = Resources.Load<Sprite>("Sprites/farmer");
     }
 
@@ -64,6 +63,9 @@ public class Ufo : Enemy {
 
     protected override void makeAngry()
     {
-        //never happens
+        isAngry = true;
+        sr.color = Color.white;
+        // TODO: replace anger sprite
+        sr.sprite = Resources.Load<Sprite>("Sprites/UFOMad");
     }
 }

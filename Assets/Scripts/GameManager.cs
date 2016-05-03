@@ -62,12 +62,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //GameObject go = new GameObject();
-        //lm = go.AddComponent<LevelManager>();
-        //go.name = "Level " + level + " Manager";
-        // Passing in for accessing some music objects in the scene
-        //lm.init(level, this);
-
+        loadMainMenu();
 		manageMusic ();
 		manageSounds ();
 	}
@@ -249,28 +244,40 @@ public class GameManager : MonoBehaviour {
     {
         if (lm != null) lm.annihilate();
         mainMenu = true;
+
+        Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        cam.orthographicSize = (LevelManager.rdWidth / cam.aspect) / 2;
+        float backgroundHt = LevelManager.rdWidth * (7f / 8f);
+        float backgroundy = ((cam.orthographicSize * 2) - backgroundHt) / 2;
+
+        GameObject obj = new GameObject();
+        SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+        sr.sprite = Resources.Load<Sprite>("Sprites/title");
+        obj.transform.position = new Vector3(0, backgroundy, 0);
+        obj.name = "Menu";
     }
 
     void OnGUI()
     {
         if (mainMenu)
         {
-            if ((GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 75, 200, 50), "Level 1")))
+            if ((GUI.Button(new Rect((Screen.width / 5)-100, 25, 200, 50), "Level 1")))
+
             {
                 resetLevel(1);
                 PlayEffect(menu);
             }
-            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 25, 200, 50), "Level 2"))
+            if (GUI.Button(new Rect((Screen.width / 5)*2-100, 25, 200, 50), "Level 2"))
             {
                 resetLevel(2);
                 PlayEffect(menu);
             }
-            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) + 25, 200, 50), "Level 3"))
+            if (GUI.Button(new Rect((Screen.width / 5)*3-100, 25, 200, 50), "Level 3"))
             {
                 resetLevel(3);
                 PlayEffect(menu);
             }
-            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) + 75, 200, 50), "Quit"))
+            if (GUI.Button(new Rect((Screen.width / 5)*4-100, 25, 200, 50), "Quit"))
             {
                 Application.Quit();
             }

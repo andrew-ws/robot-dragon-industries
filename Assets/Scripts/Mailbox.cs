@@ -31,7 +31,7 @@ public class Mailbox : MonoBehaviour {
         coll.offset = new Vector2(0, .25f);
         coll.size = new Vector2(.5f, .5f);
 
-        boxtype = Random.Range(1, 3);
+        boxtype = Random.Range(1, 4);
         sr.sprite = Resources.Load<Sprite>("Sprites/mailbox" + boxtype + "open");
 
         gameObject.name = "Mailbox";

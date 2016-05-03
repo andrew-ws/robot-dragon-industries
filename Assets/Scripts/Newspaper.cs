@@ -7,7 +7,7 @@ public class Newspaper : Projectile
     void Start() {
         gameObject.tag = "paper";
         initComponents();
-        transform.localScale = new Vector3(0.15f, 0.15f, 1);
+        transform.localScale = new Vector3(0.5f, 0.5f, 1);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/paper");
         coll.size = new Vector2(3.6f, 1.4f);

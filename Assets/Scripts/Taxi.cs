@@ -31,7 +31,7 @@ public class Taxi : Enemy {
 	void Start()
 	{
 		sr = gameObject.AddComponent<SpriteRenderer>();
-		sr.sprite = Resources.Load<Sprite>("Sprites/cow");
+		sr.sprite = Resources.Load<Sprite>("Sprites/Taxi");
 		coll = gameObject.AddComponent<BoxCollider2D>();
 		coll.size = new Vector2(1.5f, 1f);
 		coll.offset = new Vector2(0f, -.2f);
@@ -113,7 +113,7 @@ public class Taxi : Enemy {
 	{
 		isAngry = true;
 		sr.color = Color.white;
-		sr.sprite = Resources.Load<Sprite>("Sprites/cowMad");
+		sr.sprite = Resources.Load<Sprite>("Sprites/TaxiMad");
 		// change sprite
 	}
 }
