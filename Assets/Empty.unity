@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lm: {fileID: 0}
-  level: 1
+  level: 3
   sources: []
   sfx: {fileID: 1297920854}
   enemyHit: {fileID: 0}
