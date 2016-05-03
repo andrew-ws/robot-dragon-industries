@@ -262,6 +262,7 @@ public class GameManager : MonoBehaviour {
         if (mainMenu)
         {
             if ((GUI.Button(new Rect((Screen.width / 5)-100, 25, 200, 50), "Level 1")))
+
             {
                 resetLevel(1);
                 PlayEffect(menu);
