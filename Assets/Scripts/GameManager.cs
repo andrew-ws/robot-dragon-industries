@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour {
 
 	public bool dropped;
 
+    public GameObject menuImg;
+
 	// Use this for initialization
 	void Start () {
         loadMainMenu();
@@ -244,17 +246,18 @@ public class GameManager : MonoBehaviour {
     {
         if (lm != null) lm.annihilate();
         mainMenu = true;
-
+        /*
         Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         cam.orthographicSize = (LevelManager.rdWidth / cam.aspect) / 2;
         float backgroundHt = LevelManager.rdWidth * (7f / 8f);
         float backgroundy = ((cam.orthographicSize * 2) - backgroundHt) / 2;
 
-        GameObject obj = new GameObject();
-        SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+        menuImg = new GameObject();
+        SpriteRenderer sr = menuImg.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/title");
-        obj.transform.position = new Vector3(0, backgroundy, 0);
-        obj.name = "Menu";
+        menuImg.transform.position = new Vector3(0, backgroundy, 0);
+        menuImg.name = "Menu";
+        */
     }
 
     void OnGUI()
