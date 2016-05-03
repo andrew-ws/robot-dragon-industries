@@ -8,7 +8,7 @@ public class Taxi : Enemy {
 	public SpriteRenderer sr;
 	public BoxCollider2D coll;
 
-	public float cowVision = 0.2f;
+	public float cowVision = 0.8f;
 	public bool charging = false;
 
 	public float wanderSpeed = 0.1f;

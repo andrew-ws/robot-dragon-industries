@@ -8,7 +8,7 @@ public class Car : Enemy {
     public SpriteRenderer sr;
     public BoxCollider2D coll;
 
-    public float cowVision = 0.2f;
+    public float cowVision = 0.8f;
     public bool charging = false;
 
     public float wanderSpeed = 0.1f;
@@ -19,7 +19,7 @@ public class Car : Enemy {
     private static float chargeGate = 2f;
     private static float chargeSpeed = 6f;
 
-    public new static float minTimeBase = 4f;
+    public new static float minTimeBase = 3.6f;
     public new static float minTimeAggro = -0.1f;
     public new static float spreadTimeBase = 1f;
     public new static float spreadTimeAggro = -0.05f;
