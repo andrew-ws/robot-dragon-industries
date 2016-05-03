@@ -241,7 +241,8 @@ public class LevelManager : MonoBehaviour {
 				spawnCars ();
 				spawnJoggers ();
 			} else if (level == 3) {
-
+				spawnTaxis ();
+				spawnPedestrians ();
 			}
 
 		} else { 
@@ -444,6 +445,59 @@ public class LevelManager : MonoBehaviour {
 				Random.value;
 		}
 		Jogger.spawnClock += Time.deltaTime;
+	}
+
+	private void spawnTaxis() {
+		float place;
+		if (Random.value * 100 < 50) {
+			place = -2;
+		} else {
+			place = 0;
+		}
+		Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
+
+		if (Taxi.spawnClock > Taxi.spawnNext)
+		{
+			Taxi.spawnClock -= Taxi.spawnNext;
+			GameObject go = new GameObject();
+			go.transform.parent = enemyFolder.transform;
+			go.transform.position = spawnPt;
+			Taxi taxi = go.AddComponent<Taxi>();
+			if (dropped)
+			{
+				taxi.init(this, true);
+			}
+			else
+			{
+				taxi.init(this, false);
+			}
+			Taxi.spawnNext = (Taxi.minTimeBase + Taxi.minTimeAggro * aggro) +
+				(Taxi.spreadTimeBase + Taxi.spreadTimeAggro * aggro) *
+				Random.value;
+		}
+		Taxi.spawnClock += Time.deltaTime;
+	}
+
+	private void spawnPedestrians() {
+		float place = Random.value * rdHeight - rdHeight / 2;
+		Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
+
+		if (Pedestrian.spawnClock > Pedestrian.spawnNext)
+		{
+			Pedestrian.spawnClock -= Pedestrian.spawnNext;
+			GameObject go = new GameObject();
+			go.transform.parent = enemyFolder.transform;
+			go.transform.position = spawnPt;
+			Pedestrian pedestrian = go.AddComponent<Pedestrian>();
+			if (dropped)
+				pedestrian.init(this, true);
+			else
+				pedestrian.init(this, false);
+			Pedestrian.spawnNext = (Pedestrian.minTimeBase + Pedestrian.minTimeAggro * aggro) +
+				(Pedestrian.spreadTimeBase + Pedestrian.spreadTimeAggro * aggro) *
+				Random.value;
+		}
+		Pedestrian.spawnClock += Time.deltaTime;
 	}
 
     void OnGUI()
