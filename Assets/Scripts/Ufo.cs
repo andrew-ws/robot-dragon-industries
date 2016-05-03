@@ -45,7 +45,7 @@ public class Ufo : Enemy {
             Projectile laser = go.AddComponent<Projectile>();
             laser.velocity = Vector3.down * laserSpeed;
             laser.transform.position = this.transform.position;
-            laser.init(Vector3.down, laserSpeed, Vector3.zero);
+            laser.init(Vector3.down, laserSpeed, lm.bgSpeed * Vector3.left);
             laser.name = "Laser";
             laser.setSprite("Sprites/pitchfork");
 
