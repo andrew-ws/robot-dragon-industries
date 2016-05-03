@@ -237,6 +237,7 @@ public class LevelManager : MonoBehaviour {
 			}
 			if (bundleClock >= 10) {
 				Bundle bundle = (new GameObject ()).AddComponent<Bundle> ();
+                bundle.transform.parent = bundleFolder.transform;
 				bundle.init (this);
 				bundleClock = 0f;
 			}
