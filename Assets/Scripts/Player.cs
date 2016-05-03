@@ -63,7 +63,6 @@ public class Player : MonoBehaviour {
         if (Input.GetKey(KeyCode.D))
             deltaPos.x += speed * Time.deltaTime;
 
-        // TODO: normalized diagonal speed instead?
         transform.position += deltaPos;
 
         // stay in bounding box

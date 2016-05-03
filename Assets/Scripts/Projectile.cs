@@ -53,8 +53,6 @@ public class Projectile : MonoBehaviour {
 
         if (clock > timeAlive) Destroy(this.gameObject);
         clock += Time.deltaTime;
-
-        // TODO: make air resistance a thing?
     }
 
     public void setSprite(string spriteName)

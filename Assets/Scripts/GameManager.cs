@@ -79,11 +79,6 @@ public class GameManager : MonoBehaviour {
 			undrop ();
 		}
 
-		// TODO: get rid of this debugging command
-		if (Input.GetKeyDown(KeyCode.Space)) {
-			lm.aggro++;
-		}
-
 		if (level == 1 || level == 3) {
 			if (lm.aggro > 5 && areDrums == false) {
 				drums.TransitionTo (2f);
@@ -106,17 +101,7 @@ public class GameManager : MonoBehaviour {
 				arpeggios.TransitionTo (2f);
 			}
 		}
-
-        if (Input.GetKeyDown(KeyCode.J))
-            lm.annihilate();
 	}
-
-	/*public void PlayMusic(AudioClip clip)
-	{
-		music.loop = true;
-		music.clip = clip;
-		music.Play();
-	}*/
 
 	public void PlayEffect(AudioClip clip)
 	{
