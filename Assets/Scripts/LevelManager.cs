@@ -242,6 +242,7 @@ public class LevelManager : MonoBehaviour {
 				spawnJoggers ();
 			} else if (level == 3) {
 				spawnTaxis ();
+				spawnPedestrians ();
 			}
 
 		} else { 
@@ -475,6 +476,28 @@ public class LevelManager : MonoBehaviour {
 				Random.value;
 		}
 		Taxi.spawnClock += Time.deltaTime;
+	}
+
+	private void spawnPedestrians() {
+		float place = Random.value * rdHeight - rdHeight / 2;
+		Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
+
+		if (Pedestrian.spawnClock > Pedestrian.spawnNext)
+		{
+			Pedestrian.spawnClock -= Pedestrian.spawnNext;
+			GameObject go = new GameObject();
+			go.transform.parent = enemyFolder.transform;
+			go.transform.position = spawnPt;
+			Pedestrian pedestrian = go.AddComponent<Pedestrian>();
+			if (dropped)
+				pedestrian.init(this, true);
+			else
+				pedestrian.init(this, false);
+			Pedestrian.spawnNext = (Pedestrian.minTimeBase + Pedestrian.minTimeAggro * aggro) +
+				(Pedestrian.spreadTimeBase + Pedestrian.spreadTimeAggro * aggro) *
+				Random.value;
+		}
+		Pedestrian.spawnClock += Time.deltaTime;
 	}
 
     void OnGUI()

@@ -8,8 +8,8 @@ public class Pedestrian : Enemy {
     public SpriteRenderer sr;
     public BoxCollider2D coll;
 
-    public float chaseSpeed = 1.5f;
-    public float wanderSpeed = 0.5f;
+    public float chaseSpeed = 1f;
+    public float wanderSpeed = 0.3f;
 
     public float switchDirectionOddsX = 15f;
     public float switchDirectionOddsY = 15f;
@@ -18,9 +18,9 @@ public class Pedestrian : Enemy {
     private bool thrown = false;
     public float throwThreshold;
 
-    public new static float minTimeBase = 4f;
+    public new static float minTimeBase = 2.5f;
     public new static float minTimeAggro = -0.12f;
-    public new static float spreadTimeBase = 1f;
+    public new static float spreadTimeBase = 2f;
     public new static float spreadTimeAggro = -0.05f;
 
     public new static float spawnClock = 0;
