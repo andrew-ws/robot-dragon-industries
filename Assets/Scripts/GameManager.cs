@@ -246,9 +246,10 @@ public class GameManager : MonoBehaviour {
     {
         if (lm != null) lm.annihilate();
         mainMenu = true;
-        /*
+        
         Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         cam.orthographicSize = (LevelManager.rdWidth / cam.aspect) / 2;
+        cam.transform.position = new Vector3(0,0,-10);
         float backgroundHt = LevelManager.rdWidth * (7f / 8f);
         float backgroundy = ((cam.orthographicSize * 2) - backgroundHt) / 2;
 
@@ -257,7 +258,12 @@ public class GameManager : MonoBehaviour {
         sr.sprite = Resources.Load<Sprite>("Sprites/title");
         menuImg.transform.position = new Vector3(0, backgroundy, 0);
         menuImg.name = "Menu";
-        */
+        
+    }
+
+    public void unloadMenu()
+    {
+        Destroy(menuImg);
     }
 
     void OnGUI()
@@ -269,16 +275,19 @@ public class GameManager : MonoBehaviour {
             {
                 resetLevel(1);
                 PlayEffect(menu);
+                unloadMenu();
             }
             if (GUI.Button(new Rect((Screen.width / 5)*2-100, 25, 200, 50), "Level 2"))
             {
                 resetLevel(2);
                 PlayEffect(menu);
+                unloadMenu();
             }
             if (GUI.Button(new Rect((Screen.width / 5)*3-100, 25, 200, 50), "Level 3"))
             {
                 resetLevel(3);
                 PlayEffect(menu);
+                unloadMenu();
             }
             if (GUI.Button(new Rect((Screen.width / 5)*4-100, 25, 200, 50), "Quit"))
             {

@@ -680,8 +680,6 @@ public class LevelManager : MonoBehaviour {
         Destroy(canvas.GetComponentInChildren<CanvasScaler>());
         Destroy(canvas.GetComponentInChildren<GraphicRaycaster>());
         Destroy(canvas);
-        // this doesn't work
-        // Destroy(manager.menu);
         if (ufo != null) Destroy(ufo.gameObject);
         if (player != null) Destroy(player.gameObject);
         Destroy(this.gameObject);
