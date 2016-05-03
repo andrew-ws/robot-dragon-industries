@@ -89,6 +89,8 @@ public class LevelManager : MonoBehaviour {
     public bool hasUFO = false;
     public Ufo ufo;
 
+    public int thresholdBonus = 150;
+
 	// Use this for initialization
 	void Start () {
         bundleFolder = new GameObject();
@@ -636,11 +638,12 @@ public class LevelManager : MonoBehaviour {
                 im.color = Color.white;
         }
         score.text = "$" + string.Format("{0:#.00}", totalMoney /100f);
+        int bonus = dropped ? thresholdBonus : 0;
         perPaperText.text = "$" + string.Format(
-            "{0:#.00}", aggro * 50 / 100f);
+            "{0:#.00}", (aggro * 50 / 100f) + (bonus / 100f));
         temperatureText.text = (67 + aggro * 3) + "\u00B0F";
-        if (dropped) weatherText.text = "Chaotic and\nStormy";
-        else weatherText.text = "Clear and\nCheerful";
+        if (dropped) weatherText.text = "Chaotic n'\nStormy";
+        else weatherText.text = "Clear n'\nCheerful";
         howManyText.text = "" + player.papers;
         frontPaper.gameObject.SetActive(player.papers >= 1);
         paper2.gameObject.SetActive(player.papers >= 2);
