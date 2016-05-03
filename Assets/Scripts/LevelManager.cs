@@ -83,6 +83,9 @@ public class LevelManager : MonoBehaviour {
 	public bool playerDead = false;
     public bool paused = false;
 
+    public bool hasUFO = false;
+    public Ufo ufo;
+
 	// Use this for initialization
 	void Start () {
         bundleFolder = new GameObject();
@@ -343,8 +346,14 @@ public class LevelManager : MonoBehaviour {
 		// Checking to see if the measure is up, for dropping and undropping
 		if (thresholdClock > thresholdTime)
         {
-			if (aggro >= thresholdAggro && !dropped) 
-				dropped = true;
+            if (aggro >= thresholdAggro && !dropped)
+            {
+                dropped = true;
+                if (!hasUFO && level == 3)
+                {
+                    spawnUFO(); hasUFO = true;
+                }
+            }
 			if (aggro < thresholdAggro && dropped)
 				dropped = false;
 			thresholdClock = 0;
@@ -510,6 +519,17 @@ public class LevelManager : MonoBehaviour {
 		Pedestrian.spawnClock += Time.deltaTime;
 	}
 
+    private void spawnUFO()
+    {
+        float yval = rdHeight;
+        Vector3 spawnPt = new Vector3(-spawnPtPad - (rdWidth / 2), yval, 0);
+        GameObject go = new GameObject();
+        go.name = "UFO";
+        go.transform.position = spawnPt;
+        ufo = go.AddComponent<Ufo>();
+        ufo.init(this, false);
+    }
+
     void OnGUI()
     {
 		if (!playerDead) {
@@ -629,6 +649,7 @@ public class LevelManager : MonoBehaviour {
         Destroy(canvas.GetComponentInChildren<CanvasScaler>());
         Destroy(canvas.GetComponentInChildren<GraphicRaycaster>());
         Destroy(canvas);
+        if (ufo != null) Destroy(ufo.gameObject);
         if (player != null) Destroy(player.gameObject);
         Destroy(this.gameObject);
     }
