@@ -8,7 +8,7 @@ public class Farmer : Enemy {
     public SpriteRenderer sr;
     public BoxCollider2D coll;
 
-    public float chaseSpeed = 1.5f;
+    public float chaseSpeed = 1f;
     public float wanderSpeed = 0.5f;
 
     public float switchDirectionOddsX = 15f;
