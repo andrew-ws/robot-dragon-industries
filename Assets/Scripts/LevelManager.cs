@@ -234,8 +234,15 @@ public class LevelManager : MonoBehaviour {
 				bundleClock = 0f;
 			}
 
-			spawnCows();
-			spawnFarmers();
+			if (level == 1) {
+				spawnCows ();
+				spawnFarmers ();
+			} else if (level == 2) {
+				spawnCars ();
+				spawnJoggers ();
+			} else if (level == 3) {
+
+			}
 
 		} else { 
 			if (numSide < 5) {
@@ -385,6 +392,59 @@ public class LevelManager : MonoBehaviour {
         }
         Farmer.spawnClock += Time.deltaTime;
     }
+
+	private void spawnCars() {
+		float place;
+		if (Random.value * 100 < 50) {
+			place = -2;
+		} else {
+			place = 0;
+		}
+		Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
+
+		if (Car.spawnClock > Car.spawnNext)
+		{
+			Car.spawnClock -= Car.spawnNext;
+			GameObject go = new GameObject();
+			go.transform.parent = enemyFolder.transform;
+			go.transform.position = spawnPt;
+			Car car = go.AddComponent<Car>();
+			if (dropped)
+			{
+				car.init(this, true);
+			}
+			else
+			{
+				car.init(this, false);
+			}
+			Car.spawnNext = (Car.minTimeBase + Car.minTimeAggro * aggro) +
+				(Car.spreadTimeBase + Car.spreadTimeAggro * aggro) *
+				Random.value;
+		}
+		Car.spawnClock += Time.deltaTime;
+	}
+
+	private void spawnJoggers() {
+		float place = Random.value * rdHeight - rdHeight / 2;
+		Vector3 spawnPt = new Vector3(spawnPtPad + (rdWidth / 2), place, 0);
+
+		if (Jogger.spawnClock > Jogger.spawnNext)
+		{
+			Jogger.spawnClock -= Jogger.spawnNext;
+			GameObject go = new GameObject();
+			go.transform.parent = enemyFolder.transform;
+			go.transform.position = spawnPt;
+			Jogger jogger = go.AddComponent<Jogger>();
+			if (dropped)
+				jogger.init(this, true);
+			else
+				jogger.init(this, false);
+			Jogger.spawnNext = (Jogger.minTimeBase + Jogger.minTimeAggro * aggro) +
+				(Jogger.spreadTimeBase + Jogger.spreadTimeAggro * aggro) *
+				Random.value;
+		}
+		Jogger.spawnClock += Time.deltaTime;
+	}
 
     void OnGUI()
     {

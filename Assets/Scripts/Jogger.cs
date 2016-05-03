@@ -8,8 +8,8 @@ public class Jogger : Enemy {
     public SpriteRenderer sr;
     public BoxCollider2D coll;
 
-    public float chaseSpeed = 1.5f;
-    public float wanderSpeed = 0.5f;
+    public float chaseSpeed = 2f;
+    public float wanderSpeed = 1.5f;
 
     public float switchDirectionOddsX = 15f;
     public float switchDirectionOddsY = 15f;
@@ -18,7 +18,7 @@ public class Jogger : Enemy {
     private bool thrown = false;
     public float throwThreshold;
 
-    public new static float minTimeBase = 4f;
+    public new static float minTimeBase = 5f;
     public new static float minTimeAggro = -0.12f;
     public new static float spreadTimeBase = 1f;
     public new static float spreadTimeAggro = -0.05f;

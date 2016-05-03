@@ -11,14 +11,15 @@ public class Car : Enemy {
     public float cowVision = 0.2f;
     public bool charging = false;
 
-    public float wanderSpeed = 1f;
+    public float wanderSpeed = 0.1f;
     public float switchDirectionOdds = 60f;
-    public float angrySpeedBoost = 0.5f;
+    public float angrySpeedBoost = 1f;
+	public float carBoost = 0.5f;
 
-    private static float chargeGate = 1f;
-    private static float chargeSpeed = 4.5f;
+    private static float chargeGate = 2f;
+    private static float chargeSpeed = 6f;
 
-    public new static float minTimeBase = 3f;
+    public new static float minTimeBase = 4f;
     public new static float minTimeAggro = -0.1f;
     public new static float spreadTimeBase = 1f;
     public new static float spreadTimeAggro = -0.05f;
@@ -29,7 +30,6 @@ public class Car : Enemy {
     // Use this for initialization
     void Start()
     {
-        this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>("Sprites/cow");
         coll = gameObject.AddComponent<BoxCollider2D>();
@@ -39,6 +39,8 @@ public class Car : Enemy {
         if (Random.value * 100 < 50) velocity = Vector2.up * wanderSpeed;
         else velocity = Vector2.down * wanderSpeed;
         if (isAngry) makeAngry();
+		this.transform.localScale = new Vector3(1f, 1f, 1f);
+
     }
 
     // Update is called once per frame
@@ -58,23 +60,23 @@ public class Car : Enemy {
             }
             if (isAngry) velocity.x = -angrySpeedBoost;
         }
-        if (stunned)
-        {
-            if (stunClock > stunTime)
-            {
-                stunned = false;
-                stunClock = 0f;
-                makeAngry();
-                if (Random.value * 100 < 50)
-                    velocity = Vector2.up * wanderSpeed;
-                else velocity = Vector2.down * wanderSpeed;
-            }
-            else velocity = Vector2.zero;
-            stunClock += Time.deltaTime;
-        }
-
-        this.transform.position += (velocity + lm.bgSpeed * Vector3.left)
-            * Time.deltaTime;
+		if (stunned) {
+			if (stunClock > stunTime) {
+				stunned = false;
+				stunClock = 0f;
+				makeAngry ();
+				if (Random.value * 100 < 50)
+					velocity = Vector2.up * wanderSpeed;
+				else
+					velocity = Vector2.down * wanderSpeed;
+			} else
+				velocity = Vector2.zero;
+			this.transform.position += (velocity + lm.bgSpeed * Vector3.left) * Time.deltaTime;
+			stunClock += Time.deltaTime;
+		} else {
+			this.transform.position += (velocity + lm.bgSpeed * Vector3.left + carBoost * Vector3.left)
+			* Time.deltaTime;
+		}
         if (lm.player.hp > 0)
         {
             if (isAngry && !charging && Mathf.Abs(transform.position.y -

@@ -41,7 +41,6 @@ public abstract class Enemy : MonoBehaviour {
             if (!stunned) lm.hitAggro(aggroAdd);
             onHit();
         }
-        // TODO: I guess aggro has to build when hitting an angry enemy?
     }
 
     public void init(LevelManager lm, bool isAngry)
