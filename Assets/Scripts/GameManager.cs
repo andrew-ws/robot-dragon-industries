@@ -255,22 +255,22 @@ public class GameManager : MonoBehaviour {
     {
         if (mainMenu)
         {
-            if ((GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 75, 200, 50), "Level 1")))
+            if ((GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 75, 200, 50), "Level 1")))
             {
                 resetLevel(1);
                 PlayEffect(menu);
             }
-            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 25, 200, 50), "Level 2"))
+            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 25, 200, 50), "Level 2"))
             {
                 resetLevel(2);
                 PlayEffect(menu);
             }
-            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) + 25, 200, 50), "Level 3"))
+            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) + 25, 200, 50), "Level 3"))
             {
                 resetLevel(3);
                 PlayEffect(menu);
             }
-            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) + 75, 200, 50), "Quit"))
+            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) + 75, 200, 50), "Quit"))
             {
                 Application.Quit();
             }

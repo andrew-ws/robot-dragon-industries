@@ -31,6 +31,8 @@ public class LevelManager : MonoBehaviour {
 	public int numPlots = 0;
 	public int numSide = 0;
 
+    public int numExtraPlots = 0;
+
     public Player player;
 	public GameManager manager;
 	// I need our main GameManager to be passed along into MusicManager to access the audio
@@ -82,6 +84,7 @@ public class LevelManager : MonoBehaviour {
 
 	public bool playerDead = false;
     public bool paused = false;
+    public bool levelDone = false;
 
     public bool hasUFO = false;
     public Ufo ufo;
@@ -262,6 +265,13 @@ public class LevelManager : MonoBehaviour {
 					numSide++;
 				}
 			}
+            if (plotClock >= 6 / bgSpeed)
+            {
+                plotClock = 0 + Time.deltaTime;
+                numExtraPlots++;
+                if (numExtraPlots >= 3)
+                    levelEnd();
+            }
 		}
 		if (player.hp > 0) {
 			manageAggro ();
@@ -538,7 +548,7 @@ public class LevelManager : MonoBehaviour {
             //GUI.Label(new Rect(25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
             //GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "$/paper: " + (aggro * 50), style);
         } else {
-			if ((GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) - 50, 200, 50), "Press R to restart"))
+			if ((GUI.Button (new Rect ((Screen.width / 2) - 100, (Screen.height / 2) - 50, 200, 50), "Press R to restart"))
 				|| Input.GetKeyDown(KeyCode.R)) {
 				manager.resetLevel (manager.level);
                 Time.timeScale = 1;
@@ -546,7 +556,7 @@ public class LevelManager : MonoBehaviour {
 				// sound 
 				manager.PlayEffect(manager.menu);
 			}
-            if ((GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 0, 200, 50), "Continue (Lose Money)"))
+            if ((GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 0, 200, 50), "Continue (Lose Money)"))
                 || Input.GetKeyDown(KeyCode.R))
             {
                 player.hp = player.maxhp;
@@ -563,7 +573,7 @@ public class LevelManager : MonoBehaviour {
                 manager.PlayEffect(manager.menu);
             }
             if (level < 3) {
-				if (GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) + 50, 200, 50), "Skip to next level")) {
+				if (GUI.Button (new Rect ((Screen.width / 2) - 100, (Screen.height / 2) + 50, 200, 50), "Skip to next level")) {
 					manager.resetLevel (manager.level + 1);
 
 					// sound
@@ -573,18 +583,32 @@ public class LevelManager : MonoBehaviour {
 		}
         if(paused)
         {
-            if ((GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 50, 200, 50), "Resume game (ESC)")))
+            if ((GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 50, 200, 50), "Resume game (ESC)")))
             {
                 unpause();
             }
-            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2), 200, 50), "Skip to next level"))
+            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2), 200, 50), "Skip to next level"))
             {
                 unpause();
                 manager.resetLevel(manager.level + 1);
                 // sound
                 manager.PlayEffect(manager.menu);
             }
-            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) + 50, 200, 50), "Exit to menu"))
+            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) + 50, 200, 50), "Exit to menu"))
+            {
+                manager.loadMainMenu();
+                // sound
+                manager.PlayEffect(manager.menu);
+            }
+        }
+        if (levelDone)
+        {
+            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 25, 200, 50), "Next level"))
+            {
+                unpause();
+                manager.resetLevel(manager.level + 1);
+            }
+            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) + 25, 200, 50), "Exit to menu"))
             {
                 manager.loadMainMenu();
                 // sound
@@ -667,6 +691,12 @@ public class LevelManager : MonoBehaviour {
         paused = false;
         Time.timeScale = 1;
         manager.PlayEffect(manager.menu);
+    }
+
+    public void levelEnd()
+    {
+        levelDone = true;
+        Time.timeScale = 0;
     }
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");
