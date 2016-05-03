@@ -33,7 +33,7 @@ public class Ufo : Enemy {
         this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
         // TODO: change the sprite out
-        sr.sprite = Resources.Load<Sprite>("Sprites/farmer");
+        sr.sprite = Resources.Load<Sprite>("Sprites/UFO");
         coll = gameObject.AddComponent<BoxCollider2D>();
         coll.size = new Vector2(1f, 1.5f);
         coll.offset = new Vector2(0f, -.3f);
@@ -111,6 +111,6 @@ public class Ufo : Enemy {
         isAngry = true;
         sr.color = Color.white;
         // TODO: replace anger sprite
-        sr.sprite = Resources.Load<Sprite>("Sprites/farmerMad");
+        sr.sprite = Resources.Load<Sprite>("Sprites/UFOMad");
     }
 }

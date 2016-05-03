@@ -34,7 +34,6 @@ public class Player : MonoBehaviour {
     */
 	void Start () {
         gameObject.tag = "player";
-        transform.localScale = new Vector3(2f, 2f, 1f);
 		papers = maxpapers;
 
         gameObject.AddComponent<SpriteRenderer>();
