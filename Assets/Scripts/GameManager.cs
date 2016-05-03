@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
     public LevelManager lm;
 	public int level = 1;
 
+    public bool mainMenu = true;
+
 	// Need these for accessing music objects
 	public AudioSource[] sources;
 	private AudioSource source0;
@@ -60,11 +62,11 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GameObject go = new GameObject();
-        lm = go.AddComponent<LevelManager>();
-		go.name = "Level " + level + " Manager";
+        //GameObject go = new GameObject();
+        //lm = go.AddComponent<LevelManager>();
+        //go.name = "Level " + level + " Manager";
         // Passing in for accessing some music objects in the scene
-		lm.init(level, this);
+        //lm.init(level, this);
 
 		manageMusic ();
 		manageSounds ();
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (mainMenu) return;
 		if (lm.dropped && !dropped) {
             dropped = true;
 			drop ();
@@ -231,14 +234,46 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void resetLevel(int level) {
+        mainMenu = false;
 		this.level = level;
-		lm.annihilate ();
+		if (lm != null) lm.annihilate ();
         GameObject go = new GameObject();
 		lm = go.AddComponent<LevelManager>();
 		go.name = "Level " + this.level + " Manager";
 		manageMusic ();
 		nonintense.TransitionTo (0.01f);
 		lm.init (level, this);
-	
 	}
+
+    public void loadMainMenu()
+    {
+        if (lm != null) lm.annihilate();
+        mainMenu = true;
+    }
+
+    void OnGUI()
+    {
+        if (mainMenu)
+        {
+            if ((GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 75, 200, 50), "Level 1")))
+            {
+                resetLevel(1);
+                PlayEffect(menu);
+            }
+            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 25, 200, 50), "Level 2"))
+            {
+                resetLevel(2);
+                PlayEffect(menu);
+            }
+            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) + 25, 200, 50), "Level 3"))
+            {
+                resetLevel(3);
+                PlayEffect(menu);
+            }
+            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) + 75, 200, 50), "Quit"))
+            {
+                Application.Quit();
+            }
+        }
+    }
 }

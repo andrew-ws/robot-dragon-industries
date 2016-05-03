@@ -133,7 +133,7 @@ public class Player : MonoBehaviour {
 		}
 		if (hp == 0) {
 			lm.playerDead = true;
-			Destroy (this.gameObject);
+            Time.timeScale = 0;
 		}
     }
 
