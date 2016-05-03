@@ -59,6 +59,7 @@ public class LevelManager : MonoBehaviour {
     private GameObject plotFolder;
     private GameObject sceneryFolder;
     private GameObject enemyFolder;
+    private GameObject bundleFolder;
     public GameObject projectileFolder;
 
     private int consecutiveEmptyPlots = 0;
@@ -80,9 +81,11 @@ public class LevelManager : MonoBehaviour {
     private float bundleClock = 0f;
 
 	public bool playerDead = false;
+    public bool paused = false;
 
 	// Use this for initialization
 	void Start () {
+        bundleFolder = new GameObject();
         enemyFolder = new GameObject();
         enemyFolder.name = "Enemy Folder";
         projectileFolder = new GameObject();
@@ -119,11 +122,13 @@ public class LevelManager : MonoBehaviour {
         paper2 = Instantiate(behindPaper);
         paper2.rectTransform.SetParent(canvas.transform, false);
         paper2.rectTransform.SetAsFirstSibling();
+        paper2.rectTransform.anchoredPosition +=
+            (Vector2.right + Vector2.down) * 10;
         paper3 = Instantiate(behindPaper);
         paper3.rectTransform.SetParent(canvas.transform, false);
         paper3.rectTransform.SetAsFirstSibling();
         paper3.rectTransform.anchoredPosition +=
-            (Vector2.right + Vector2.down) * 10;
+            (Vector2.right + Vector2.down) * 20;
         Image morePaperPrefab = Resources.Load<Image>("Prefabs/MorePaper");
         morePaper = Instantiate(morePaperPrefab);
         morePaper.rectTransform.SetParent(canvas.transform, false);
@@ -182,6 +187,8 @@ public class LevelManager : MonoBehaviour {
         style = new GUIStyle();
         style.fontSize = 20;
         style.normal.textColor = Color.white;
+
+        Time.timeScale = 1;
     }
 
     /*
@@ -199,9 +206,6 @@ public class LevelManager : MonoBehaviour {
         if (level == 1) { levelName = "Rural"; }
         if (level == 2) { levelName = "Suburban"; }
         if (level == 3) { levelName = "Urban"; }
-        // setup bounding box
-        // setup spawners
-        // setup camera?
     }
 
 	// Update is called once per frame
@@ -252,6 +256,14 @@ public class LevelManager : MonoBehaviour {
 		}
         
         updateGUI();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!paused)
+                pause();
+            else
+                unpause();
+        }
     }
     /*
     Note: the spawners below are temporary as they are quite redundant.
@@ -293,8 +305,6 @@ public class LevelManager : MonoBehaviour {
         line.transform.position = new Vector3(rdWidth/2f+1, -1, 1);
         line.init("streetLine", bgSpeed, this);
     }
-
-
 
     private GameObject makeBackground(string image, int layer)
     {
@@ -393,15 +403,32 @@ public class LevelManager : MonoBehaviour {
             //GUI.Label(new Rect(25, Screen.height - 50, 110, 50), "Papers: " + player.papers, style);
             //GUI.Label(new Rect(Screen.width - 110, Screen.height - 50, 110, 50), "$/paper: " + (aggro * 50), style);
         } else {
-			if ((GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) - 25, 200, 50), "Press R to restart"))
+			if ((GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) - 50, 200, 50), "Press R to restart"))
 				|| Input.GetKeyDown(KeyCode.R)) {
 				manager.resetLevel (manager.level);
+                Time.timeScale = 1;
 
 				// sound 
 				manager.PlayEffect(manager.menu);
 			}
-			if (level < 3) {
-				if (GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) + 25, 200, 50), "Continue")) {
+            if ((GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 0, 200, 50), "Continue (Lose Money)"))
+                || Input.GetKeyDown(KeyCode.R))
+            {
+                player.hp = player.maxhp;
+                totalMoney = totalMoney / 2;
+                aggro = aggro / 3;
+                Destroy(enemyFolder);
+                enemyFolder = new GameObject();
+                Destroy(projectileFolder);
+                projectileFolder = new GameObject();
+                playerDead = false;
+                Time.timeScale = 1;
+
+                // sound 
+                manager.PlayEffect(manager.menu);
+            }
+            if (level < 3) {
+				if (GUI.Button (new Rect ((Screen.width / 2) - 50, (Screen.height / 2) + 50, 200, 50), "Skip to next level")) {
 					manager.resetLevel (manager.level + 1);
 
 					// sound
@@ -409,6 +436,26 @@ public class LevelManager : MonoBehaviour {
 				}
 			}
 		}
+        if(paused)
+        {
+            if ((GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 50, 200, 50), "Resume game (ESC)")))
+            {
+                unpause();
+            }
+            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2), 200, 50), "Skip to next level"))
+            {
+                unpause();
+                manager.resetLevel(manager.level + 1);
+                // sound
+                manager.PlayEffect(manager.menu);
+            }
+            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) + 50, 200, 50), "Exit to menu"))
+            {
+                manager.loadMainMenu();
+                // sound
+                manager.PlayEffect(manager.menu);
+            }
+        }
     }
 
     private void updateGUI()
@@ -464,8 +511,26 @@ public class LevelManager : MonoBehaviour {
         Destroy(projectileFolder);
         Destroy(plotFolder);
         Destroy(sceneryFolder);
+        Destroy(bundleFolder);
+        Destroy(canvas.GetComponentInChildren<CanvasScaler>());
+        Destroy(canvas.GetComponentInChildren<GraphicRaycaster>());
+        Destroy(canvas);
         if (player != null) Destroy(player.gameObject);
         Destroy(this.gameObject);
+    }
+
+    public void pause()
+    {
+        paused = true;
+        Time.timeScale = 0;
+        manager.PlayEffect(manager.menu);
+    }
+
+    public void unpause()
+    {
+        paused = false;
+        Time.timeScale = 1;
+        manager.PlayEffect(manager.menu);
     }
 
     private GameObject cow = Resources.Load<GameObject>("Prefabs/Cow");

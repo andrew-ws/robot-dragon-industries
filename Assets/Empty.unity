@@ -225,15 +225,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lm: {fileID: 0}
   level: 1
+  mainMenu: 1
   sources: []
   sfx: {fileID: 1297920854}
-  master_1: {fileID: 0}
-  master_2: {fileID: 0}
-  master_3: {fileID: 0}
-  nonintense: {fileID: 0}
-  drums: {fileID: 0}
-  intense: {fileID: 0}
-  arpeggios: {fileID: 0}
+  enemyHit: {fileID: 0}
+  enemyHitVoice: {fileID: 0}
+  enemyHitCow: {fileID: 0}
+  playerHit: {fileID: 0}
+  menu: {fileID: 0}
+  money: {fileID: 0}
+  pickup: {fileID: 0}
+  throwPaper: {fileID: 0}
   dropped: 0
 --- !u!82 &1297920851
 AudioSource:

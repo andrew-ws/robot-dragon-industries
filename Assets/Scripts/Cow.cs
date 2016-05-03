@@ -100,7 +100,6 @@ public class Cow : Enemy {
 
 		// sound
 		lm.manager.PlayEffect (lm.manager.enemyHitCow);
-		print ("cow");
     }
 
     protected override void makeAngry()
