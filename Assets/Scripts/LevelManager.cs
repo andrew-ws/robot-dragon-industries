@@ -605,10 +605,13 @@ public class LevelManager : MonoBehaviour {
         }
         if (levelDone)
         {
-            if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 25, 200, 50), "Next level"))
+            if (level < 3)
             {
-                unpause();
-                manager.resetLevel(manager.level + 1);
+                if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) - 25, 200, 50), "Next level"))
+                {
+                    unpause();
+                    manager.resetLevel(manager.level + 1);
+                }
             }
             if (GUI.Button(new Rect((Screen.width / 2) - 100, (Screen.height / 2) + 25, 200, 50), "Exit to menu"))
             {
@@ -677,7 +680,8 @@ public class LevelManager : MonoBehaviour {
         Destroy(canvas.GetComponentInChildren<CanvasScaler>());
         Destroy(canvas.GetComponentInChildren<GraphicRaycaster>());
         Destroy(canvas);
-        Destroy(manager.menu);
+        // this doesn't work
+        // Destroy(manager.menu);
         if (ufo != null) Destroy(ufo.gameObject);
         if (player != null) Destroy(player.gameObject);
         Destroy(this.gameObject);

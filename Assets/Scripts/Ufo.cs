@@ -19,7 +19,7 @@ public class Ufo : Enemy {
         aggroAdd = 0;
         this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
-        sr.sprite = Resources.Load<Sprite>("Sprites/farmer");
+        sr.sprite = Resources.Load<Sprite>("Sprites/UFO");
     }
 
     // Update is called once per frame
@@ -32,9 +32,6 @@ public class Ufo : Enemy {
 
         this.transform.position += velocity * Time.deltaTime;
 
-        clock += Time.deltaTime;
-        if (clock > timeAlive) Destroy(gameObject);
-
         laserClock += Time.deltaTime;
         while (laserClock > laserTime)
         {
@@ -46,7 +43,7 @@ public class Ufo : Enemy {
             laser.transform.position = this.transform.position;
             laser.init(Vector3.down, laserSpeed, lm.bgSpeed * Vector3.left);
             laser.name = "Laser";
-            laser.setSprite("Sprites/pitchfork");
+            laser.setSprite("Sprites/laser");
 
             lm.manager.PlayEffect(lm.manager.throwPaper);
         }

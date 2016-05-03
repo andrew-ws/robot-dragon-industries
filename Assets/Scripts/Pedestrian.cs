@@ -19,7 +19,7 @@ public class Pedestrian : Enemy {
     public float throwThreshold;
 
     public new static float minTimeBase = 2.5f;
-    public new static float minTimeAggro = -0.12f;
+    public new static float minTimeAggro = -0.11f;
     public new static float spreadTimeBase = 2f;
     public new static float spreadTimeAggro = -0.05f;
 
