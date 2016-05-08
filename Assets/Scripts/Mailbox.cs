@@ -11,6 +11,8 @@ public class Mailbox : MonoBehaviour {
     protected Rigidbody2D rb;
     protected SpriteRenderer sr;
 
+    private GameObject dollarSign;
+
     // initVel is relative to the camera
     public void init(Plot plot)
     {
@@ -40,7 +42,15 @@ public class Mailbox : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        //animate dollar sign
+        if (dollarSign != null)
+        {
+            float y = dollarSign.transform.localPosition.y;
+            dollarSign.transform.localPosition = new Vector3(0, y + Time.deltaTime, 0);
+            SpriteRenderer sr3 = dollarSign.GetComponent<SpriteRenderer>();
+            float a = sr3.color.a;
+            sr3.color = new Color(1, 1, 1, a - Time.deltaTime);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -58,6 +68,20 @@ public class Mailbox : MonoBehaviour {
 
 			// sound
 			plot.manager.manager.PlayEffect (plot.manager.manager.money);
+
+            //animation sprite
+            makeDollarSign();
+
         }
+    }
+
+    private void makeDollarSign()
+    {
+        dollarSign = new GameObject();
+        dollarSign.transform.parent = this.transform;
+        SpriteRenderer sr2 = dollarSign.AddComponent<SpriteRenderer>();
+        sr2.sprite = Resources.Load<Sprite>("Sprites/dollar");
+        dollarSign.name = "Dollar Sign";
+        dollarSign.transform.position = gameObject.transform.position;
     }
 }
