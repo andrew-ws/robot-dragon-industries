@@ -14,8 +14,8 @@ public class Player : MonoBehaviour {
 
     public LevelManager lm = null;
 
-    private Vector2 collOffset = new Vector2(0f, -0.42f);
-    private Vector2 collSize = new Vector2(0.9f, 0.065f);
+    private Vector2 collOffset = new Vector2(0f, -0.55f);
+    private Vector2 collSize = new Vector2(1.54f, 0.48f);
 
     private float paperCooldownClock;
 	private float healthCooldownClock = 0f;
@@ -31,6 +31,8 @@ public class Player : MonoBehaviour {
     private Sprite spr1;
     private Sprite spr2;
     private float spriteSwitchTime = 0.5f;
+
+    private GameObject hurtHeart;
 
 	/*
         Physics: player has a non-trigger collider and a rigidbody
@@ -111,6 +113,16 @@ public class Player : MonoBehaviour {
         // sorting order hack
         sr.sortingOrder = 10000 - (int)
             ((transform.position.y - (sr.bounds.size.y)) * 100);
+
+        //animate hurt heart
+        if (hurtHeart != null)
+        {
+            float y = hurtHeart.transform.localPosition.y;
+            hurtHeart.transform.localPosition = new Vector3(0, y + Time.deltaTime, 0);
+            SpriteRenderer sr3 = hurtHeart.GetComponent<SpriteRenderer>();
+            float a = sr3.color.a;
+            sr3.color = new Color(1, 1, 1, a - Time.deltaTime);
+        }
     }
 
     void shoot(Vector2 dir) {
@@ -146,6 +158,12 @@ public class Player : MonoBehaviour {
 			lm.playerDead = true;
             Time.timeScale = 0;
 		}
+
+        //animation sprite
+        if (hp > 0)
+        {
+            makeHurtHeart();
+        }
     }
 
 	void heal() {
@@ -155,5 +173,15 @@ public class Player : MonoBehaviour {
 			healthCooldownClock = 4f;
 		}
 	}
-		
+
+    private void makeHurtHeart()
+    {
+        hurtHeart = new GameObject();
+        hurtHeart.transform.parent = this.transform;
+        SpriteRenderer sr2 = hurtHeart.AddComponent<SpriteRenderer>();
+        sr2.sprite = Resources.Load<Sprite>("Sprites/heartLittle");
+        hurtHeart.name = "Hurt Heart";
+        hurtHeart.transform.position = gameObject.transform.position;
+    }
+
 }
