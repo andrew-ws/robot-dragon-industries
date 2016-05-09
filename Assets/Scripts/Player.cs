@@ -30,7 +30,6 @@ public class Player : MonoBehaviour {
 
     private Sprite spr1;
     private Sprite spr2;
-    private float spriteSwitchTime = 0.5f;
 
     private GameObject hurtHeart;
 
