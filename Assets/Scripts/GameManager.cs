@@ -101,6 +101,13 @@ public class GameManager : MonoBehaviour {
 				arpeggios.TransitionTo (2f);
 			}
 		}
+
+        // dev override
+        if(Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.D) &&
+            Input.GetKey(KeyCode.I))
+        {
+            PlayerPrefs.DeleteAll();
+        }
 	}
 
 	public void PlayEffect(AudioClip clip)
