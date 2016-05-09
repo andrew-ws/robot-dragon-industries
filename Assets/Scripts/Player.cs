@@ -175,6 +175,8 @@ public class Player : MonoBehaviour {
 
     private void makeHurtHeart()
     {
+        if (hurtHeart != null)
+            DestroyImmediate(hurtHeart);
         hurtHeart = new GameObject();
         hurtHeart.transform.parent = this.transform;
         SpriteRenderer sr2 = hurtHeart.AddComponent<SpriteRenderer>();
