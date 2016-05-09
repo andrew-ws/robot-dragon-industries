@@ -91,6 +91,8 @@ public class LevelManager : MonoBehaviour {
 
     public int thresholdBonus = 150;
 
+    public LeaderboardManager lb;
+
 	// Use this for initialization
 	void Start () {
         bundleFolder = new GameObject();
@@ -99,6 +101,10 @@ public class LevelManager : MonoBehaviour {
         projectileFolder = new GameObject();
         projectileFolder.name = "Projectile Folder";
         this.transform.position = Vector3.zero;
+
+        GameObject lbGO = new GameObject();
+        lb = lbGO.AddComponent<LeaderboardManager>();
+        lb.init(this);
 
         // GUI!!!
         canvas = Instantiate(Resources.Load<Canvas>("Prefabs/Canvas"));
@@ -218,6 +224,12 @@ public class LevelManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+        if (Input.GetKeyDown(KeyCode.End))
+        {
+            print("take this out!!!!");
+            levelDone = !levelDone;
+        }
 
         plotClock += Time.deltaTime;
         sceneryClock += Time.deltaTime;
@@ -619,6 +631,7 @@ public class LevelManager : MonoBehaviour {
                 // sound
                 manager.PlayEffect(manager.menu);
             }
+            lb.draw();
         }
     }
 
@@ -680,6 +693,7 @@ public class LevelManager : MonoBehaviour {
         Destroy(canvas.GetComponentInChildren<CanvasScaler>());
         Destroy(canvas.GetComponentInChildren<GraphicRaycaster>());
         Destroy(canvas.gameObject);
+        Destroy(lb.gameObject);
         if (ufo != null) Destroy(ufo.gameObject);
         if (player != null) Destroy(player.gameObject);
         Destroy(this.gameObject);
