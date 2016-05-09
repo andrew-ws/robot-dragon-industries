@@ -90,7 +90,8 @@ public class LeaderboardManager : MonoBehaviour {
         string lbstring = "Leaderboard!!!\n";
         for (int i = 0; i < lbNames.Length; i++)
         {
-            lbstring += (i + 1) + ") " + lbNames[i] + ": " + lbScores[i]
+            lbstring += (i + 1) + ") " + lbNames[i] + ": "
+                + "$" + string.Format("{0:#.00}", lbScores[i] / 100f)
                 + "\n";
         }
         GUIStyle lbStyle = GUI.skin.label;
