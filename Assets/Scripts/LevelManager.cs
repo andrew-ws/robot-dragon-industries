@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour {
 
     private float plotClock;
     private float sceneryClock;
+    private float sceneryClock2;
 
     public float cowOddsBase = 14f;
     public float cowOddsPerAggro = 1.5f;
@@ -169,8 +170,8 @@ public class LevelManager : MonoBehaviour {
         backgroundHt = rdWidth * (7f / 8f);
         backgroundy = (backgroundHt - (cam.orthographicSize * 2)) / 2 + camy;
 
-        sky = makeBackground("skyDay1", 3);
-        street = makeBackground("street" + level, 2);
+        sky = makeBackground("skyDay1", 4);
+        street = makeBackground("street" + level, 3);
 
         sceneryFolder = new GameObject();
         sceneryFolder.name = "Scenery";
@@ -222,6 +223,7 @@ public class LevelManager : MonoBehaviour {
         plotClock += Time.deltaTime;
         sceneryClock += Time.deltaTime;
         bundleClock += Time.deltaTime;
+        sceneryClock2 += Time.deltaTime;
 		if (numPlots < plotCap) {
 			// All spawning behavior
 			if (plotClock >= 6 / bgSpeed) {
@@ -240,6 +242,11 @@ public class LevelManager : MonoBehaviour {
 				spawnLine ();
 				spawnSidewalk ();
 			}
+            if (sceneryClock2 >= (6 / bgSpeed / 6))
+            {
+                sceneryClock2 = Time.deltaTime;
+                spawnScenery();
+            }
 			if (bundleClock >= 10) {
 				Bundle bundle = (new GameObject ()).AddComponent<Bundle> ();
                 bundle.transform.parent = bundleFolder.transform;
@@ -328,6 +335,24 @@ public class LevelManager : MonoBehaviour {
         line.transform.localScale = new Vector3(1, 1, 0);
         line.transform.position = new Vector3(rdWidth/2f+1, -1, 1);
         line.init("streetLine", bgSpeed, this);
+    }
+
+    private void spawnScenery()
+    {
+        GameObject obj = new GameObject();
+        SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+        Scenery line = obj.AddComponent<Scenery>();
+        obj.transform.parent = sceneryFolder.transform;
+        obj.name = "Moving Backdrop";
+        line.transform.localScale = new Vector3(1, 1, 0);
+        line.transform.position = new Vector3(rdWidth / 2f + 1, rdHeight -.75f, 2);
+
+        if (level == 1)
+            line.init("cornRow2", bgSpeed, this);
+        else if (level == 2)
+            line.init("fenceBack", bgSpeed, this);
+        else if (level == 3)
+            line.init("fenceBack", bgSpeed, this);
     }
 
     private GameObject makeBackground(string image, int layer)

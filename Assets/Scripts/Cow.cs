@@ -26,11 +26,16 @@ public class Cow : Enemy {
     public new static float spawnClock = 0;
     public new static float spawnNext = minTimeBase;
 
+    private Sprite spr1;
+    private Sprite spr2;
+
     // Use this for initialization
     void Start () {
         this.transform.localScale = new Vector3(1f, 1f, 1f);
         sr = gameObject.AddComponent<SpriteRenderer>();
-        sr.sprite = Resources.Load<Sprite>("Sprites/cow");
+        spr1 = Resources.Load<Sprite>("Sprites/cow1");
+        spr2 = Resources.Load<Sprite>("Sprites/cow2");
+        sr.sprite = spr1;
         coll = gameObject.AddComponent<BoxCollider2D>();
         coll.size = new Vector2(1.5f, 1f);
         coll.offset = new Vector2(0f, -.2f);
@@ -42,6 +47,12 @@ public class Cow : Enemy {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if ((Time.timeSinceLevelLoad * 2) % 2 < 1)
+            sr.sprite = spr1;
+        else
+            sr.sprite = spr2;
+
         if (!charging)
         {
             if (Random.value * 100 < (switchDirectionOdds * Time.deltaTime))
@@ -106,7 +117,8 @@ public class Cow : Enemy {
     {
         isAngry = true;
         sr.color = Color.white;
-        sr.sprite = Resources.Load<Sprite>("Sprites/cowMad");
+        spr1 = Resources.Load<Sprite>("Sprites/cowMad1");
+        spr2 = Resources.Load<Sprite>("Sprites/cowMad2");
         // change sprite
     }
 
