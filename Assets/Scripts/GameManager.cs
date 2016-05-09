@@ -62,6 +62,8 @@ public class GameManager : MonoBehaviour {
 
     public GameObject menuImg;
 
+    bool isStyled = false;
+
 	// Use this for initialization
 	void Start () {
         loadMainMenu();
@@ -275,6 +277,13 @@ public class GameManager : MonoBehaviour {
 
     void OnGUI()
     {
+        if (!isStyled)
+        {
+            GUIStyle button = GUI.skin.button;
+            button.normal.textColor = Color.yellow;
+            button.fontSize = 18;
+        }
+
         if (mainMenu)
         {
             if ((GUI.Button(new Rect((Screen.width / 5)-100, 25, 200, 50), "Level 1")))

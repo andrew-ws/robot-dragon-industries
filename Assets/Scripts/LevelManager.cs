@@ -302,9 +302,9 @@ public class LevelManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!paused)
+            if (!paused && !levelDone && !playerDead)
                 pause();
-            else
+            else if (paused && !levelDone && !playerDead)
                 unpause();
         }
     }

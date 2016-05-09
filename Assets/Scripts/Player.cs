@@ -57,6 +57,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (lm.levelDone || lm.paused || lm.playerDead) return;
         if ((Time.timeSinceLevelLoad*2) % 2 < 1)
             sr.sprite = spr1;
         else
@@ -176,7 +177,7 @@ public class Player : MonoBehaviour {
     private void makeHurtHeart()
     {
         if (hurtHeart != null)
-            DestroyImmediate(hurtHeart);
+            Destroy(hurtHeart);
         hurtHeart = new GameObject();
         hurtHeart.transform.parent = this.transform;
         SpriteRenderer sr2 = hurtHeart.AddComponent<SpriteRenderer>();

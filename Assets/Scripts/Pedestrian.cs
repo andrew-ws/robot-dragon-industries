@@ -35,7 +35,7 @@ public class Pedestrian : Enemy {
         // TODO: change the sprite out
         sr.sprite = Resources.Load<Sprite>("Sprites/pedestrian");
         coll = gameObject.AddComponent<BoxCollider2D>();
-        coll.size = new Vector2(1f, 1.5f);
+        coll.size = new Vector2(0.6f, 1.5f);
         coll.offset = new Vector2(0f, -.3f);
         coll.isTrigger = true;
         float dRand = Random.value;
